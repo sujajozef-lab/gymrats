@@ -160,21 +160,24 @@ function saveTraining(dk){
   saveMeta(dk);
   var day=DATA[dk];
   var exercises=[];
-  day.sections.forEach(function(sec){
-    sec.ex.forEach(function(ex){
-      exercises.push({
-        id:ex.id,
-        name:ls('name-'+ex.id,ex.name),
-        tag:ls('tag-'+ex.id,ex.tag),
-        sets:ls('s-'+ex.id,ex.sets),
-        reps:ls('r-'+ex.id,ex.reps),
-        weight:ls('w-'+ex.id,ex.w),
-        done:ls('done-'+ex.id,false)
+  if(day){
+    day.sections.forEach(function(sec){
+      sec.ex.forEach(function(ex){
+        exercises.push({
+          id:ex.id,
+          name:ls('name-'+ex.id,ex.name),
+          tag:ls('tag-'+ex.id,ex.tag),
+          sets:ls('s-'+ex.id,ex.sets),
+          reps:ls('r-'+ex.id,ex.reps),
+          weight:ls('w-'+ex.id,ex.w),
+          done:ls('done-'+ex.id,false)
+        });
       });
     });
-  });
+  }
   var meta=ls('meta-'+dk,{});
-  var gym=ls('gym','');
+  var gymId=ls('gym','');
+  var gymName=GYM_NAMES[gymId]||gymId;
   var today=new Date();
   var dateIso=today.getFullYear()+'-'+(today.getMonth()+1<10?'0':'')+(today.getMonth()+1)+'-'+(today.getDate()<10?'0':'')+today.getDate();
 
@@ -183,7 +186,7 @@ function saveTraining(dk){
   log.unshift({
     date:today.toLocaleDateString('en-GB'),
     day:dk.toUpperCase(),
-    gym:gym,
+    gym:gymId,
     time:meta.time||'',
     saunaReps:meta.sv||'',
     saunaMin:meta.sm||'',
@@ -195,7 +198,7 @@ function saveTraining(dk){
   /* Save to Django backend */
   apiFetch('POST', '/api/sessions/', {
     date: dateIso,
-    gym: gym,
+    gym: gymName,
     notes: (meta.time?'Time: '+meta.time+' min':'')+
            (meta.sv?' | Sauna: '+meta.sv+' × '+meta.sm+' min':''),
     entries: exercises
@@ -827,11 +830,15 @@ function confirmAddGym(){
     overrides[_editGymId].bg=_selGymBg;
     overrides[_editGymId].text=_selGymText;
     ss('gymOverrides',overrides);
+    /* Sync update to Django */
+    apiFetch('POST', '/api/gyms/', {name:name, color:_selGymBg});
   } else {
     var id='gym-'+Date.now();
     var custom=ls('customGyms',[]);
     custom.push({id:id,name:name,bg:_selGymBg,text:_selGymText,fixed:false});
     ss('customGyms',custom);
+    /* Sync new gym to Django */
+    apiFetch('POST', '/api/gyms/', {name:name, color:_selGymBg});
   }
   loadGyms();
   rebuildGymSelects();
@@ -1249,11 +1256,11 @@ function loadUserData(email){
 /* ═══════════════ LOGOUT ═══════════════ */
 function doLogout(){
   saveUserData();
-  apiFetch('POST', '/api/logout/', null, function(){
-    localStorage.removeItem('gp5_currentUser');
-    localStorage.removeItem('gp5_apiToken');
-    window.location.replace('login.html');
-  });
+  /* Always clear local auth — don't wait for network */
+  localStorage.removeItem('gp5_currentUser');
+  localStorage.removeItem('gp5_apiToken');
+  apiFetch('POST', '/api/logout/', null);
+  window.location.replace('login.html');
 }
 
 /* ═══════════════ PROFILE MENU ═══════════════ */
