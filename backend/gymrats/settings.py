@@ -56,3 +56,5 @@ DATABASES = {
 AUTH_USER_MODEL = 'tracker.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_URL = '/static/'
