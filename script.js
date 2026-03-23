@@ -114,6 +114,7 @@ function mainSw(id,el){
   if(id==='weights') buildWeightsTab();
   if(id==='gyms') buildGymsTab();
   if(id==='plans') buildPlanTab();
+  if(id==='history') buildHistory();
 }
 
 /* ═══════════════ GYM ═══════════════ */
@@ -1142,7 +1143,7 @@ function updateProfileDisplay(p){
 
   /* Avatar initial */
   var av=document.getElementById('profile-avatar');
-  if(av) av.textContent=p.name?p.name[0].toUpperCase():'👤';
+  if(av) av.textContent=p.name?p.name[0].toUpperCase():'🏋️';
 
   /* Stats cards */
   var sc=document.getElementById('profile-stats');
@@ -1297,3 +1298,199 @@ document.addEventListener('click',function(e){
   buildPlanTab();
   loadMeta('a');
 })();
+
+/* ═══════════════ HISTORY / PROGRESS DASHBOARD ═══════════════ */
+var _histCharts = {};
+
+function buildHistory() {
+  var log = ls('trainlog', []);
+
+  /* ── stat cards ── */
+  var statRow = document.getElementById('hist-stat-row');
+  if (statRow) {
+    var totalSessions = log.length;
+    var gymsSet = {};
+    var totalVol = 0;
+    log.forEach(function(s) {
+      if (s.gym) gymsSet[s.gym] = true;
+      (s.exercises || []).forEach(function(e) {
+        var sets = parseInt(e.sets) || 0;
+        var reps = parseInt(e.reps) || 0;
+        var wt   = parseFloat(e.weight) || 0;
+        totalVol += sets * reps * wt;
+      });
+    });
+    var streak = calcStreak(log);
+    statRow.innerHTML =
+      statCard('🏋️', 'Total sessions', totalSessions) +
+      statCard('🔥', 'Current streak', streak + ' days') +
+      statCard('⚡', 'Total volume', Math.round(totalVol / 1000) + 't lifted') +
+      statCard('🏟️', 'Gyms visited', Object.keys(gymsSet).length);
+  }
+
+  /* ── prepare chart data ── */
+  var sessWeekMap  = {};   /* "YYYY-Www" → count */
+  var volArr       = [];   /* {label, vol} */
+  var durArr       = [];   /* {label, min} */
+  var splitCount   = {A:0, B:0, C:0, D:0, Other:0};
+
+  var sorted = log.slice().reverse();   /* oldest first */
+  sorted.forEach(function(s) {
+    /* sessions per week */
+    var d = parseDateStr(s.date);
+    if (d) {
+      var wk = isoWeek(d);
+      sessWeekMap[wk] = (sessWeekMap[wk] || 0) + 1;
+    }
+    /* volume per session */
+    var vol = 0;
+    (s.exercises || []).forEach(function(e) {
+      vol += (parseInt(e.sets)||0) * (parseInt(e.reps)||0) * (parseFloat(e.weight)||0);
+    });
+    volArr.push({ label: s.date, vol: Math.round(vol) });
+    /* duration */
+    var dur = parseInt((s.time||'').replace(/[^0-9]/g,'')) || 0;
+    durArr.push({ label: s.date, dur: dur });
+    /* split */
+    var dayKey = (s.day||'').toUpperCase();
+    if (splitCount[dayKey] !== undefined) splitCount[dayKey]++;
+    else splitCount['Other']++;
+  });
+
+  var wkLabels  = Object.keys(sessWeekMap).slice(-12);
+  var wkCounts  = wkLabels.map(function(k){ return sessWeekMap[k]; });
+
+  var recentVol = volArr.slice(-15);
+  var recentDur = durArr.slice(-15);
+
+  makeChart('chartSessionsWeek', 'bar',
+    wkLabels, wkCounts, 'Sessions', '#378ADD');
+
+  makeChart('chartVolume', 'line',
+    recentVol.map(function(x){return x.label;}),
+    recentVol.map(function(x){return x.vol;}),
+    'Volume (kg)', '#1D9E75');
+
+  makeChart('chartDuration', 'line',
+    recentDur.map(function(x){return x.label;}),
+    recentDur.map(function(x){return x.dur;}),
+    'Duration (min)', '#f0a500');
+
+  makePie('chartSplitPie',
+    ['Day A','Day B','Day C','Day D','Other'],
+    [splitCount.A, splitCount.B, splitCount.C, splitCount.D, splitCount.Other],
+    ['#378ADD','#1D9E75','#f0a500','#E24B4A','#999']);
+
+  /* ── recent sessions list ── */
+  var listEl = document.getElementById('hist-session-list');
+  if (!listEl) return;
+  if (!log.length) {
+    listEl.innerHTML = '<div class="hist-empty">No sessions saved yet. Hit the gym! 💪</div>';
+    return;
+  }
+  listEl.innerHTML = log.slice(0, 20).map(function(s) {
+    var vol = 0;
+    (s.exercises||[]).forEach(function(e){
+      vol += (parseInt(e.sets)||0)*(parseInt(e.reps)||0)*(parseFloat(e.weight)||0);
+    });
+    var exNames = (s.exercises||[]).map(function(e){return e.name;}).join(', ') || '—';
+    return '<div class="hist-session-card">' +
+      '<div class="hist-sc-head">' +
+        '<span class="hist-sc-date">' + (s.date||'') + '</span>' +
+        '<span class="hist-sc-badge hist-badge-' + (s.gym||'other') + '">' + (GYM_NAMES[s.gym]||s.gym||'?') + '</span>' +
+        (s.day ? '<span class="hist-sc-day">Day ' + s.day.toUpperCase() + '</span>' : '') +
+        (s.time ? '<span class="hist-sc-time">⏱ ' + s.time + ' min</span>' : '') +
+        (vol ? '<span class="hist-sc-vol">⚡ ' + Math.round(vol) + ' kg</span>' : '') +
+      '</div>' +
+      '<div class="hist-sc-exlist">' + exNames + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function statCard(icon, label, value) {
+  return '<div class="hist-stat-card">' +
+    '<div class="hist-stat-icon">' + icon + '</div>' +
+    '<div class="hist-stat-val">' + value + '</div>' +
+    '<div class="hist-stat-label">' + label + '</div>' +
+  '</div>';
+}
+
+function makeChart(id, type, labels, data, label, color) {
+  if (_histCharts[id]) { _histCharts[id].destroy(); }
+  var ctx = document.getElementById(id);
+  if (!ctx) return;
+  _histCharts[id] = new Chart(ctx, {
+    type: type,
+    data: {
+      labels: labels,
+      datasets: [{
+        label: label,
+        data: data,
+        backgroundColor: type === 'bar' ? color + '99' : color + '33',
+        borderColor: color,
+        borderWidth: 2,
+        pointRadius: 3,
+        tension: 0.35,
+        fill: type === 'line'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { maxRotation: 45, font: { size: 10 } } },
+        y: { beginAtZero: true, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+function makePie(id, labels, data, colors) {
+  if (_histCharts[id]) { _histCharts[id].destroy(); }
+  var ctx = document.getElementById(id);
+  if (!ctx) return;
+  _histCharts[id] = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{ data: data, backgroundColor: colors, borderWidth: 2 }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+    }
+  });
+}
+
+function parseDateStr(str) {
+  if (!str) return null;
+  /* supports DD/MM/YYYY and YYYY-MM-DD */
+  var parts = str.split(/[\/-]/);
+  if (parts.length !== 3) return null;
+  if (parts[0].length === 4) return new Date(parts[0], parts[1]-1, parts[2]);
+  return new Date(parts[2], parts[1]-1, parts[0]);
+}
+
+function isoWeek(d) {
+  var tmp = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  tmp.setUTCDate(tmp.getUTCDate() + 4 - (tmp.getUTCDay() || 7));
+  var yearStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
+  var week = Math.ceil((((tmp - yearStart) / 86400000) + 1) / 7);
+  return tmp.getUTCFullYear() + '-W' + (week < 10 ? '0' : '') + week;
+}
+
+function calcStreak(log) {
+  if (!log.length) return 0;
+  var dates = log.map(function(s){ return parseDateStr(s.date); })
+                 .filter(Boolean)
+                 .sort(function(a,b){ return b - a; });
+  var streak = 0;
+  var prev = null;
+  for (var i = 0; i < dates.length; i++) {
+    var d = new Date(dates[i].getFullYear(), dates[i].getMonth(), dates[i].getDate());
+    if (!prev) { streak = 1; prev = d; continue; }
+    var diff = (prev - d) / 86400000;
+    if (diff <= 2) { streak++; prev = d; } else break;
+  }
+  return streak;
+}

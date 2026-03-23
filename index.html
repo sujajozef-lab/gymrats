@@ -14,11 +14,12 @@
     <div class="main-tab" onclick="mainSw('plans',this)">Plan</div>
     <div class="main-tab" onclick="mainSw('weights',this)">Weights</div>
     <div class="main-tab" onclick="mainSw('gyms',this)">Gyms</div>
+    <div class="main-tab" onclick="mainSw('history',this)">History</div>
     <div class="profile-tab-wrap">
-      <div class="main-tab main-tab-profile" onclick="toggleProfileMenu(event)">👤</div>
+      <div class="main-tab main-tab-profile" onclick="toggleProfileMenu(event)">🏋️</div>
       <div class="profile-menu" id="profile-menu">
         <div class="profile-menu-item" id="profile-menu-email"></div>
-        <div class="profile-menu-item" onclick="closeProfileMenu();mainSw('profile',document.querySelector('.main-tab-profile'))">👤 Profile</div>
+        <div class="profile-menu-item" onclick="closeProfileMenu();mainSw('profile',document.querySelector('.main-tab-profile'))">🏋️ Profile</div>
         <div class="profile-menu-item profile-logout-item" onclick="doLogout()">↩ Log out</div>
       </div>
     </div>
@@ -218,7 +219,7 @@
   <!-- ══ PROFILE TAB ══ -->
   <div id="main-profile" class="main-panel">
     <div class="profile-header">
-      <div class="profile-avatar" id="profile-avatar">👤</div>
+      <div class="profile-avatar" id="profile-avatar">🏋️</div>
       <div>
         <div class="profile-title" id="profile-display-name">Your Profile</div>
         <div style="font-size:11px;color:#aaa;margin-top:2px;">Personal details &amp; stats</div>
@@ -397,6 +398,7 @@
 </div>
 
 <script>if(!localStorage.getItem('gp5_currentUser')||!localStorage.getItem('gp5_apiToken'))window.location.replace('login.html');</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="/static/script.js"></script>
 <!-- Edit exercise in plan modal -->
 <div class="modal-overlay" id="edit-plan-ex-modal">
@@ -478,6 +480,42 @@
     </div>
   </div>
 </div>
+
+  <!-- ══ HISTORY TAB ══ -->
+  <div id="main-history" class="main-panel">
+    <div class="hist-header">
+      <div class="hist-title">Progress &amp; History</div>
+      <div style="font-size:11px;color:#aaa;margin-top:2px;">Your training stats, charts and recent sessions</div>
+    </div>
+
+    <!-- Stat cards row -->
+    <div class="hist-stat-row" id="hist-stat-row"></div>
+
+    <!-- Charts grid -->
+    <div class="hist-charts-grid">
+      <div class="hist-chart-card">
+        <div class="hist-chart-title">Sessions per week</div>
+        <canvas id="chartSessionsWeek" height="160"></canvas>
+      </div>
+      <div class="hist-chart-card">
+        <div class="hist-chart-title">Volume per session (total kg lifted)</div>
+        <canvas id="chartVolume" height="160"></canvas>
+      </div>
+      <div class="hist-chart-card">
+        <div class="hist-chart-title">Workout duration (min)</div>
+        <canvas id="chartDuration" height="160"></canvas>
+      </div>
+      <div class="hist-chart-card">
+        <div class="hist-chart-title">Sessions by day split</div>
+        <canvas id="chartSplitPie" height="160"></canvas>
+      </div>
+    </div>
+
+    <!-- Recent sessions list -->
+    <div class="hist-section-title">Recent sessions</div>
+    <div id="hist-session-list"></div>
+  </div>
+
 
 </div></body>
 </html>
