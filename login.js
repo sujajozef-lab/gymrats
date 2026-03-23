@@ -132,6 +132,9 @@ function doRegister() {
   users.push({ email: email, hash: hash(pass), name: name });
   saveUsers(users);
 
+  /* Save registration data so the app can pre-fill the profile */
+  localStorage.setItem('gp5_regdata_' + email, JSON.stringify({ name: name, email: email }));
+
   localStorage.setItem('gp5_currentUser', email);
   window.location.replace('index.html');
 }

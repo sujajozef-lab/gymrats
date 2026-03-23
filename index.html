@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gym Plan — Jozef Suja</title>
+<title>GYM RATS</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +14,14 @@
     <div class="main-tab" onclick="mainSw('plans',this)">Plan</div>
     <div class="main-tab" onclick="mainSw('weights',this)">Weights</div>
     <div class="main-tab" onclick="mainSw('gyms',this)">Gyms</div>
-    <div class="main-tab main-tab-profile" onclick="mainSw('profile',this)">👤</div>
+    <div class="profile-tab-wrap">
+      <div class="main-tab main-tab-profile" onclick="toggleProfileMenu(event)">👤</div>
+      <div class="profile-menu" id="profile-menu">
+        <div class="profile-menu-item" id="profile-menu-email"></div>
+        <div class="profile-menu-item" onclick="closeProfileMenu();mainSw('profile',document.querySelector('.main-tab-profile'))">👤 Profile</div>
+        <div class="profile-menu-item profile-logout-item" onclick="doLogout()">↩ Log out</div>
+      </div>
+    </div>
   </div>
 
 
@@ -222,11 +229,11 @@
       <div class="profile-row">
         <div class="profile-field">
           <label class="profile-label">First name</label>
-          <input class="profile-input" id="pf-name" type="text" placeholder="e.g. Jozef" oninput="saveProfile()">
+          <input class="profile-input" id="pf-name" type="text" placeholder="Petr" oninput="saveProfile()">
         </div>
         <div class="profile-field">
           <label class="profile-label">Surname</label>
-          <input class="profile-input" id="pf-surname" type="text" placeholder="e.g. Suja" oninput="saveProfile()">
+          <input class="profile-input" id="pf-surname" type="text" placeholder="Pavel" oninput="saveProfile()">
         </div>
       </div>
 

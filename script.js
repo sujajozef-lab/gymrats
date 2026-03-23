@@ -1137,4 +1137,117 @@ function loadProfile(){
     updateProfileDisplay(p);
   }catch(e){}
 }
-loadProfile();
+
+/* ═══════════════ USER DATA ISOLATION ═══════════════ */
+var KNOWN_USERS=['suja.jozef@gmail.com','suja.jozef@seznam.cz'];
+
+/* Keys to persist per user (all gp5_ keys except system ones) */
+function collectUserData(){
+  var data={};
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(k&&k.startsWith('gp5_')&&k!=='gp5_currentUser'&&k!=='gp5_users'&&!k.startsWith('gp5_udata_')){
+      data[k]=localStorage.getItem(k);
+    }
+  }
+  return data;
+}
+
+function saveUserData(){
+  var email=localStorage.getItem('gp5_currentUser');
+  if(!email)return;
+  localStorage.setItem('gp5_udata_'+email,JSON.stringify(collectUserData()));
+}
+
+function clearExerciseData(){
+  var keys=[];
+  for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.startsWith('gp5_'))keys.push(k);}
+  keys.filter(function(k){
+    return k.startsWith('gp5_w-')||k.startsWith('gp5_s-')||k.startsWith('gp5_r-')||
+           k.startsWith('gp5_done-')||k.startsWith('gp5_pr-')||k.startsWith('gp5_prGym-')||
+           k.startsWith('gp5_meta-')||k==='gp5_profile'||k==='gp5_pf-gender';
+  }).forEach(function(k){localStorage.removeItem(k);});
+}
+
+function seedExerciseData(isKnown){
+  Object.keys(DATA).forEach(function(dk){
+    DATA[dk].sections.forEach(function(sec){
+      sec.ex.forEach(function(ex){
+        if(isKnown){
+          localStorage.setItem('gp5_w-'+ex.id,ex.w);
+          localStorage.setItem('gp5_s-'+ex.id,ex.sets);
+          localStorage.setItem('gp5_r-'+ex.id,ex.reps);
+          if(ex.pr) localStorage.setItem('gp5_pr-'+ex.id,ex.pr);
+          if(ex.prGym) localStorage.setItem('gp5_prGym-'+ex.id,ex.prGym);
+        }else{
+          localStorage.setItem('gp5_w-'+ex.id,0);
+          localStorage.setItem('gp5_s-'+ex.id,0);
+          localStorage.setItem('gp5_r-'+ex.id,'0');
+        }
+      });
+    });
+  });
+}
+
+function loadUserData(email){
+  var stored=localStorage.getItem('gp5_udata_'+email);
+  if(stored){
+    try{
+      clearExerciseData();
+      var data=JSON.parse(stored);
+      Object.keys(data).forEach(function(k){localStorage.setItem(k,data[k]);});
+    }catch(e){}
+  }else{
+    /* First login — seed data */
+    clearExerciseData();
+    var isKnown=KNOWN_USERS.indexOf(email)>=0;
+    seedExerciseData(isKnown);
+    /* Auto-fill profile name from registration */
+    var regData=localStorage.getItem('gp5_regdata_'+email);
+    if(regData){
+      try{
+        var rd=JSON.parse(regData);
+        var p={name:rd.name||'',surname:'',age:'',weight:'',height:'',gender:''};
+        ss('profile',JSON.stringify(p));
+      }catch(e){}
+    }
+    saveUserData();
+  }
+}
+
+/* ═══════════════ LOGOUT ═══════════════ */
+function doLogout(){
+  saveUserData();
+  localStorage.removeItem('gp5_currentUser');
+  window.location.replace('login.html');
+}
+
+/* ═══════════════ PROFILE MENU ═══════════════ */
+function toggleProfileMenu(e){
+  e.stopPropagation();
+  var m=document.getElementById('profile-menu');
+  var isOpen=m.classList.contains('open');
+  if(!isOpen){
+    /* Set email label */
+    var email=localStorage.getItem('gp5_currentUser')||'';
+    var el=document.getElementById('profile-menu-email');
+    if(el)el.textContent=email;
+  }
+  m.classList.toggle('open');
+}
+function closeProfileMenu(){
+  var m=document.getElementById('profile-menu');
+  if(m)m.classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.profile-tab-wrap'))closeProfileMenu();
+});
+
+/* ═══════════════ INIT USER SESSION ═══════════════ */
+(function(){
+  var email=localStorage.getItem('gp5_currentUser');
+  if(email){
+    loadUserData(email);
+    loadProfile();
+  }
+})();
