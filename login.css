@@ -1,0 +1,157 @@
+/* ═══════════════ RESET ═══════════════ */
+*{box-sizing:border-box;margin:0;padding:0;}
+
+/* ═══════════════ BASE ═══════════════ */
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:#1a1a1a;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+
+/* ═══════════════ BACKGROUND ═══════════════ */
+.login-bg{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ═══════════════ CARD ═══════════════ */
+.login-card{
+  background:#fff;
+  border-radius:20px;
+  padding:36px 32px 32px;
+  width:100%;
+  max-width:380px;
+  box-shadow:0 12px 48px rgba(0,0,0,.4);
+}
+
+/* ═══════════════ LOGO ═══════════════ */
+.login-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin-bottom:28px;
+}
+.login-logo-icon{
+  width:72px;
+  height:72px;
+  border-radius:14px;
+  object-fit:contain;
+  display:block;
+}
+.login-app-name{
+  font-size:15px;
+  font-weight:700;
+  color:#1a1a1a;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+/* ═══════════════ HEADINGS ═══════════════ */
+.login-title{
+  font-size:22px;
+  font-weight:700;
+  color:#1a1a1a;
+  margin-bottom:4px;
+  text-align:center;
+}
+.login-sub{
+  font-size:13px;
+  color:#999;
+  text-align:center;
+  margin-bottom:24px;
+}
+
+/* ═══════════════ FORM FIELDS ═══════════════ */
+.login-field{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-bottom:14px;
+}
+.login-label{
+  font-size:11px;
+  font-weight:500;
+  color:#888;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.login-input{
+  border:0.5px solid #e0e0e0;
+  border-radius:9px;
+  padding:11px 13px;
+  font-size:14px;
+  font-family:inherit;
+  color:#222;
+  outline:none;
+  width:100%;
+  background:#fff;
+  transition:border-color .15s, box-shadow .15s;
+}
+.login-input:focus{
+  border-color:#378ADD;
+  box-shadow:0 0 0 3px rgba(55,138,221,.12);
+}
+
+/* ═══════════════ ERROR ═══════════════ */
+.login-error{
+  font-size:12px;
+  color:#E24B4A;
+  text-align:center;
+  min-height:18px;
+  margin-bottom:4px;
+}
+
+/* ═══════════════ BUTTON ═══════════════ */
+.login-btn{
+  width:100%;
+  padding:13px;
+  background:#378ADD;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:600;
+  font-family:inherit;
+  cursor:pointer;
+  transition:background .15s, transform .1s;
+  margin-top:2px;
+}
+.login-btn:hover{background:#2a6bb5;}
+.login-btn:active{transform:scale(.98);}
+
+/* ═══════════════ SWITCH LINK ═══════════════ */
+.login-switch{
+  text-align:center;
+  margin-top:16px;
+  font-size:13px;
+  color:#999;
+}
+.login-switch a{
+  color:#378ADD;
+  cursor:pointer;
+  font-weight:500;
+}
+.login-switch a:hover{text-decoration:underline;}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media(max-width:480px){
+  .login-card{padding:28px 20px 24px;}
+  .login-title{font-size:20px;}
+}
+
+/* ─── Success message ─── */
+.login-success{
+  font-size:13px;
+  color:#1D9E75;
+  text-align:center;
+  min-height:18px;
+  margin-bottom:4px;
+  font-weight:500;
+}

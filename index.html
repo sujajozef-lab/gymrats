@@ -101,6 +101,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-a-sm" onchange="saveMeta('a')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('a')">💾 SAVE TRAINING</button>
     </div>
     <div id="sm-b" class="session-meta" style="display:none">
       <div class="meta-field">
@@ -116,6 +118,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-b-sm" onchange="saveMeta('b')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('b')">💾 SAVE TRAINING</button>
     </div>
     <div id="sm-c" class="session-meta" style="display:none">
       <div class="meta-field">
@@ -131,6 +135,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-c-sm" onchange="saveMeta('c')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('c')">💾 SAVE TRAINING</button>
     </div>
     <div id="sm-d" class="session-meta" style="display:none">
       <div class="meta-field">
@@ -146,6 +152,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-d-sm" onchange="saveMeta('d')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('d')">💾 SAVE TRAINING</button>
     </div>
 
     <!-- Weekly schedule -->
@@ -235,7 +243,7 @@
           <div class="profile-gender-group" id="pf-gender">
             <button class="profile-gender-btn" data-val="male" onclick="setGender('male')">Male</button>
             <button class="profile-gender-btn" data-val="female" onclick="setGender('female')">Female</button>
-            <button class="profile-gender-btn" data-val="other" onclick="setGender('other')">Other</button>
+            <button class="profile-gender-btn" data-val="other" onclick="setGender('other')">Mechanik/Email</button>
           </div>
         </div>
       </div>
@@ -381,6 +389,7 @@
   </div>
 </div>
 
+<script>if(!localStorage.getItem('gp5_currentUser'))window.location.replace('login.html');</script>
 <script src="script.js"></script>
 <!-- Edit exercise in plan modal -->
 <div class="modal-overlay" id="edit-plan-ex-modal">
