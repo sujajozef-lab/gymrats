@@ -1,10 +1,10 @@
 /* ═══════════════ GYMRATS AUTH ═══════════════ */
 
-var API_BASE = 'http://localhost:8000';
+var API_BASE = '';
 
 // If already logged in, go straight to the app
 if (localStorage.getItem('gp5_currentUser') && localStorage.getItem('gp5_apiToken')) {
-  window.location.replace('index.html');
+  window.location.replace('/app/');
 }
 
 /* ─── Helpers ─── */
@@ -87,7 +87,7 @@ function doLogin() {
     localStorage.setItem('gp5_currentUser', res.email);
     localStorage.setItem('gp5_apiToken', res.token);
     localStorage.setItem('gp5_regdata_' + res.email, JSON.stringify({ name: res.name, email: res.email }));
-    window.location.replace('index.html');
+    window.location.replace('/app/');
   });
 }
 
@@ -123,7 +123,7 @@ function doRegister() {
     localStorage.setItem('gp5_currentUser', res.email);
     localStorage.setItem('gp5_apiToken', res.token);
     localStorage.setItem('gp5_regdata_' + res.email, JSON.stringify({ name: res.name, email: res.email }));
-    window.location.replace('index.html');
+    window.location.replace('/app/');
   });
 }
 
@@ -160,6 +160,6 @@ function doReset() {
     setOk('f-ok', 'Password updated! Signing you in…');
     localStorage.setItem('gp5_currentUser', res.email);
     localStorage.setItem('gp5_apiToken', res.token);
-    setTimeout(function() { window.location.replace('index.html'); }, 1200);
+    setTimeout(function() { window.location.replace('/app/'); }, 1200);
   });
 }

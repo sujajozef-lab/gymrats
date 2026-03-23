@@ -1,5 +1,5 @@
 /* ═══════════════ API ═══════════════ */
-var API_BASE = 'http://localhost:8000';
+var API_BASE = '';
 
 function apiToken() { return localStorage.getItem('gp5_apiToken') || ''; }
 
@@ -1260,7 +1260,7 @@ function doLogout(){
   localStorage.removeItem('gp5_currentUser');
   localStorage.removeItem('gp5_apiToken');
   apiFetch('POST', '/api/logout/', null);
-  window.location.replace('login.html');
+  window.location.replace('/');
 }
 
 /* ═══════════════ PROFILE MENU ═══════════════ */

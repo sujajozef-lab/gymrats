@@ -1,9 +1,24 @@
 from django.contrib import admin
 from django.urls import path
+from django.http import HttpResponse
+from django.conf import settings
 
 from tracker import views
 
+
+def serve_login(request):
+    with open(settings.BASE_DIR.parent / 'login.html') as f:
+        return HttpResponse(f.read(), content_type='text/html')
+
+
+def serve_app(request):
+    with open(settings.BASE_DIR.parent / 'index.html') as f:
+        return HttpResponse(f.read(), content_type='text/html')
+
+
 urlpatterns = [
+    path('', serve_login),
+    path('app/', serve_app),
     path('admin/', admin.site.urls),
 
     # Auth
