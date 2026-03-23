@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gymrats — Sign In</title>
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+<div class="login-bg">
+  <div class="login-card">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <div class="login-logo-icon">GR</div>
+      <div class="login-app-name">Gymrats</div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="view-login">
+      <h1 class="login-title">Welcome back</h1>
+      <p class="login-sub">Sign in to your account</p>
+
+      <div class="login-field">
+        <label class="login-label">Email</label>
+        <input class="login-input" id="l-email" type="email" placeholder="your@email.com"
+               onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Password</label>
+        <input class="login-input" id="l-pass" type="password" placeholder="••••••••"
+               onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+
+      <div class="login-error" id="l-err"></div>
+      <button class="login-btn" onclick="doLogin()">Sign In</button>
+      <p class="login-switch">No account? <a onclick="showRegister()">Register here</a></p>
+    </div>
+
+    <!-- Register Form -->
+    <div id="view-register" style="display:none">
+      <h1 class="login-title">Create account</h1>
+      <p class="login-sub">Join Gymrats today</p>
+
+      <div class="login-field">
+        <label class="login-label">First Name</label>
+        <input class="login-input" id="r-name" type="text" placeholder="Your name"
+               onkeydown="if(event.key==='Enter')doRegister()">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Email</label>
+        <input class="login-input" id="r-email" type="email" placeholder="your@email.com"
+               onkeydown="if(event.key==='Enter')doRegister()">
+      </div>
+      <div class="login-field">
+        <label class="login-label">Password</label>
+        <input class="login-input" id="r-pass" type="password" placeholder="Min. 6 characters"
+               onkeydown="if(event.key==='Enter')doRegister()">
+      </div>
+
+      <div class="login-error" id="r-err"></div>
+      <button class="login-btn" onclick="doRegister()">Create Account</button>
+      <p class="login-switch">Already have an account? <a onclick="showLogin()">Sign In</a></p>
+    </div>
+
+  </div>
+</div>
+<script src="login.js"></script>
+</body>
+</html>
