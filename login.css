@@ -26,7 +26,7 @@ body{
   border-radius:20px;
   padding:36px 32px 32px;
   width:100%;
-  max-width:380px;
+  max-width:420px;
   box-shadow:0 12px 48px rgba(0,0,0,.4);
 }
 
@@ -39,7 +39,8 @@ body{
   margin-bottom:28px;
 }
 .login-logo-icon{
-  width:300px;
+  width:100%;
+  max-width:340px;
   height:auto;
   border-radius:14px;
   object-fit:contain;
