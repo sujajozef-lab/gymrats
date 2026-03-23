@@ -91,8 +91,8 @@ function gymBadge(g){
 function mainSw(id,el){
   document.querySelectorAll('.main-panel').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.main-tab').forEach(function(t){t.classList.remove('on');});
-  document.getElementById('main-'+id).classList.add('on');
-  el.classList.add('on');
+  var panel=document.getElementById('main-'+id);if(panel)panel.classList.add('on');
+  if(el)el.classList.add('on');
   if(id==='weights') buildWeightsTab();
   if(id==='gyms') buildGymsTab();
   if(id==='plans') buildPlanTab();
@@ -263,7 +263,7 @@ function buildSwapPanel(id,dk){
 
 function mkCell(id,field,val,inputType,align){
   var inp=inputType==='num'
-    ?'<input class="cell-input num-input" data-id="'+id+'" data-field="'+field+'" id="ci-'+id+'-'+field+'" type="number" min="1" step="1" value="'+val+'" onblur="saveCell(this)" onkeydown="cellKey(event,this)">'  
+    ?'<input class="cell-input num-input" data-id="'+id+'" data-field="'+field+'" id="ci-'+id+'-'+field+'" type="number" min="0" step="1" value="'+val+'" onblur="saveCell(this)" onkeydown="cellKey(event,this)">'  
     :'<input class="cell-input txt-input" data-id="'+id+'" data-field="'+field+'" id="ci-'+id+'-'+field+'" type="text" value="'+val+'" onblur="saveCell(this)" onkeydown="cellKey(event,this)">';
   return '<div class="editable-cell" style="'+align+';">'+inp+'</div>';
 }
@@ -281,7 +281,7 @@ function saveCell(el){
     var tEl=document.getElementById('etag-'+id);var t=tEl?tEl.dataset.tag||tEl.textContent.toLowerCase():'';
     var wc=t.indexOf('bar')>=0?'#2a6b3a':t.indexOf('dumb')>=0?'#185FA5':t.indexOf('pul')>=0?'#7a4a0a':'#888';
     el.style.color=wc;
-  } else if(field==='s'){var n2=parseInt(raw);if(isNaN(n2)||n2<1)n2=1;el.value=n2;ss('s-'+id,n2);}
+  } else if(field==='s'){var n2=parseInt(raw);if(isNaN(n2)||n2<0)n2=0;el.value=n2;ss('s-'+id,n2);}
   else{ss('r-'+id,raw);}
 }
 function cellKey(e,el){
@@ -357,7 +357,7 @@ function getWeekStart(offset){
 }
 function getWeekDates(offset){
   var mon=getWeekStart(offset);var dates=[];
-  for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);dates.push(d);}
+  for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);d.setHours(0,0,0,0);dates.push(d);}
   return dates;
 }
 function dateKey(d){
@@ -1058,9 +1058,6 @@ rebuildGymSelects();
   }
 });
 restoreAddedPlanEx();
-buildDay('a');buildDay('b');buildDay('c');
-buildWeekGrid();
-loadMeta('a');
 /* Init day picker to today */
 (function(){
   var dp=document.getElementById('day-picker');
@@ -1174,15 +1171,15 @@ function seedExerciseData(isKnown){
     DATA[dk].sections.forEach(function(sec){
       sec.ex.forEach(function(ex){
         if(isKnown){
-          localStorage.setItem('gp5_w-'+ex.id,ex.w);
-          localStorage.setItem('gp5_s-'+ex.id,ex.sets);
-          localStorage.setItem('gp5_r-'+ex.id,ex.reps);
-          if(ex.pr) localStorage.setItem('gp5_pr-'+ex.id,ex.pr);
-          if(ex.prGym) localStorage.setItem('gp5_prGym-'+ex.id,ex.prGym);
+          ss('w-'+ex.id,ex.w);
+          ss('s-'+ex.id,ex.sets);
+          ss('r-'+ex.id,ex.reps);
+          if(ex.pr) ss('pr-'+ex.id,ex.pr);
+          if(ex.prGym) ss('prGym-'+ex.id,ex.prGym);
         }else{
-          localStorage.setItem('gp5_w-'+ex.id,0);
-          localStorage.setItem('gp5_s-'+ex.id,0);
-          localStorage.setItem('gp5_r-'+ex.id,'0');
+          ss('w-'+ex.id,0);
+          ss('s-'+ex.id,0);
+          ss('r-'+ex.id,'0');
         }
       });
     });
@@ -1250,4 +1247,9 @@ document.addEventListener('click',function(e){
     loadUserData(email);
     loadProfile();
   }
+  /* Build UI AFTER user data is loaded so correct values are shown */
+  buildDay('a');buildDay('b');buildDay('c');
+  buildWeekGrid();
+  buildPlanTab();
+  loadMeta('a');
 })();
