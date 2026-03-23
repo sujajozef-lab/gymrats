@@ -396,7 +396,7 @@
   </div>
 </div>
 
-<script>if(!localStorage.getItem('gp5_currentUser'))window.location.replace('login.html');</script>
+<script>if(!localStorage.getItem('gp5_currentUser')||!localStorage.getItem('gp5_apiToken'))window.location.replace('login.html');</script>
 <script src="script.js"></script>
 <!-- Edit exercise in plan modal -->
 <div class="modal-overlay" id="edit-plan-ex-modal">

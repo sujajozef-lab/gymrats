@@ -1,42 +1,13 @@
 /* ═══════════════ GYMRATS AUTH ═══════════════ */
 
+var API_BASE = 'http://localhost:8000';
+
 // If already logged in, go straight to the app
-if (localStorage.getItem('gp5_currentUser')) {
+if (localStorage.getItem('gp5_currentUser') && localStorage.getItem('gp5_apiToken')) {
   window.location.replace('index.html');
 }
 
-/* ─── Swap logo to real app image ─── */
-(function() {
-  // Try to find the app logo stored from the main app
-  var stored = localStorage.getItem('gp5_appLogo');
-  if (stored) {
-    var el = document.getElementById('login-logo-img');
-    if (el) {
-      el.innerHTML = '';
-      el.style.background = 'none';
-      el.style.padding = '0';
-      var img = document.createElement('img');
-      img.src = stored;
-      img.style.cssText = 'width:100%;height:100%;object-fit:contain;border-radius:12px;';
-      el.appendChild(img);
-    }
-  }
-})();
-
 /* ─── Helpers ─── */
-function hash(s) {
-  return btoa(encodeURIComponent(s));
-}
-
-function getUsers() {
-  try { return JSON.parse(localStorage.getItem('gp5_users') || '[]'); }
-  catch (e) { return []; }
-}
-
-function saveUsers(users) {
-  localStorage.setItem('gp5_users', JSON.stringify(users));
-}
-
 function setError(id, msg) {
   document.getElementById(id).textContent = msg;
 }
@@ -44,6 +15,24 @@ function setError(id, msg) {
 function setOk(id, msg) {
   var el = document.getElementById(id);
   if (el) el.textContent = msg;
+}
+
+function setBtnLoading(btn, loading) {
+  btn.disabled = loading;
+  btn.style.opacity = loading ? '0.7' : '';
+}
+
+function apiPost(path, body, callback) {
+  fetch(API_BASE + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json(); })
+  .then(callback)
+  .catch(function() {
+    callback({ ok: false, error: 'Cannot reach server. Is the backend running?' });
+  });
 }
 
 /* ─── View switchers ─── */
@@ -79,6 +68,7 @@ function showForgot() {
 function doLogin() {
   var email = document.getElementById('l-email').value.trim().toLowerCase();
   var pass  = document.getElementById('l-pass').value;
+  var btn   = document.querySelector('#view-login .login-btn');
 
   setError('l-err', '');
 
@@ -87,18 +77,18 @@ function doLogin() {
     return;
   }
 
-  var users = getUsers();
-  var user  = users.find(function(u) {
-    return u.email === email && u.hash === hash(pass);
+  setBtnLoading(btn, true);
+  apiPost('/api/login/', { email: email, password: pass }, function(res) {
+    setBtnLoading(btn, false);
+    if (!res.ok) {
+      setError('l-err', res.error || 'Login failed.');
+      return;
+    }
+    localStorage.setItem('gp5_currentUser', res.email);
+    localStorage.setItem('gp5_apiToken', res.token);
+    localStorage.setItem('gp5_regdata_' + res.email, JSON.stringify({ name: res.name, email: res.email }));
+    window.location.replace('index.html');
   });
-
-  if (!user) {
-    setError('l-err', 'Invalid email or password.');
-    return;
-  }
-
-  localStorage.setItem('gp5_currentUser', email);
-  window.location.replace('index.html');
 }
 
 /* ─── Register ─── */
@@ -106,6 +96,7 @@ function doRegister() {
   var name  = document.getElementById('r-name').value.trim();
   var email = document.getElementById('r-email').value.trim().toLowerCase();
   var pass  = document.getElementById('r-pass').value;
+  var btn   = document.querySelector('#view-register .login-btn');
 
   setError('r-err', '');
 
@@ -122,21 +113,18 @@ function doRegister() {
     return;
   }
 
-  var users = getUsers();
-
-  if (users.find(function(u) { return u.email === email; })) {
-    setError('r-err', 'This email is already registered.');
-    return;
-  }
-
-  users.push({ email: email, hash: hash(pass), name: name });
-  saveUsers(users);
-
-  /* Save registration data so the app can pre-fill the profile */
-  localStorage.setItem('gp5_regdata_' + email, JSON.stringify({ name: name, email: email }));
-
-  localStorage.setItem('gp5_currentUser', email);
-  window.location.replace('index.html');
+  setBtnLoading(btn, true);
+  apiPost('/api/register/', { email: email, name: name, password: pass }, function(res) {
+    setBtnLoading(btn, false);
+    if (!res.ok) {
+      setError('r-err', res.error || 'Registration failed.');
+      return;
+    }
+    localStorage.setItem('gp5_currentUser', res.email);
+    localStorage.setItem('gp5_apiToken', res.token);
+    localStorage.setItem('gp5_regdata_' + res.email, JSON.stringify({ name: res.name, email: res.email }));
+    window.location.replace('index.html');
+  });
 }
 
 /* ─── Reset Password ─── */
@@ -144,6 +132,7 @@ function doReset() {
   var email = document.getElementById('f-email').value.trim().toLowerCase();
   var pass  = document.getElementById('f-pass').value;
   var pass2 = document.getElementById('f-pass2').value;
+  var btn   = document.querySelector('#view-forgot .login-btn');
 
   setError('f-err', '');
   setOk('f-ok', '');
@@ -161,21 +150,16 @@ function doReset() {
     return;
   }
 
-  var users = getUsers();
-  var idx   = users.findIndex(function(u) { return u.email === email; });
-
-  if (idx === -1) {
-    setError('f-err', 'No account found with this email.');
-    return;
-  }
-
-  users[idx].hash = hash(pass);
-  saveUsers(users);
-
-  setOk('f-ok', 'Password updated! Signing you in…');
-  localStorage.setItem('gp5_currentUser', email);
-
-  setTimeout(function() {
-    window.location.replace('index.html');
-  }, 1200);
+  setBtnLoading(btn, true);
+  apiPost('/api/password/reset/', { email: email, password: pass, password2: pass2 }, function(res) {
+    setBtnLoading(btn, false);
+    if (!res.ok) {
+      setError('f-err', res.error || 'Reset failed.');
+      return;
+    }
+    setOk('f-ok', 'Password updated! Signing you in…');
+    localStorage.setItem('gp5_currentUser', res.email);
+    localStorage.setItem('gp5_apiToken', res.token);
+    setTimeout(function() { window.location.replace('index.html'); }, 1200);
+  });
 }

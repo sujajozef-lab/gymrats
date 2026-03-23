@@ -1,3 +1,21 @@
+/* ═══════════════ API ═══════════════ */
+var API_BASE = 'http://localhost:8000';
+
+function apiToken() { return localStorage.getItem('gp5_apiToken') || ''; }
+
+function apiHeaders() {
+  return { 'Content-Type': 'application/json', 'Authorization': 'Token ' + apiToken() };
+}
+
+function apiFetch(method, path, body, callback) {
+  var opts = { method: method, headers: apiHeaders() };
+  if (body) opts.body = JSON.stringify(body);
+  fetch(API_BASE + path, opts)
+    .then(function(r) { return r.json(); })
+    .then(callback || function(){})
+    .catch(function(e) { console.warn('API error', path, e); if(callback) callback({ok:false}); });
+}
+
 /* ═══════════════ DATA ═══════════════ */
 var EQUIP_TAGS=['bar','dumbbell','pulley','accessory'];
 var GYM_NAMES={arkady:'Arkády',pankrac:'Pankrác',chodov:'Chodov'};
@@ -157,9 +175,13 @@ function saveTraining(dk){
   });
   var meta=ls('meta-'+dk,{});
   var gym=ls('gym','');
+  var today=new Date();
+  var dateIso=today.getFullYear()+'-'+(today.getMonth()+1<10?'0':'')+(today.getMonth()+1)+'-'+(today.getDate()<10?'0':'')+today.getDate();
+
+  /* Save to localStorage */
   var log=ls('trainlog',[]);
   log.unshift({
-    date:new Date().toLocaleDateString('en-GB'),
+    date:today.toLocaleDateString('en-GB'),
     day:dk.toUpperCase(),
     gym:gym,
     time:meta.time||'',
@@ -169,7 +191,17 @@ function saveTraining(dk){
   });
   if(log.length>100)log=log.slice(0,100);
   ss('trainlog',log);
-  var btn=document.querySelector('.save-training-btn[onclick*="saveTraining(''+dk+'')"]');
+
+  /* Save to Django backend */
+  apiFetch('POST', '/api/sessions/', {
+    date: dateIso,
+    gym: gym,
+    notes: (meta.time?'Time: '+meta.time+' min':'')+
+           (meta.sv?' | Sauna: '+meta.sv+' × '+meta.sm+' min':''),
+    entries: exercises
+  });
+
+  var btn=document.querySelector('.save-training-btn[onclick*="saveTraining(\''+dk+'\')"]');
   if(btn){
     var orig=btn.textContent;
     btn.textContent='✓ Saved!';
@@ -1084,6 +1116,8 @@ function saveProfile(){
   };
   ss('profile',JSON.stringify(p));
   updateProfileDisplay(p);
+  /* Sync name/surname to Django */
+  apiFetch('POST', '/api/profile/', { name: p.name, surname: p.surname });
 }
 
 function setGender(val){
@@ -1215,8 +1249,11 @@ function loadUserData(email){
 /* ═══════════════ LOGOUT ═══════════════ */
 function doLogout(){
   saveUserData();
-  localStorage.removeItem('gp5_currentUser');
-  window.location.replace('login.html');
+  apiFetch('POST', '/api/logout/', null, function(){
+    localStorage.removeItem('gp5_currentUser');
+    localStorage.removeItem('gp5_apiToken');
+    window.location.replace('login.html');
+  });
 }
 
 /* ═══════════════ PROFILE MENU ═══════════════ */
