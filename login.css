@@ -47,10 +47,10 @@ body{
   display:block;
 }
 .login-app-name{
-  font-size:15px;
-  font-weight:700;
+  font-size:28px;
+  font-weight:800;
   color:#1a1a1a;
-  letter-spacing:.04em;
+  letter-spacing:.08em;
   text-transform:uppercase;
 }
 

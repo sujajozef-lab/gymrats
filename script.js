@@ -207,11 +207,14 @@ function saveTraining(dk){
 
   var btn=document.querySelector('.save-training-btn[onclick*="saveTraining(\''+dk+'\')"]');
   if(btn){
+    var doneCount=exercises.filter(function(e){return e.done;}).length;
     var orig=btn.textContent;
-    btn.textContent='✓ Saved!';
+    btn.textContent='✓ Saved! ('+doneCount+'/'+exercises.length+' done)';
     btn.style.background='#1D9E75';
-    setTimeout(function(){btn.textContent=orig;btn.style.background='';},2000);
+    setTimeout(function(){btn.textContent=orig;btn.style.background='';},3000);
   }
+  /* Keep snapshot fresh so history survives page refresh */
+  saveUserData();
 }
 
 /* ═══════════════ CARDIO ═══════════════ */
@@ -1314,6 +1317,7 @@ function buildHistory() {
     log.forEach(function(s) {
       if (s.gym) gymsSet[s.gym] = true;
       (s.exercises || []).forEach(function(e) {
+        if (!e.done) return;  /* only count completed exercises */
         var sets = parseInt(e.sets) || 0;
         var reps = parseInt(e.reps) || 0;
         var wt   = parseFloat(e.weight) || 0;
@@ -1345,6 +1349,7 @@ function buildHistory() {
     /* volume per session */
     var vol = 0;
     (s.exercises || []).forEach(function(e) {
+      if (!e.done) return;  /* only count completed exercises */
       vol += (parseInt(e.sets)||0) * (parseInt(e.reps)||0) * (parseFloat(e.weight)||0);
     });
     volArr.push({ label: s.date, vol: Math.round(vol) });
@@ -1391,9 +1396,13 @@ function buildHistory() {
   listEl.innerHTML = log.slice(0, 20).map(function(s) {
     var vol = 0;
     (s.exercises||[]).forEach(function(e){
+      if (!e.done) return;
       vol += (parseInt(e.sets)||0)*(parseInt(e.reps)||0)*(parseFloat(e.weight)||0);
     });
-    var exNames = (s.exercises||[]).map(function(e){return e.name;}).join(', ') || '—';
+    var allEx = s.exercises||[];
+    var doneEx = allEx.filter(function(e){return e.done;});
+    var exNames = doneEx.map(function(e){return e.name;}).join(', ') || '—';
+    var doneLabel = doneEx.length + '/' + allEx.length + ' exercises';
     return '<div class="hist-session-card">' +
       '<div class="hist-sc-head">' +
         '<span class="hist-sc-date">' + (s.date||'') + '</span>' +
@@ -1401,6 +1410,7 @@ function buildHistory() {
         (s.day ? '<span class="hist-sc-day">Day ' + s.day.toUpperCase() + '</span>' : '') +
         (s.time ? '<span class="hist-sc-time">⏱ ' + s.time + ' min</span>' : '') +
         (vol ? '<span class="hist-sc-vol">⚡ ' + Math.round(vol) + ' kg</span>' : '') +
+        '<span class="hist-sc-time">' + doneLabel + '</span>' +
       '</div>' +
       '<div class="hist-sc-exlist">' + exNames + '</div>' +
     '</div>';
@@ -1494,3 +1504,9 @@ function calcStreak(log) {
   }
   return streak;
 }
+
+/* ── Auto-snapshot: save user data when tab is hidden or closed ── */
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'hidden') saveUserData();
+});
+window.addEventListener('beforeunload', function(){ saveUserData(); });
