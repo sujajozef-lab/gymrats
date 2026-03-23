@@ -196,6 +196,11 @@ function saveTraining(dk){
   if(log.length>100)log=log.slice(0,100);
   ss('trainlog',log);
 
+  /* Mark today as done in the weekly schedule */
+  var todayKey=dateKey(today);
+  ss('wkd-'+todayKey,true);
+  buildWeekGrid();
+
   /* Save to Django backend */
   apiFetch('POST', '/api/sessions/', {
     date: dateIso,
@@ -1202,13 +1207,23 @@ function saveUserData(){
 }
 
 function clearExerciseData(){
+  /* Legacy alias — now clears all user-specific data */
+  clearAllUserData();
+}
+
+function clearAllUserData(){
+  /* Clear every gp5_ key that belongs to a user session.
+     Preserves: auth keys, per-user snapshots, registration data. */
+  var KEEP=['gp5_currentUser','gp5_users','gp5_apiToken'];
   var keys=[];
-  for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.startsWith('gp5_'))keys.push(k);}
-  keys.filter(function(k){
-    return k.startsWith('gp5_w-')||k.startsWith('gp5_s-')||k.startsWith('gp5_r-')||
-           k.startsWith('gp5_done-')||k.startsWith('gp5_pr-')||k.startsWith('gp5_prGym-')||
-           k.startsWith('gp5_meta-')||k==='gp5_profile'||k==='gp5_pf-gender';
-  }).forEach(function(k){localStorage.removeItem(k);});
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(!k||!k.startsWith('gp5_'))continue;
+    if(KEEP.indexOf(k)>=0)continue;
+    if(k.startsWith('gp5_udata_')||k.startsWith('gp5_regdata_'))continue;
+    keys.push(k);
+  }
+  keys.forEach(function(k){localStorage.removeItem(k);});
 }
 
 function seedExerciseData(isKnown){
