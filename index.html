@@ -7,43 +7,6 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    </div>
-    <div id="auth-login">
-      <div class="auth-title">Welcome back</div>
-      <div class="auth-subtitle">Sign in to Gymrats</div>
-      <div class="auth-field">
-        <label class="auth-label">Email</label>
-        <input class="auth-input" id="auth-email" type="email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')authLogin()">
-      </div>
-      <div class="auth-field">
-        <label class="auth-label">Password</label>
-        <input class="auth-input" id="auth-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')authLogin()">
-      </div>
-      <div class="auth-error" id="auth-err"></div>
-      <button class="auth-btn" onclick="authLogin()">Sign In</button>
-      <div class="auth-switch">No account? <a onclick="authShowRegister()">Register here</a></div>
-    </div>
-    <div id="auth-register" style="display:none">
-      <div class="auth-title">Create account</div>
-      <div class="auth-subtitle">Join Gymrats today</div>
-      <div class="auth-field">
-        <label class="auth-label">First Name</label>
-        <input class="auth-input" id="reg-name" type="text" placeholder="Your name" onkeydown="if(event.key==='Enter')authRegister()">
-      </div>
-      <div class="auth-field">
-        <label class="auth-label">Email</label>
-        <input class="auth-input" id="reg-email" type="email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')authRegister()">
-      </div>
-      <div class="auth-field">
-        <label class="auth-label">Password</label>
-        <input class="auth-input" id="reg-pass" type="password" placeholder="Min. 6 characters" onkeydown="if(event.key==='Enter')authRegister()">
-      </div>
-      <div class="auth-error" id="reg-err"></div>
-      <button class="auth-btn" onclick="authRegister()">Create Account</button>
-      <div class="auth-switch">Have an account? <a onclick="authShowLogin()">Sign In</a></div>
-    </div>
-  </div>
-</div>
 <div class="page-wrap"><div class="card">
 
   <div class="main-tabs">
@@ -138,6 +101,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-a-sm" onchange="saveMeta('a')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('a')">💾 SAVE TRAINING</button>
     </div>
     <div id="sm-b" class="session-meta" style="display:none">
       <div class="meta-field">
@@ -153,6 +118,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-b-sm" onchange="saveMeta('b')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('b')">💾 SAVE TRAINING</button>
     </div>
     <div id="sm-c" class="session-meta" style="display:none">
       <div class="meta-field">
@@ -168,6 +135,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-c-sm" onchange="saveMeta('c')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('c')">💾 SAVE TRAINING</button>
     </div>
     <div id="sm-d" class="session-meta" style="display:none">
       <div class="meta-field">
@@ -183,6 +152,8 @@
         <span class="meta-label">Sauna minutes</span>
         <input class="meta-input short" type="number" min="0" max="120" id="sm-d-sm" onchange="saveMeta('d')" placeholder="0">
       </div>
+      <div class="meta-sep"></div>
+      <button class="save-training-btn" onclick="saveTraining('d')">💾 SAVE TRAINING</button>
     </div>
 
     <!-- Weekly schedule -->

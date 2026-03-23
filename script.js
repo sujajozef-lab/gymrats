@@ -137,6 +137,47 @@ function loadMeta(dk){
   f('sm-'+dk+'-time',m.time);f('sm-'+dk+'-sv',m.sv);f('sm-'+dk+'-sm',m.sm);
 }
 
+/* ═══════════════ SAVE TRAINING ═══════════════ */
+function saveTraining(dk){
+  saveMeta(dk);
+  var day=DATA[dk];
+  var exercises=[];
+  day.sections.forEach(function(sec){
+    sec.ex.forEach(function(ex){
+      exercises.push({
+        id:ex.id,
+        name:ls('name-'+ex.id,ex.name),
+        tag:ls('tag-'+ex.id,ex.tag),
+        sets:ls('s-'+ex.id,ex.sets),
+        reps:ls('r-'+ex.id,ex.reps),
+        weight:ls('w-'+ex.id,ex.w),
+        done:ls('done-'+ex.id,false)
+      });
+    });
+  });
+  var meta=ls('meta-'+dk,{});
+  var gym=ls('gym','');
+  var log=ls('trainlog',[]);
+  log.unshift({
+    date:new Date().toLocaleDateString('en-GB'),
+    day:dk.toUpperCase(),
+    gym:gym,
+    time:meta.time||'',
+    saunaReps:meta.sv||'',
+    saunaMin:meta.sm||'',
+    exercises:exercises
+  });
+  if(log.length>100)log=log.slice(0,100);
+  ss('trainlog',log);
+  var btn=document.querySelector('.save-training-btn[onclick*="saveTraining(''+dk+'')"]');
+  if(btn){
+    var orig=btn.textContent;
+    btn.textContent='✓ Saved!';
+    btn.style.background='#1D9E75';
+    setTimeout(function(){btn.textContent=orig;btn.style.background='';},2000);
+  }
+}
+
 /* ═══════════════ CARDIO ═══════════════ */
 var selectedCardio=null;
 function selCardio(type){
@@ -222,45 +263,29 @@ function buildSwapPanel(id,dk){
 
 function mkCell(id,field,val,inputType,align){
   var inp=inputType==='num'
-    ?'<input class="cell-input num-input" id="ci-'+id+'-'+field+'" type="number" min="1" step="1" value="'+val+'" onkeydown="cellKey(event,\''+id+'\',\''+field+'\')">'
-    :'<input class="cell-input txt-input" id="ci-'+id+'-'+field+'" type="text" value="'+val+'" onkeydown="cellKey(event,\''+id+'\',\''+field+'\')">';
-  return '<div class="editable-cell" style="'+align+';">'
-    +'<div class="cell-display" id="cd-'+id+'-'+field+'" onclick="openCell(\''+id+'\',\''+field+'\')">'
-    +'<span id="cv-'+id+'-'+field+'" style="color:#555">'+val+'</span><span class="pencil">✎</span></div>'
-    +'<div class="cell-edit" id="ce-'+id+'-'+field+'">'+inp
-    +'<button class="cell-save" onclick="saveCell(\''+id+'\',\''+field+'\')">✓</button></div></div>';
+    ?'<input class="cell-input num-input" data-id="'+id+'" data-field="'+field+'" id="ci-'+id+'-'+field+'" type="number" min="1" step="1" value="'+val+'" onblur="saveCell(this)" onkeydown="cellKey(event,this)">'  
+    :'<input class="cell-input txt-input" data-id="'+id+'" data-field="'+field+'" id="ci-'+id+'-'+field+'" type="text" value="'+val+'" onblur="saveCell(this)" onkeydown="cellKey(event,this)">';
+  return '<div class="editable-cell" style="'+align+';">'+inp+'</div>';
 }
 function mkCellW(id,wVal,wc){
   return '<div class="editable-cell weight-cell">'
-    +'<div class="cell-display" id="cd-'+id+'-w" onclick="openCell(\''+id+'\',\'w\')">'
-    +'<span id="cv-'+id+'-w" style="font-weight:500;color:'+wc+'">'+wVal+' kg</span><span class="pencil">✎</span></div>'
-    +'<div class="cell-edit" id="ce-'+id+'-w">'
-    +'<input class="cell-input num-input" id="ci-'+id+'-w" type="number" min="0" step="2.5" value="'+wVal+'" onkeydown="cellKey(event,\''+id+'\',\'w\')">'
-    +'<button class="cell-save" onclick="saveCell(\''+id+'\',\'w\')">✓</button></div></div>';
+    +'<input class="cell-input num-input" data-id="'+id+'" data-field="w" id="ci-'+id+'-w" type="number" min="0" step="2.5" value="'+wVal+'" style="color:'+wc+';font-weight:600;" onblur="saveCell(this)" onkeydown="cellKey(event,this)">'
+    +'</div>';
 }
 
 /* ═══════════════ CELL EDITING ═══════════════ */
-function openCell(id,field){
-  document.getElementById('cd-'+id+'-'+field).style.display='none';
-  document.getElementById('ce-'+id+'-'+field).classList.add('open');
-  var inp=document.getElementById('ci-'+id+'-'+field);inp.focus();inp.select();
-}
-function saveCell(id,field){
-  var inp=document.getElementById('ci-'+id+'-'+field);var raw=inp.value.trim();if(!raw)return;
-  var display=raw;
-  if(field==='w'){var n=parseFloat(raw);if(isNaN(n)||n<0)n=0;ss('w-'+id,n);display=n+' kg';
+function saveCell(el){
+  var id=el.dataset.id,field=el.dataset.field;
+  var raw=el.value.trim();if(raw==='')return;
+  if(field==='w'){var n=parseFloat(raw);if(isNaN(n)||n<0)n=0;el.value=n;ss('w-'+id,n);
     var tEl=document.getElementById('etag-'+id);var t=tEl?tEl.dataset.tag||tEl.textContent.toLowerCase():'';
     var wc=t.indexOf('bar')>=0?'#2a6b3a':t.indexOf('dumb')>=0?'#185FA5':t.indexOf('pul')>=0?'#7a4a0a':'#888';
-    document.getElementById('cv-'+id+'-w').style.color=wc;
-  } else if(field==='s'){var n2=parseInt(raw);if(isNaN(n2)||n2<1)n2=1;ss('s-'+id,n2);display=n2;}
+    el.style.color=wc;
+  } else if(field==='s'){var n2=parseInt(raw);if(isNaN(n2)||n2<1)n2=1;el.value=n2;ss('s-'+id,n2);}
   else{ss('r-'+id,raw);}
-  document.getElementById('cv-'+id+'-'+field).textContent=display;
-  document.getElementById('ce-'+id+'-'+field).classList.remove('open');
-  document.getElementById('cd-'+id+'-'+field).style.display='';
 }
-function cellKey(e,id,field){
-  if(e.key==='Enter')saveCell(id,field);
-  if(e.key==='Escape'){document.getElementById('ce-'+id+'-'+field).classList.remove('open');document.getElementById('cd-'+id+'-'+field).style.display='';}
+function cellKey(e,el){
+  if(e.key==='Enter')el.blur();
 }
 
 /* ═══════════════ CHECKBOX ═══════════════ */

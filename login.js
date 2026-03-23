@@ -5,6 +5,24 @@ if (localStorage.getItem('gp5_currentUser')) {
   window.location.replace('index.html');
 }
 
+/* ─── Swap logo to real app image ─── */
+(function() {
+  // Try to find the app logo stored from the main app
+  var stored = localStorage.getItem('gp5_appLogo');
+  if (stored) {
+    var el = document.getElementById('login-logo-img');
+    if (el) {
+      el.innerHTML = '';
+      el.style.background = 'none';
+      el.style.padding = '0';
+      var img = document.createElement('img');
+      img.src = stored;
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;border-radius:12px;';
+      el.appendChild(img);
+    }
+  }
+})();
+
 /* ─── Helpers ─── */
 function hash(s) {
   return btoa(encodeURIComponent(s));
@@ -21,6 +39,40 @@ function saveUsers(users) {
 
 function setError(id, msg) {
   document.getElementById(id).textContent = msg;
+}
+
+function setOk(id, msg) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = msg;
+}
+
+/* ─── View switchers ─── */
+function hideAll() {
+  ['view-login', 'view-register', 'view-forgot'].forEach(function(id) {
+    document.getElementById(id).style.display = 'none';
+  });
+}
+
+function showLogin() {
+  hideAll();
+  document.getElementById('view-login').style.display = 'block';
+  setError('l-err', '');
+  document.getElementById('l-email').focus();
+}
+
+function showRegister() {
+  hideAll();
+  document.getElementById('view-register').style.display = 'block';
+  setError('r-err', '');
+  document.getElementById('r-name').focus();
+}
+
+function showForgot() {
+  hideAll();
+  document.getElementById('view-forgot').style.display = 'block';
+  setError('f-err', '');
+  setOk('f-ok', '');
+  document.getElementById('f-email').focus();
 }
 
 /* ─── Login ─── */
@@ -84,17 +136,43 @@ function doRegister() {
   window.location.replace('index.html');
 }
 
-/* ─── View switchers ─── */
-function showRegister() {
-  document.getElementById('view-login').style.display    = 'none';
-  document.getElementById('view-register').style.display = 'block';
-  setError('r-err', '');
-  document.getElementById('r-name').focus();
-}
+/* ─── Reset Password ─── */
+function doReset() {
+  var email = document.getElementById('f-email').value.trim().toLowerCase();
+  var pass  = document.getElementById('f-pass').value;
+  var pass2 = document.getElementById('f-pass2').value;
 
-function showLogin() {
-  document.getElementById('view-register').style.display = 'none';
-  document.getElementById('view-login').style.display    = 'block';
-  setError('l-err', '');
-  document.getElementById('l-email').focus();
+  setError('f-err', '');
+  setOk('f-ok', '');
+
+  if (!email || !pass || !pass2) {
+    setError('f-err', 'Please fill in all fields.');
+    return;
+  }
+  if (pass !== pass2) {
+    setError('f-err', 'Passwords do not match.');
+    return;
+  }
+  if (pass.length < 6) {
+    setError('f-err', 'Password must be at least 6 characters.');
+    return;
+  }
+
+  var users = getUsers();
+  var idx   = users.findIndex(function(u) { return u.email === email; });
+
+  if (idx === -1) {
+    setError('f-err', 'No account found with this email.');
+    return;
+  }
+
+  users[idx].hash = hash(pass);
+  saveUsers(users);
+
+  setOk('f-ok', 'Password updated! Signing you in…');
+  localStorage.setItem('gp5_currentUser', email);
+
+  setTimeout(function() {
+    window.location.replace('index.html');
+  }, 1200);
 }
