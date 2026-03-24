@@ -53,6 +53,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .meta-input:focus{border-color:#378ADD;}
 .meta-input.short{width:70px;}
 .meta-sep{width:0.5px;background:#eee;align-self:stretch;margin:0 4px;}
+.save-training-btn{margin-left:auto;padding:8px 18px;background:#378ADD;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;align-self:flex-end;transition:background .2s;}
+.save-training-btn:hover{background:#2a6fb0;}
 
 /* ── Info line ── */
 .info-line{font-size:11px;color:#aaa;margin-bottom:.85rem;line-height:1.6;}

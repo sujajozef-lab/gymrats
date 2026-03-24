@@ -141,6 +141,20 @@ function saveMeta(dk){
   var typeMap={a:'Upper',b:'Lower',c:'Full Body',d:'Cardio'};
   apiPost('session',{date:todayStr(),type:typeMap[dk]||dk,duration_min:time?parseInt(time):null,sauna_reps:sv?parseInt(sv):null,sauna_min:sm?parseInt(sm):null});
 }
+function saveTraining(dk){
+  saveMeta(dk);
+  /* Also mark today as done in the weekly grid */
+  var today=todayStr();
+  var typeMap={a:'Upper',b:'Lower',c:'Full Body',d:'Cardio'};
+  var type=typeMap[dk]||dk;
+  ss('wkd-'+today,true);
+  ss('wkd-type-'+today,type);
+  apiPost('session',{date:today,type:type,done:1});
+  buildWeekGrid();
+  /* Visual feedback on button */
+  var btn=document.getElementById('save-training-btn-'+dk);
+  if(btn){btn.textContent='Saved ✓';btn.style.background='#1D9E75';setTimeout(function(){btn.textContent='Save training';btn.style.background='';},2000);}
+}
 function loadMeta(dk){
   var m=ls('meta-'+dk,{});
   var f=function(id,val){var el=document.getElementById(id);if(el&&val!==undefined&&val!=='')el.value=val;};
