@@ -1,3 +1,11 @@
+/* ═══════════════ API SYNC ═══════════════ */
+var userEmail='';
+function todayStr(){var n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+function apiPost(path,data){
+  if(!userEmail)return;
+  fetch('/api/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({email:userEmail},data))}).catch(function(){});
+}
+
 /* ═══════════════ DATA ═══════════════ */
 var EQUIP_TAGS=['bar','dumbbell','pulley','accessory'];
 var GYM_NAMES={arkady:'Arkády',pankrac:'Pankrác',chodov:'Chodov'};
@@ -125,11 +133,12 @@ function swDay(id,el){
 
 /* ═══════════════ SESSION META ═══════════════ */
 function saveMeta(dk){
-  ss('meta-'+dk,{
-    time:document.getElementById('sm-'+dk+'-time').value,
-    sv:document.getElementById('sm-'+dk+'-sv').value,
-    sm:document.getElementById('sm-'+dk+'-sm').value
-  });
+  var time=document.getElementById('sm-'+dk+'-time').value;
+  var sv=document.getElementById('sm-'+dk+'-sv').value;
+  var sm=document.getElementById('sm-'+dk+'-sm').value;
+  ss('meta-'+dk,{time:time,sv:sv,sm:sm});
+  var typeMap={a:'Upper',b:'Lower',c:'Full Body',d:'Cardio'};
+  apiPost('session',{date:todayStr(),type:typeMap[dk]||dk,duration_min:time?parseInt(time):null,sauna_reps:sv?parseInt(sv):null,sauna_min:sm?parseInt(sm):null});
 }
 function loadMeta(dk){
   var m=ls('meta-'+dk,{});
@@ -257,6 +266,7 @@ function saveCell(id,field){
   document.getElementById('cv-'+id+'-'+field).textContent=display;
   document.getElementById('ce-'+id+'-'+field).classList.remove('open');
   document.getElementById('cd-'+id+'-'+field).style.display='';
+  apiPost('session/exercise',{date:todayStr(),exercise_id:id,exercise_name:ls('name-'+id,''),sets:ls('s-'+id,null),reps:ls('r-'+id,null),weight:ls('w-'+id,null),done:ls('done-'+id,false)?1:0});
 }
 function cellKey(e,id,field){
   if(e.key==='Enter')saveCell(id,field);
@@ -266,6 +276,9 @@ function cellKey(e,id,field){
 /* ═══════════════ CHECKBOX ═══════════════ */
 function toggleEx(id,dk){
   var done=ls('done-'+id,false);done=!done;ss('done-'+id,done);
+  var typeMap={a:'Upper',b:'Lower',c:'Full Body'};
+  apiPost('session',{date:todayStr(),type:typeMap[dk]||dk,done:0});
+  apiPost('session/exercise',{date:todayStr(),exercise_id:id,exercise_name:ls('name-'+id,''),sets:ls('s-'+id,null),reps:ls('r-'+id,null),weight:ls('w-'+id,null),done:done?1:0});
   var row=document.getElementById('row-'+id),cb=document.getElementById('cb-'+id);
   if(done){row.classList.add('done');cb.classList.add('checked');}
   else{row.classList.remove('done');cb.classList.remove('checked');}
@@ -384,6 +397,8 @@ function buildWeekGrid(){
 }
 function toggleWkDate(dk,i){
   var checked=ls('wkd-'+dk,false);checked=!checked;ss('wkd-'+dk,checked);
+  var type=ls('wkd-type-'+dk,'—');
+  apiPost('session',{date:dk,type:type,done:checked?1:0});
   var el=document.getElementById('wkd-'+i);
   var circle=document.getElementById('wkc-'+i);
   if(checked){
@@ -398,6 +413,7 @@ function saveWkTypeDate(dk,val){
   ss('wkd-type-'+dk,val);
   /* If clearing back to —, also clear done state */
   if(val==='—') ss('wkd-'+dk,false);
+  apiPost('session',{date:dk,type:val,done:val==='—'?0:undefined});
   buildWeekGrid();
 }
 function prevWeek(){weekOffset--;buildWeekGrid();}
@@ -489,6 +505,7 @@ function saveWW(id){
   document.getElementById('wwe-'+id).classList.remove('open');document.getElementById('wwd-'+id).style.display='';
   // sync plan tab
   var cv=document.getElementById('cv-'+id+'-w');if(cv)cv.textContent=val+' kg';
+  apiPost('record',{exercise_id:id,exercise_name:ls('name-'+id,''),working_weight:val,pr_value:ls('pr-'+id,'—'),pr_gym:ls('prGym-'+id,'')});
 }
 function wwKey(e,id){if(e.key==='Enter')saveWW(id);if(e.key==='Escape'){document.getElementById('wwe-'+id).classList.remove('open');document.getElementById('wwd-'+id).style.display='';}}
 
@@ -497,6 +514,7 @@ function savePR(id){
   var val=document.getElementById('pri-'+id).value.trim();if(!val)return;
   var gym=document.getElementById('prg-'+id).value;
   ss('pr-'+id,val);ss('prGym-'+id,gym);
+  apiPost('record',{exercise_id:id,exercise_name:ls('name-'+id,''),working_weight:ls('w-'+id,0),pr_value:val,pr_gym:gym});
   document.getElementById('prv-'+id).textContent=val;
   // update gym badge in the display row
   var row=document.getElementById('wtr-'+id);
@@ -1054,6 +1072,7 @@ loadMeta('a');
 /* ══ PROFILE ══ */
 function saveProfile(){
   var p={
+    email:document.getElementById('pf-email').value.trim().toLowerCase(),
     name:document.getElementById('pf-name').value,
     surname:document.getElementById('pf-surname').value,
     age:document.getElementById('pf-age').value,
@@ -1061,8 +1080,10 @@ function saveProfile(){
     height:document.getElementById('pf-height').value,
     gender:ls('pf-gender','')
   };
+  userEmail=p.email;
   ss('profile',p);
   updateProfileDisplay(p);
+  if(p.email) apiPost('user',{name:p.name,surname:p.surname});
 }
 
 function setGender(val){
@@ -1104,6 +1125,7 @@ function loadProfile(){
     var raw=ls('profile','');
     if(!raw) return;
     var p=typeof raw==='object'?raw:JSON.parse(raw);
+    if(p.email){document.getElementById('pf-email').value=p.email;userEmail=p.email;}
     if(p.name) document.getElementById('pf-name').value=p.name;
     if(p.surname) document.getElementById('pf-surname').value=p.surname;
     if(p.age) document.getElementById('pf-age').value=p.age;
