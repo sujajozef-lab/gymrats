@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
 from tracker import views
@@ -19,6 +19,10 @@ def serve_app(request):
 urlpatterns = [
     path('', serve_login),
     path('app/', serve_app),
+    # Redirects for old/wrong bookmarked URLs
+    path('app/login.html', lambda r: HttpResponseRedirect('/')),
+    path('login.html',     lambda r: HttpResponseRedirect('/')),
+    path('index.html',     lambda r: HttpResponseRedirect('/app/')),
     path('admin/', admin.site.urls),
 
     # Auth
