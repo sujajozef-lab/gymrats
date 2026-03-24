@@ -423,7 +423,8 @@ function allExercises(){
     });
   });
   extraExercises.forEach(function(ex){
-    if(!seen[ex.id]){seen[ex.id]=true;rows.push(ex);}
+    if(!seen[ex.id]){seen[ex.id]=true;rows.push({id:ex.id,name:ls('name-'+ex.id,ex.name),tag:ls('tag-'+ex.id,ex.tag),
+      w:ls('w-'+ex.id,ex.w),pr:ls('pr-'+ex.id,ex.pr),prGym:ls('prGym-'+ex.id,ex.prGym||''),day:'custom'});}
   });
   return rows;
 }
@@ -1060,7 +1061,7 @@ function saveProfile(){
     height:document.getElementById('pf-height').value,
     gender:ls('pf-gender','')
   };
-  ss('profile',JSON.stringify(p));
+  ss('profile',p);
   updateProfileDisplay(p);
 }
 
@@ -1102,7 +1103,7 @@ function loadProfile(){
   try{
     var raw=ls('profile','');
     if(!raw) return;
-    var p=JSON.parse(raw);
+    var p=typeof raw==='object'?raw:JSON.parse(raw);
     if(p.name) document.getElementById('pf-name').value=p.name;
     if(p.surname) document.getElementById('pf-surname').value=p.surname;
     if(p.age) document.getElementById('pf-age').value=p.age;
