@@ -201,8 +201,12 @@ def upsert_record():
             VALUES(?, ?, ?, ?, ?, ?, datetime('now'))
             ON CONFLICT(user_email, exercise_id) DO UPDATE SET
                 exercise_name  = COALESCE(excluded.exercise_name, exercise_name),
-                working_weight = excluded.working_weight,
-                pr_value       = excluded.pr_value,
+                working_weight = CASE WHEN excluded.working_weight = 0
+                                      THEN working_weight
+                                      ELSE excluded.working_weight END,
+                pr_value       = CASE WHEN excluded.pr_value = '—'
+                                      THEN pr_value
+                                      ELSE excluded.pr_value END,
                 pr_gym         = excluded.pr_gym,
                 updated_at     = datetime('now')
         ''', (
