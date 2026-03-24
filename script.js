@@ -104,6 +104,7 @@ function mainSw(id,el){
   if(id==='weights') buildWeightsTab();
   if(id==='gyms') buildGymsTab();
   if(id==='plans') buildPlanTab();
+  if(id==='history') buildHistoryTab();
 }
 
 /* ═══════════════ GYM ═══════════════ */
@@ -231,21 +232,20 @@ function buildSwapPanel(id,dk){
 
 function mkCell(id,field,val,inputType,align){
   var inp=inputType==='num'
-    ?'<input class="cell-input num-input" id="ci-'+id+'-'+field+'" type="number" min="1" step="1" value="'+val+'" onkeydown="cellKey(event,\''+id+'\',\''+field+'\')">'
-    :'<input class="cell-input txt-input" id="ci-'+id+'-'+field+'" type="text" value="'+val+'" onkeydown="cellKey(event,\''+id+'\',\''+field+'\')">';
+    ?'<input class="cell-input num-input" id="ci-'+id+'-'+field+'" type="number" min="1" step="1" value="'+val+'" onkeydown="cellKey(event,\''+id+'\',\''+field+'\')" onblur="saveCell(\''+id+'\',\''+field+'\')">'
+    :'<input class="cell-input txt-input" id="ci-'+id+'-'+field+'" type="text" value="'+val+'" onkeydown="cellKey(event,\''+id+'\',\''+field+'\')" onblur="saveCell(\''+id+'\',\''+field+'\')">';
   return '<div class="editable-cell" style="'+align+';">'
     +'<div class="cell-display" id="cd-'+id+'-'+field+'" onclick="openCell(\''+id+'\',\''+field+'\')">'
     +'<span id="cv-'+id+'-'+field+'" style="color:#555">'+val+'</span><span class="pencil">✎</span></div>'
-    +'<div class="cell-edit" id="ce-'+id+'-'+field+'">'+inp
-    +'<button class="cell-save" onclick="saveCell(\''+id+'\',\''+field+'\')">✓</button></div></div>';
+    +'<div class="cell-edit" id="ce-'+id+'-'+field+'">'+inp+'</div></div>';
 }
 function mkCellW(id,wVal,wc){
   return '<div class="editable-cell weight-cell">'
     +'<div class="cell-display" id="cd-'+id+'-w" onclick="openCell(\''+id+'\',\'w\')">'
     +'<span id="cv-'+id+'-w" style="font-weight:500;color:'+wc+'">'+wVal+' kg</span><span class="pencil">✎</span></div>'
     +'<div class="cell-edit" id="ce-'+id+'-w">'
-    +'<input class="cell-input num-input" id="ci-'+id+'-w" type="number" min="0" step="2.5" value="'+wVal+'" onkeydown="cellKey(event,\''+id+'\',\'w\')">'
-    +'<button class="cell-save" onclick="saveCell(\''+id+'\',\'w\')">✓</button></div></div>';
+    +'<input class="cell-input num-input" id="ci-'+id+'-w" type="number" min="0" step="2.5" value="'+wVal+'" onkeydown="cellKey(event,\''+id+'\',\'w\')" onblur="saveCell(\''+id+'\',\'w\')">'
+    +'</div></div>';
 }
 
 /* ═══════════════ CELL EDITING ═══════════════ */
@@ -255,7 +255,9 @@ function openCell(id,field){
   var inp=document.getElementById('ci-'+id+'-'+field);inp.focus();inp.select();
 }
 function saveCell(id,field){
-  var inp=document.getElementById('ci-'+id+'-'+field);var raw=inp.value.trim();if(!raw)return;
+  var inp=document.getElementById('ci-'+id+'-'+field);if(!inp)return;
+  if(inp.dataset.cancelled){inp.dataset.cancelled='';return;}
+  var raw=inp.value.trim();if(!raw)return;
   var display=raw;
   if(field==='w'){var n=parseFloat(raw);if(isNaN(n)||n<0)n=0;ss('w-'+id,n);display=n+' kg';
     var tEl=document.getElementById('etag-'+id);var t=tEl?tEl.dataset.tag||tEl.textContent.toLowerCase():'';
@@ -269,8 +271,14 @@ function saveCell(id,field){
   apiPost('session/exercise',{date:todayStr(),exercise_id:id,exercise_name:ls('name-'+id,''),sets:ls('s-'+id,null),reps:ls('r-'+id,null),weight:ls('w-'+id,null),done:ls('done-'+id,false)?1:0});
 }
 function cellKey(e,id,field){
-  if(e.key==='Enter')saveCell(id,field);
-  if(e.key==='Escape'){document.getElementById('ce-'+id+'-'+field).classList.remove('open');document.getElementById('cd-'+id+'-'+field).style.display='';}
+  if(e.key==='Enter'){e.target.blur();return;}
+  if(e.key==='Escape'){
+    var inp=document.getElementById('ci-'+id+'-'+field);
+    if(inp) inp.dataset.cancelled='1';
+    document.getElementById('ce-'+id+'-'+field).classList.remove('open');
+    document.getElementById('cd-'+id+'-'+field).style.display='';
+    if(inp) inp.blur();
+  }
 }
 
 /* ═══════════════ CHECKBOX ═══════════════ */
@@ -1035,6 +1043,55 @@ function confirmEditSec(){
   closeEditSecModal();buildPlanTab();
   var c=document.getElementById('plancard-'+_editSecDk);
   if(c) c.classList.add('open');
+}
+
+/* ═══════════════ HISTORY TAB ═══════════════ */
+function buildHistoryTab(){
+  var el=document.getElementById('history-content');if(!el)return;
+  if(!userEmail){
+    el.innerHTML='<div style="color:#aaa;font-size:13px;text-align:center;padding:40px 16px;">Add your email in the Profile tab to load your training log.</div>';
+    return;
+  }
+  el.innerHTML='<div style="color:#aaa;font-size:12px;text-align:center;padding:20px 0;">Loading...</div>';
+  fetch('/api/history/'+encodeURIComponent(userEmail))
+    .then(function(r){return r.json();})
+    .then(function(sessions){
+      if(!sessions.length){
+        el.innerHTML='<div style="color:#aaa;font-size:13px;text-align:center;padding:40px 16px;">No sessions recorded yet.</div>';
+        return;
+      }
+      var h='';
+      sessions.forEach(function(s){
+        var typeCol=WK_TYPE_COLORS[s.training_type]||{bg:'#f0f0ee',text:'#666'};
+        h+='<div style="border:0.5px solid #eee;border-radius:10px;padding:12px 14px;margin-bottom:10px;">';
+        h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">';
+        h+='<span style="font-size:13px;font-weight:600;color:#1a1a1a;">'+s.session_date+'</span>';
+        if(s.training_type&&s.training_type!=='—'){
+          h+='<span style="font-size:11px;font-weight:500;background:'+typeCol.bg+';color:'+typeCol.text+';border-radius:5px;padding:2px 7px;">'+s.training_type+'</span>';
+        }
+        var meta=[];
+        if(s.duration_min) meta.push(s.duration_min+' min');
+        if(s.sauna_reps&&s.sauna_min) meta.push('Sauna '+s.sauna_reps+'×'+s.sauna_min+' min');
+        if(meta.length) h+='<span style="font-size:11px;color:#aaa;margin-left:auto;">'+meta.join(' · ')+'</span>';
+        h+='</div>';
+        if(s.exercises&&s.exercises.length){
+          h+='<div style="display:flex;flex-wrap:wrap;gap:4px;">';
+          s.exercises.forEach(function(ex){
+            var tag=ex.exercise_name?'':'';
+            h+='<span style="font-size:11px;color:#555;background:#f6f6f4;border-radius:5px;padding:2px 7px;">';
+            h+=ex.exercise_name||ex.exercise_id;
+            if(ex.weight) h+=' <span style="font-weight:600;color:#378ADD;">'+ex.weight+' kg</span>';
+            h+='</span>';
+          });
+          h+='</div>';
+        }
+        h+='</div>';
+      });
+      el.innerHTML=h;
+    })
+    .catch(function(){
+      el.innerHTML='<div style="color:#c00;font-size:12px;text-align:center;padding:20px 0;">Could not load history.</div>';
+    });
 }
 
 /* ═══════════════ INIT ═══════════════ */
