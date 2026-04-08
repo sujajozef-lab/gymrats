@@ -1,197 +1,1007 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Portfolio</title>
-  <meta name="description" content="Personal portfolio of Your Name — designer and developer." />
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eight Dates — A Guide to a Lasting Relationship</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F8F3EC;
+    --cream-dark: #EFE8DD;
+    --ink: #1C1510;
+    --ink-soft: #4A3F35;
+    --ink-muted: #8A7A6E;
+    --rose: #C4756A;
+    --rose-light: #F0D5D0;
+    --rose-pale: #FBF0EE;
+    --gold: #B8975A;
+    --gold-light: #F2E8D5;
+    --teal: #4A7C74;
+    --teal-light: #D5EAE7;
+    --plum: #6B4C7A;
+    --plum-light: #E8DCED;
+    --slate: #4A5568;
+    --red-soft: #C4756A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(196,117,106,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(184,151,90,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 70% at 50% 50%, rgba(74,124,116,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.4s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: rgba(248,243,236,0.55);
+    max-width: 480px;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-line {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 0 auto 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .hero-nav {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero-nav a {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(248,243,236,0.6);
+    text-decoration: none;
+    padding: 8px 18px;
+    border: 0.5px solid rgba(248,243,236,0.2);
+    border-radius: 100px;
+    transition: all 0.25s;
+  }
+  .hero-nav a:hover {
+    color: var(--cream);
+    border-color: var(--gold);
+    background: rgba(184,151,90,0.1);
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp 1s ease 1.2s forwards;
+  }
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.2em; color: rgba(248,243,236,0.3); text-transform: uppercase; }
+  .scroll-dot {
+    width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── LAYOUT ── */
+  .main { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
+
+  /* ── SECTION HEADERS ── */
+  .section-eyebrow {
+    font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 0.75rem; display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300; line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+  .section-rule {
+    width: 40px; height: 1.5px;
+    background: var(--gold); margin-bottom: 1.5rem;
+  }
+  .section-lead {
+    font-size: 1rem; color: var(--ink-soft); line-height: 1.75;
+    max-width: 640px; margin-bottom: 3rem;
+  }
+
+  /* ── BEFORE YOU BEGIN ── */
+  .before-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--cream-dark);
+    border: 1px solid var(--cream-dark);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+  .before-cell {
+    background: var(--cream);
+    padding: 1.5rem;
+  }
+  .before-cell-title {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; font-weight: 500;
+  }
+  .before-cell ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .before-cell li {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.55;
+    padding-left: 14px; position: relative;
+  }
+  .before-cell li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--rose);
+  }
+
+  .do-dont {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 3rem;
+  }
+  .do-box, .dont-box {
+    padding: 1.5rem; border-radius: 12px;
+  }
+  .do-box { background: #EEF5EC; }
+  .dont-box { background: var(--rose-pale); }
+  .do-box h4 { color: #3A6B35; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 500; }
+  .dont-box h4 { color: var(--rose); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 500; }
+  .do-box li, .dont-box li { font-size: 13px; line-height: 1.6; margin-bottom: 7px; padding-left: 16px; position: relative; list-style: none; }
+  .do-box li::before { content:''; position:absolute; left:0; top:8px; width:4px; height:4px; border-radius:50%; background:#3A6B35; }
+  .dont-box li::before { content:''; position:absolute; left:0; top:8px; width:4px; height:4px; border-radius:50%; background:var(--rose); }
+  .do-box li { color: #2A4A27; }
+  .dont-box li { color: #6B3530; }
+
+  /* ── DATE SECTION ── */
+  .date-section {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .date-section.visible { opacity: 1; transform: translateY(0); }
+
+  .date-header {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .date-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 300; line-height: 1;
+    flex-shrink: 0; margin-top: -0.3rem;
+  }
+  .date-heading { flex: 1; }
+  .date-heading h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+    font-weight: 400; line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .date-heading p { font-size: 13px; color: var(--ink-muted); letter-spacing: 0.05em; }
+
+  .date-focus {
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    font-size: 13.5px; line-height: 1.75; font-style: italic;
+    margin-bottom: 2rem;
+    border-left: 2px solid;
+  }
+
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 680px) {
+    .three-col { grid-template-columns: 1fr; }
+    .do-dont { grid-template-columns: 1fr; }
+  }
+
+  .col-block { border-radius: 10px; padding: 1.25rem; }
+  .col-block h4 {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 1rem;
+  }
+  .col-block ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .col-block li {
+    font-size: 12.5px; line-height: 1.6; color: var(--ink-soft);
+    padding-left: 14px; position: relative;
+  }
+  .col-block li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 4px; height: 4px; border-radius: 50%;
+  }
+
+  /* steps col */
+  .steps-col { background: var(--cream-dark); }
+  .steps-col h4 { color: var(--ink-muted); }
+  .steps-col li::before { background: var(--ink-muted); }
+
+  /* questions col */
+  .questions-col { background: var(--gold-light); }
+  .questions-col h4 { color: #7A5F30; }
+  .questions-col li { color: #5A4020; font-style: italic; }
+  .questions-col li::before { background: var(--gold); }
+
+  /* breaks col */
+  .breaks-col { background: var(--rose-pale); }
+  .breaks-col h4 { color: #8A4A44; }
+  .breaks-col li { color: #6B3530; }
+  .breaks-col li::before { background: var(--rose); }
+
+  /* ── RITUAL SECTION ── */
+  .ritual-section { margin-top: 1.5rem; }
+  .ritual-block {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+  .ritual-eyebrow {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem; font-weight: 500;
+  }
+  .ritual-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+  .ritual-desc {
+    font-size: 12.5px; color: rgba(248,243,236,0.55);
+    line-height: 1.7; font-style: italic; margin-bottom: 1.25rem;
+  }
+  .ritual-steps { display: flex; flex-direction: column; gap: 8px; }
+  .ritual-step {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 12.5px; color: rgba(248,243,236,0.8); line-height: 1.6;
+  }
+  .ritual-step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 500; flex-shrink: 0; margin-top: 1px;
+  }
+  .ritual-why {
+    margin-top: 1.25rem; padding-top: 1.25rem;
+    border-top: 0.5px solid rgba(248,243,236,0.12);
+    font-size: 12px; color: rgba(248,243,236,0.4); line-height: 1.65;
+  }
+  .ritual-why strong { color: rgba(248,243,236,0.6); font-weight: 500; }
+
+  /* ── DIVIDER ── */
+  .ornamental-divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 4rem 0;
+  }
+  .ornamental-divider::before,
+  .ornamental-divider::after {
+    content: ''; flex: 1; height: 0.5px;
+    background: linear-gradient(to right, transparent, var(--cream-dark));
+  }
+  .ornamental-divider::after {
+    background: linear-gradient(to left, transparent, var(--cream-dark));
+  }
+  .ornamental-divider span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--ink-muted); font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .footer h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300; color: var(--cream);
+    margin-bottom: 0.75rem;
+  }
+  .footer p { font-size: 13px; color: rgba(248,243,236,0.4); margin-bottom: 2rem; }
+  .footer-line { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 1.5rem; }
+  .footer-credit { font-size: 11px; color: rgba(248,243,236,0.25); letter-spacing: 0.1em; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.1); }
+  }
+
+  /* ── COLOR THEMES PER DATE ── */
+  .d1 { --accent: #7F77DD; --accent-pale: #EEEDFE; --accent-text: #3C3489; }
+  .d2 { --accent: #D85A30; --accent-pale: #FAECE7; --accent-text: #712B13; }
+  .d3 { --accent: #C4607E; --accent-pale: #FBEAF0; --accent-text: #72243E; }
+  .d4 { --accent: #BA7517; --accent-pale: #FAEEDA; --accent-text: #633806; }
+  .d5 { --accent: #639922; --accent-pale: #EAF3DE; --accent-text: #27500A; }
+  .d6 { --accent: #378ADD; --accent-pale: #E6F1FB; --accent-text: #0C447C; }
+  .d7 { --accent: #1D9E75; --accent-pale: #E1F5EE; --accent-text: #085041; }
+  .d8 { --accent: #534AB7; --accent-pale: #EEEDFE; --accent-text: #26215C; }
+
+  .date-num { color: var(--accent); }
+  .date-heading h2 { color: var(--ink); }
+  .date-focus { background: var(--accent-pale); border-color: var(--accent); color: var(--accent-text); }
+
+  /* sticky date nav */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(248,243,236,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid var(--cream-dark);
+    padding: 0.6rem 2rem;
+    display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;
+  }
+  .sticky-nav a {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted); text-decoration: none;
+    padding: 5px 12px; border-radius: 100px;
+    transition: all 0.2s;
+  }
+  .sticky-nav a:hover { background: var(--cream-dark); color: var(--ink); }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <header class="nav" id="nav">
-    <div class="nav-logo">YN<span class="dot">.</span></div>
-    <nav class="nav-links">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-      <span></span><span></span>
-    </button>
-  </header>
-
-  <div class="nav-mobile" id="nav-mobile">
-    <a href="#work" class="mobile-link">Work</a>
-    <a href="#about" class="mobile-link">About</a>
-    <a href="#contact" class="mobile-link">Contact</a>
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-ornament">Based on the work of John &amp; Julie Gottman</p>
+  <h1>Eight<br><em>Dates</em></h1>
+  <div class="hero-line"></div>
+  <p class="hero-sub">A guide to the conversations that keep a relationship thriving — with key steps, discussion questions, rituals, and where to pause.</p>
+  <nav class="hero-nav">
+    <a href="#before">Before you begin</a>
+    <a href="#date-1">Trust</a>
+    <a href="#date-2">Conflict</a>
+    <a href="#date-3">Intimacy</a>
+    <a href="#date-4">Money</a>
+    <a href="#date-5">Family</a>
+    <a href="#date-6">Play</a>
+    <a href="#date-7">Growth</a>
+    <a href="#date-8">Dreams</a>
+  </nav>
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    <span>Scroll</span>
   </div>
+</section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-tag">Available for work</div>
-    <h1 class="hero-title">
-      Your<br>
-      <em>Name</em>
-    </h1>
-    <p class="hero-sub">Designer &amp; developer crafting thoughtful digital experiences. Based in Prague.</p>
-    <div class="hero-cta">
-      <a href="#work" class="btn-primary">View my work</a>
-      <a href="#contact" class="btn-ghost">Get in touch</a>
-    </div>
-    <div class="hero-scroll">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
-    </div>
-  </section>
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a href="#before">Intro</a>
+  <a href="#date-1">1</a><a href="#date-2">2</a><a href="#date-3">3</a>
+  <a href="#date-4">4</a><a href="#date-5">5</a><a href="#date-6">6</a>
+  <a href="#date-7">7</a><a href="#date-8">8</a>
+</nav>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span>UI Design</span><span class="sep">·</span>
-      <span>Web Development</span><span class="sep">·</span>
-      <span>HTML &amp; CSS</span><span class="sep">·</span>
-      <span>JavaScript</span><span class="sep">·</span>
-      <span>Figma</span><span class="sep">·</span>
-      <span>Responsive Design</span><span class="sep">·</span>
-      <span>UI Design</span><span class="sep">·</span>
-      <span>Web Development</span><span class="sep">·</span>
-      <span>HTML &amp; CSS</span><span class="sep">·</span>
-      <span>JavaScript</span><span class="sep">·</span>
-      <span>Figma</span><span class="sep">·</span>
-      <span>Responsive Design</span><span class="sep">·</span>
-    </div>
-  </div>
+<main class="main">
 
-  <!-- WORK -->
-  <section class="section" id="work">
-    <div class="section-header">
-      <span class="section-label">Selected work</span>
-      <h2 class="section-title">Projects</h2>
-    </div>
+  <!-- BEFORE YOU BEGIN -->
+  <section id="before" class="date-section">
+    <span class="section-eyebrow">Foundation</span>
+    <h2 class="section-title">Before you<br><em style="font-family:'Cormorant Garamond',serif; font-style:italic;">begin</em></h2>
+    <div class="section-rule"></div>
+    <p class="section-lead">These eight dates work best when both partners enter them as curious explorers — not debaters or problem-solvers. The goal is understanding, not agreement. Space dates at least a week apart and never skip ahead.</p>
 
-    <div class="projects-grid">
-
-      <article class="project-card" data-index="01">
-        <div class="project-img" style="background: #1a1a2e;">
-          <div class="project-img-inner" style="background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">01</span>
-            <span class="project-tag">Web Design</span>
-          </div>
-          <h3 class="project-title">Project Name One</h3>
-          <p class="project-desc">A short description of the project, what it does, and what problem it solves for the user.</p>
-          <a href="#" class="project-link">View project →</a>
-        </div>
-      </article>
-
-      <article class="project-card" data-index="02">
-        <div class="project-img" style="background: #0d1b2a;">
-          <div class="project-img-inner" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">02</span>
-            <span class="project-tag">Development</span>
-          </div>
-          <h3 class="project-title">Project Name Two</h3>
-          <p class="project-desc">A short description of the project, what it does, and what problem it solves for the user.</p>
-          <a href="#" class="project-link">View project →</a>
-        </div>
-      </article>
-
-      <article class="project-card" data-index="03">
-        <div class="project-img">
-          <div class="project-img-inner" style="background: linear-gradient(135deg, #3d0c02 0%, #7a1c0e 100%);"></div>
-        </div>
-        <div class="project-info">
-          <div class="project-meta">
-            <span class="project-num">03</span>
-            <span class="project-tag">UI / UX</span>
-          </div>
-          <h3 class="project-title">Project Name Three</h3>
-          <p class="project-desc">A short description of the project, what it does, and what problem it solves for the user.</p>
-          <a href="#" class="project-link">View project →</a>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="section about-section" id="about">
-    <div class="about-grid">
-      <div class="about-left">
-        <span class="section-label">About me</span>
-        <h2 class="section-title">Who I am</h2>
-        <p class="about-text">
-          I'm a designer and developer passionate about building things that look great and feel even better to use. I believe great design is invisible — it just works.
-        </p>
-        <p class="about-text">
-          I'm currently open to freelance projects and full-time roles. If you have something interesting in mind, I'd love to hear about it.
-        </p>
-        <a href="#contact" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Let's work together</a>
+    <div class="before-grid">
+      <div class="before-cell">
+        <div class="before-cell-title">Environment</div>
+        <ul>
+          <li>Choose a private place — no busy restaurants for sensitive topics</li>
+          <li>Phones face-down, notifications off, for the whole date</li>
+          <li>Aim for 1–2 hours minimum — these conversations need room</li>
+          <li>Pick a time when neither of you is exhausted</li>
+        </ul>
       </div>
-      <div class="about-right">
-        <div class="skills-block">
-          <div class="skill-group">
-            <h4 class="skill-group-title">Design</h4>
-            <div class="skill-list">
-              <span class="skill-pill">Figma</span>
-              <span class="skill-pill">UI Design</span>
-              <span class="skill-pill">Prototyping</span>
-              <span class="skill-pill">Design Systems</span>
-            </div>
-          </div>
-          <div class="skill-group">
-            <h4 class="skill-group-title">Development</h4>
-            <div class="skill-list">
-              <span class="skill-pill">HTML</span>
-              <span class="skill-pill">CSS</span>
-              <span class="skill-pill">JavaScript</span>
-              <span class="skill-pill">Responsive</span>
-            </div>
-          </div>
-          <div class="skill-group">
-            <h4 class="skill-group-title">Tools</h4>
-            <div class="skill-list">
-              <span class="skill-pill">Git</span>
-              <span class="skill-pill">VS Code</span>
-              <span class="skill-pill">Vercel</span>
-              <span class="skill-pill">GitHub</span>
-            </div>
-          </div>
-        </div>
+      <div class="before-cell">
+        <div class="before-cell-title">Emotional prep</div>
+        <ul>
+          <li>Take 10 minutes alone to decompress before you sit down</li>
+          <li>Remind yourself: your partner is not your opponent</li>
+          <li>Come with curiosity — assume there's something you don't yet know</li>
+          <li>Set a shared intention aloud before you start</li>
+        </ul>
+      </div>
+      <div class="before-cell">
+        <div class="before-cell-title">Ground rules</div>
+        <ul>
+          <li>One person speaks at a time — no interrupting, even to agree</li>
+          <li>Use "I feel…" language; avoid "You always…" or "You never…"</li>
+          <li>Agree on a safe word to pause without it feeling like abandonment</li>
+          <li>You can pass on any question — nothing is mandatory</li>
+        </ul>
+      </div>
+      <div class="before-cell">
+        <div class="before-cell-title">At the start of every date</div>
+        <ul>
+          <li>Begin with one genuine appreciation of your partner</li>
+          <li>Check in on energy: "How are you feeling going into this?"</li>
+          <li>Remind yourselves you're on the same team</li>
+          <li>Read the date topic together first</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="do-dont">
+      <div class="do-box">
+        <h4>Do</h4>
+        <ul>
+          <li>Listen to understand, not to respond</li>
+          <li>Ask follow-ups: "Tell me more about that"</li>
+          <li>Validate feelings even when you disagree with them</li>
+          <li>Acknowledge when something is new information to you</li>
+          <li>Express gratitude at the end, even if it was hard</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>Don't</h4>
+        <ul>
+          <li>Turn the date into a therapy session or intervention</li>
+          <li>Give advice when your partner only needs to be heard</li>
+          <li>Bring up unrelated grievances mid-conversation</li>
+          <li>Check your phone, even once</li>
+          <li>Push through emotional flooding — always honour the pause</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section class="contact-section" id="contact">
-    <div class="contact-inner">
-      <span class="section-label" style="color: rgba(255,255,255,0.4);">Say hello</span>
-      <h2 class="contact-title">Let's build<br><em>something great</em></h2>
-      <a href="mailto:hello@yourname.com" class="contact-email">hello@yourname.com</a>
-      <div class="contact-socials">
-        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
-        <span class="sep-dot">·</span>
-        <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
-        <span class="sep-dot">·</span>
-        <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+  <div class="ornamental-divider"><span>i</span></div>
+
+  <!-- DATES -->
+
+  <!-- DATE 1 -->
+  <section id="date-1" class="date-section d1">
+    <div class="date-header">
+      <div class="date-num">01</div>
+      <div class="date-heading">
+        <h2>Trust &amp; Commitment</h2>
+        <p>The foundation of everything else</p>
+      </div>
+    </div>
+    <div class="date-focus">Explore what trust and commitment mean to each of you — not just fidelity, but emotional availability. Ask: "In what ways have I shown up for you? Where have I fallen short?"</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Share one moment when you felt truly safe with your partner</li>
+          <li>Define commitment beyond loyalty — presence, honesty, consistency</li>
+          <li>Ask about hidden fears: "What could destroy our relationship?"</li>
+          <li>Make a shared promise about handling future breaches of trust</li>
+          <li>Acknowledge past moments where trust was tested</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>When do you feel most secure — and most uncertain — in our relationship?</li>
+          <li>Have I done something that damaged your trust, even in a small way?</li>
+          <li>What does loyalty mean to you beyond being faithful?</li>
+          <li>What would you need from me to feel completely safe?</li>
+          <li>If our relationship were to end, what would you say broke down first?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>The conversation turns into blame — trust is built here, not prosecuted</li>
+          <li>Either partner becomes defensive — take a 20-minute break</li>
+          <li>You feel pressure to resolve everything — naming the issue is enough</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 5 min</div>
+        <div class="ritual-name">The gratitude exchange</div>
+        <div class="ritual-desc">Trust grows in small moments of recognition. This anchors you in what already exists before exploring what needs attention.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#7F77DD; color:#EEEDFE;">1</div><span>Sit facing each other. Take one slow breath together.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#7F77DD; color:#EEEDFE;">2</div><span>Each share one specific thing the other did recently that made you feel safe — be precise, not vague.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#7F77DD; color:#EEEDFE;">3</div><span>The listener responds only with: "Thank you for seeing that." Nothing more.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#7F77DD; color:#EEEDFE;">4</div><span>Switch. Repeat.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#7F77DD; color:#EEEDFE;">5</div><span>Close together: "I'm here, and I'm not going anywhere."</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Naming specific acts of care activates the brain's safety response — the ideal state for a trust conversation.</div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <span>© 2026 Your Name</span>
-    <span>Built with HTML &amp; CSS · Deployed on Vercel</span>
-  </footer>
+  <div class="ornamental-divider"><span>ii</span></div>
 
-  <script src="script.js"></script>
+  <!-- DATE 2 -->
+  <section id="date-2" class="date-section d2">
+    <div class="date-header">
+      <div class="date-num">02</div>
+      <div class="date-heading">
+        <h2>Conflict</h2>
+        <p>Fighting smarter, not harder</p>
+      </div>
+    </div>
+    <div class="date-focus">Understand your conflict patterns — not to solve every argument, but to learn how you each handle tension. The goal is curiosity, not winning.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Identify your conflict style: escalate, withdraw, or deflect?</li>
+          <li>Share a recurring argument — describe your feeling, not their fault</li>
+          <li>Find the hidden dream beneath the repeated fight</li>
+          <li>Agree on a repair signal for when things escalate</li>
+          <li>Discuss what a fair fight looks like to both of you</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>What do I do when we argue that hurts you the most?</li>
+          <li>What are you really asking for when we fight about that topic?</li>
+          <li>How did conflict work in your family growing up?</li>
+          <li>What would make you feel heard during a disagreement?</li>
+          <li>Is there a fight we've had that still sits with you — unresolved?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>You feel flooded — heart racing, mind blank. You cannot listen in that state</li>
+          <li>You're revisiting actual argument content — focus on patterns, not incidents</li>
+          <li>One person starts listing grievances — this is not a complaint session</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 5 min</div>
+        <div class="ritual-name">The temperature check</div>
+        <div class="ritual-desc">Before talking about conflict, know where you each are. This exercise normalises honesty about your starting state.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#D85A30; color:#FAECE7;">1</div><span>Each rate how you're feeling right now: 1 (calm) to 10 (already tense).</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#D85A30; color:#FAECE7;">2</div><span>Share your number first — no explanation yet. Just the number.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#D85A30; color:#FAECE7;">3</div><span>One sentence each on what's behind it — stress, tiredness, nerves, anything.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#D85A30; color:#FAECE7;">4</div><span>If either is above 7, wait 15 minutes and do something calming first.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#D85A30; color:#FAECE7;">5</div><span>If both are under 7, say together: "Tonight we're curious, not combative."</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Checking in first prevents you carrying hidden tension into the conversation and mistaking it for conflict with each other.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>iii</span></div>
+
+  <!-- DATE 3 -->
+  <section id="date-3" class="date-section d3">
+    <div class="date-header">
+      <div class="date-num">03</div>
+      <div class="date-heading">
+        <h2>Sex &amp; Intimacy</h2>
+        <p>Desire, closeness, and vulnerability</p>
+      </div>
+    </div>
+    <div class="date-focus">Talk about what intimacy means beyond the physical — safety, desire, and emotional closeness are all part of this. Approach with warmth and no pressure to perform.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Share what makes you feel most desired and emotionally connected</li>
+          <li>Talk about the difference between sex and intimacy for each of you</li>
+          <li>Discuss how stress and life changes affect your desire</li>
+          <li>Ask what you could do more of — and what you'd like to change</li>
+          <li>Explore what novelty or spontaneity means to each of you</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>When do you feel closest to me — physical intimacy, or at other moments?</li>
+          <li>Is there something about our sex life you've wanted to say but haven't?</li>
+          <li>How do you feel about how often we are intimate right now?</li>
+          <li>When I initiate, do you feel desired or pressured?</li>
+          <li>What would make you feel more emotionally connected before being physical?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>The talk drifts into criticism of sexual performance — it shuts people down</li>
+          <li>You're comparing to early dating — it pathologises normal evolution</li>
+          <li>Shame enters the room — no one should feel judged for their needs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 3–4 min</div>
+        <div class="ritual-name">The two-minute hold</div>
+        <div class="ritual-desc">Physical closeness before talking about intimacy is not a contradiction — it's the point. Move from heads to bodies before words.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#C4607E; color:#FBEAF0;">1</div><span>Stand up and hold each other — a real, unhurried hug. Not a greeting. A staying hug.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#C4607E; color:#FBEAF0;">2</div><span>Hold for at least two minutes. No talking.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#C4607E; color:#FBEAF0;">3</div><span>Notice: your breathing, the warmth, any tension in your own body.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#C4607E; color:#FBEAF0;">4</div><span>When you separate, each share one word for how you feel right now.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#C4607E; color:#FBEAF0;">5</div><span>Sit down. Begin the date from that place.</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> A sustained hold triggers oxytocin, reduces cortisol, and creates felt connection before the vulnerability of this conversation begins.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>iv</span></div>
+
+  <!-- DATE 4 -->
+  <section id="date-4" class="date-section d4">
+    <div class="date-header">
+      <div class="date-num">04</div>
+      <div class="date-heading">
+        <h2>Work &amp; Money</h2>
+        <p>Values, security, and shared futures</p>
+      </div>
+    </div>
+    <div class="date-focus">Money is rarely about money — it's about security, freedom, control, and values. Understand your partner's financial personality, not just their spending habits.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Share your earliest money memory and how it shaped your beliefs</li>
+          <li>Identify your money values: security, freedom, generosity, status?</li>
+          <li>Discuss what "enough" means to each of you</li>
+          <li>Talk about work — do you feel seen and supported in your career?</li>
+          <li>Build a shared vision of financial security 5–10 years from now</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>Was money a source of stress, safety, or something else growing up?</li>
+          <li>Do you feel financially secure in our relationship right now?</li>
+          <li>What does financial freedom look like to you?</li>
+          <li>Is there a financial decision I've made that worried or frustrated you?</li>
+          <li>Do you feel supported in your career goals — or held back?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>The conversation becomes about fault for past financial mistakes</li>
+          <li>You start negotiating a budget — that's practical, not emotional</li>
+          <li>Resentment about income inequality is triggered — it needs its own space</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 8 min</div>
+        <div class="ritual-name">The money memory</div>
+        <div class="ritual-desc">Money conversations hurt when they're about numbers. This ritual grounds you in the emotional history each person brings to the topic.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#BA7517; color:#FAEEDA;">1</div><span>Each take two minutes in silence to recall your earliest memory involving money.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#BA7517; color:#FAEEDA;">2</div><span>Share the memory in full. The listener only listens — no commentary yet.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#BA7517; color:#FAEEDA;">3</div><span>After both share, each answer: "What feeling does that memory leave you with?"</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#BA7517; color:#FAEEDA;">4</div><span>Acknowledge what you heard: "It makes sense that you think about money the way you do."</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#BA7517; color:#FAEEDA;">5</div><span>Only then begin the date.</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Your financial personality was shaped long before you met your partner. Understanding its roots prevents you from taking each other's reactions personally.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>v</span></div>
+
+  <!-- DATE 5 -->
+  <section id="date-5" class="date-section d5">
+    <div class="date-header">
+      <div class="date-num">05</div>
+      <div class="date-heading">
+        <h2>Family</h2>
+        <p>Roots, roles, and the families we came from</p>
+      </div>
+    </div>
+    <div class="date-focus">You didn't just marry a person — you married their entire family history. Explore how each of your upbringings shape your expectations of partnership and parenting.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Describe your family growing up — what was the emotional climate?</li>
+          <li>Identify which patterns you want to carry forward and which to leave behind</li>
+          <li>Discuss roles: who did what, and what do you expect now?</li>
+          <li>If you have or want children, explore parenting philosophies and fears</li>
+          <li>Ask what your parents got right — and what you wish had been different</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>What's one thing from your upbringing you want us to carry forward?</li>
+          <li>What pattern from your family are you afraid of repeating?</li>
+          <li>How was love expressed in your home — words, acts, time?</li>
+          <li>What did conflict look like in your household — resolved or buried?</li>
+          <li>What kind of family culture do you want us to create together?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>The conversation indicts each other's families — they aren't the enemy</li>
+          <li>Childhood trauma surfaces unexpectedly — it deserves a supported space</li>
+          <li>In-law tensions dominate — focus on values and patterns, not specific people</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 7–8 min</div>
+        <div class="ritual-name">Show me one thing</div>
+        <div class="ritual-desc">Family is abstract until it's specific. Bring your origins into the room concretely before you discuss them.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#639922; color:#EAF3DE;">1</div><span>Before the date, each find one photo or small object connected to your family or childhood.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#639922; color:#EAF3DE;">2</div><span>Share it with your partner. Tell the story behind it in two or three minutes.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#639922; color:#EAF3DE;">3</div><span>The listener asks just one follow-up: "What do you love most about that memory?"</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#639922; color:#EAF3DE;">4</div><span>Put the objects somewhere visible for the rest of the date.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#639922; color:#EAF3DE;">5</div><span>Begin, knowing you've each brought your family into the room with you.</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Objects bypass defensiveness. They make family feel present and real — not a concept to debate, but a life to understand.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>vi</span></div>
+
+  <!-- DATE 6 -->
+  <section id="date-6" class="date-section d6">
+    <div class="date-header">
+      <div class="date-num">06</div>
+      <div class="date-heading">
+        <h2>Play &amp; Adventure</h2>
+        <p>Fun, spontaneity, and shared joy</p>
+      </div>
+    </div>
+    <div class="date-focus">Couples who play together stay together. Explore what lights you both up and how well you know each other's idea of fun.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Share your happiest childhood memory of play or adventure</li>
+          <li>Describe your dream adventure together — big or small</li>
+          <li>Identify activities that energise you vs. ones you do out of obligation</li>
+          <li>Find at least one new thing you'd both like to try</li>
+          <li>Talk about what "fun" looked like early in your relationship</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>What playful thing we used to do have we stopped — and do you miss it?</li>
+          <li>What would your ideal spontaneous day with me look like?</li>
+          <li>Is there something you secretly want to try but haven't mentioned?</li>
+          <li>Do we laugh enough together? What makes you laugh with me?</li>
+          <li>What does adventure mean to you — travel, novelty, risk, something else?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>It becomes a catalogue of what's missing or boring in your relationship</li>
+          <li>Your partner's idea of fun is dismissed as childish — all play is valid</li>
+          <li>Comparison to other couples creeps in — it leads nowhere useful</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 3 min</div>
+        <div class="ritual-name">The 60-second silly</div>
+        <div class="ritual-desc">You cannot talk about play while being serious. This cracks open lightness before the date begins.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#378ADD; color:#E6F1FB;">1</div><span>Set a 60-second timer.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#378ADD; color:#E6F1FB;">2</div><span>Both must make each other laugh before it runs out — using only face, voice, or body. No tickling. No props.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#378ADD; color:#E6F1FB;">3</div><span>If the first person fails, the other tries.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#378ADD; color:#E6F1FB;">4</div><span>Sit down still smiling.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#378ADD; color:#E6F1FB;">5</div><span>Begin by sharing: "The funniest thing we ever did together was…"</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Laughter is physiologically incompatible with anxiety. Starting from joy makes it far easier to talk honestly about fun.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>vii</span></div>
+
+  <!-- DATE 7 -->
+  <section id="date-7" class="date-section d7">
+    <div class="date-header">
+      <div class="date-num">07</div>
+      <div class="date-heading">
+        <h2>Growth &amp; Spirituality</h2>
+        <p>Meaning, purpose, and personal evolution</p>
+      </div>
+    </div>
+    <div class="date-focus">The deepest questions — what do you believe, what gives your life meaning, and how do you grow together? There are no right answers, only honest ones.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Share what gives your life a sense of meaning and purpose</li>
+          <li>Discuss your beliefs — spiritual, philosophical, or secular</li>
+          <li>Ask: "How have you changed in the last five years? What changed you?"</li>
+          <li>Explore what personal growth looks like and how you support each other in it</li>
+          <li>Discuss rituals or practices that feel meaningful to you as a couple</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>What do you believe happens after we die — and does it bring you comfort?</li>
+          <li>What gives your life the most meaning right now?</li>
+          <li>Do you feel I support who you're becoming, or who you used to be?</li>
+          <li>Is there a part of yourself you feel you've lost in our relationship? Or gained?</li>
+          <li>What would you regret not doing if you knew your time was limited?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>It turns into a debate about whose beliefs are correct — understand, don't convert</li>
+          <li>Existential fears become overwhelming — that's deep work, not a dinner topic</li>
+          <li>One partner feels pressured to adopt the other's worldview</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 8–10 min</div>
+        <div class="ritual-name">The silence sit</div>
+        <div class="ritual-desc">This date asks the biggest questions. It deserves the most intentional opening. Shared silence is not awkward — it is the beginning of the conversation.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#1D9E75; color:#E1F5EE;">1</div><span>Sit together somewhere quiet. Turn off all sound.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#1D9E75; color:#E1F5EE;">2</div><span>Set a timer for five minutes. Sit in complete silence side by side or facing each other.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#1D9E75; color:#E1F5EE;">3</div><span>No phones. No fidgeting. Just sit.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#1D9E75; color:#E1F5EE;">4</div><span>When the timer ends, each share the first word that came to mind during the silence.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#1D9E75; color:#E1F5EE;">5</div><span>Use those two words as the opening question: "Why did that word come to you?"</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Silence creates interiority. Meaning and purpose live beneath the noise — five minutes shared quiet is often more connecting than five minutes of conversation.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>viii</span></div>
+
+  <!-- DATE 8 -->
+  <section id="date-8" class="date-section d8">
+    <div class="date-header">
+      <div class="date-num">08</div>
+      <div class="date-heading">
+        <h2>Dreams &amp; Visions</h2>
+        <p>The future you're building together</p>
+      </div>
+    </div>
+    <div class="date-focus">The capstone date. Build a shared map of the future — not a rigid plan, but a living vision that honours both people's dreams.</div>
+    <div class="three-col">
+      <div class="col-block steps-col">
+        <h4>Key steps</h4>
+        <ul>
+          <li>Each share your deepest personal dream — something never fully voiced</li>
+          <li>Describe your ideal life together in ten years</li>
+          <li>Look for overlap and divergence — where do dreams align and pull apart?</li>
+          <li>Discuss what legacy you want to leave as a couple and as individuals</li>
+          <li>Create a shared vision statement: "We are building a life that…"</li>
+        </ul>
+      </div>
+      <div class="col-block questions-col">
+        <h4>Questions to ask</h4>
+        <ul>
+          <li>What's a dream you've had since childhood you've never told me about?</li>
+          <li>If money and fear were removed, what would you do with your life?</li>
+          <li>What does success look like to you — and does our life reflect that?</li>
+          <li>What do you want people to say about us as a couple when we're gone?</li>
+          <li>Is there a dream you're afraid to share because you think I won't support it?</li>
+        </ul>
+      </div>
+      <div class="col-block breaks-col">
+        <h4>Step back if...</h4>
+        <ul>
+          <li>Dreams are met with "that's not realistic" — it kills vulnerability instantly</li>
+          <li>Diverging dreams are treated as incompatibility — different visions can coexist</li>
+          <li>Anxiety about the future overrides possibility — return to what's already good</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ritual-section">
+      <div class="ritual-block">
+        <div class="ritual-eyebrow">Opening ritual · 10 min</div>
+        <div class="ritual-name">The future letter</div>
+        <div class="ritual-desc">This is the last and biggest date. The ritual opens you to a future orientation — from who you've been to who you are becoming.</div>
+        <div class="ritual-steps">
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#534AB7; color:#EEEDFE;">1</div><span>Each take a piece of paper and write a letter to yourself, ten years from now. Five to eight sentences. What do you hope is true?</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#534AB7; color:#EEEDFE;">2</div><span>Take five minutes. Write in silence.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#534AB7; color:#EEEDFE;">3</div><span>Read your letters aloud to each other. No interruption.</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#534AB7; color:#EEEDFE;">4</div><span>Each respond with: "The part that moved me most was…"</span></div>
+          <div class="ritual-step"><div class="ritual-step-num" style="background:#534AB7; color:#EEEDFE;">5</div><span>Fold the letters and keep them. Begin the date knowing you've spoken your future into the room.</span></div>
+        </div>
+        <div class="ritual-why"><strong>Why it works:</strong> Writing activates future-self thinking, which creates hope and intentionality — exactly the mindset needed to build a shared vision rather than manage current problems.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-line"></div>
+  <h3>Eight <em style="font-family:'Cormorant Garamond',serif; font-style:italic;">Dates</em></h3>
+  <p>Based on the book by John Gottman, Julie Schwartz Gottman,<br>Doug Abrams &amp; Rachel Carlton Abrams</p>
+  <div class="footer-credit">A guide to the conversations that keep love alive</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.date-section').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
