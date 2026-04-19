@@ -3,79 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eight Dates</title>
+<title>Twelve Dates</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cream:#F8F3EC;--cream-dark:#EFE8DD;--ink:#1C1510;--ink-soft:#4A3F35;
-  --ink-muted:#8A7A6E;--rose:#C4756A;--rose-pale:#FBF0EE;
+  --cream:#F8F3EC;--cream-dark:#EFE8DD;--cream-mid:#F3EDE3;
+  --ink:#1C1510;--ink-soft:#4A3F35;--ink-muted:#8A7A6E;
+  --rose:#C4756A;--rose-pale:#FBF0EE;
   --gold:#B8975A;--gold-light:#F2E8D5;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;min-height:100vh;overflow-x:hidden;}
 
-/* ── HERO ── */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4rem 2rem;position:relative;overflow:hidden;background:var(--ink);}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 80%,rgba(196,117,106,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(184,151,90,.12) 0%,transparent 55%);pointer-events:none;}
-.hero-ornament{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;opacity:0;animation:fadeUp 1s ease .2s forwards;}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,9vw,7rem);font-weight:300;line-height:1.05;color:var(--cream);margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s ease .4s forwards;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,9vw,7rem);font-weight:300;line-height:1.05;color:var(--cream);margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s ease .2s forwards;}
 .hero h1 em{font-style:italic;color:var(--rose);}
-.hero-sub{font-size:clamp(.9rem,2vw,1.05rem);color:rgba(248,243,236,.55);max-width:480px;letter-spacing:.02em;opacity:0;animation:fadeUp 1s ease .6s forwards;margin-bottom:3.5rem;}
-.hero-line{width:60px;height:1px;background:var(--gold);margin:0 auto 2.5rem;opacity:0;animation:fadeUp 1s ease .7s forwards;}
-.hero-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;opacity:0;animation:fadeUp 1s ease .9s forwards;}
+.hero-sub{font-size:clamp(.9rem,2vw,1.05rem);color:rgba(248,243,236,.55);max-width:480px;letter-spacing:.02em;opacity:0;animation:fadeUp 1s ease .4s forwards;margin:0 auto 3.5rem;text-align:center;}
+.hero-line{width:60px;height:1px;background:var(--gold);margin:0 auto 2.5rem;opacity:0;animation:fadeUp 1s ease .5s forwards;}
+.hero-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;opacity:0;animation:fadeUp 1s ease .7s forwards;}
 .hero-nav a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,243,236,.6);text-decoration:none;padding:8px 18px;border:.5px solid rgba(248,243,236,.2);border-radius:100px;transition:all .25s;}
 .hero-nav a:hover{color:var(--cream);border-color:var(--gold);background:rgba(184,151,90,.1);}
-.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s ease 1.2s forwards;}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s ease 1s forwards;}
 .scroll-hint span{font-size:10px;letter-spacing:.2em;color:rgba(248,243,236,.3);text-transform:uppercase;}
 .scroll-dot{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite;}
 
-/* ── STICKY NAV ── */
-.sticky-nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(248,243,236,.95);backdrop-filter:blur(10px);
-  border-bottom:.5px solid var(--cream-dark);
-  padding:.5rem 1rem;
-  display:flex;flex-direction:column;gap:5px;
-}
+/* STICKY NAV */
+.sticky-nav{position:sticky;top:0;z-index:100;background:rgba(248,243,236,.95);backdrop-filter:blur(10px);border-bottom:.5px solid var(--cream-dark);padding:.5rem 1rem;display:flex;flex-direction:column;gap:5px;}
 .nav-utility{display:flex;justify-content:space-between;align-items:center;gap:8px;}
-.nav-intro-link{
-  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-muted);text-decoration:none;
-  padding:5px 10px;border-radius:100px;transition:all .2s;white-space:nowrap;
-}
+.nav-intro-link{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;padding:5px 10px;border-radius:100px;transition:all .2s;white-space:nowrap;}
 .nav-intro-link:hover{background:var(--cream-dark);color:var(--ink);}
-.nav-dates{display:flex;flex-direction:column;gap:4px;}
-.nav-dates-row{display:flex;gap:3px;justify-content:center;}
-.nav-dates-row a{
-  font-size:11px;font-family:'Cormorant Garamond',serif;font-style:italic;
-  letter-spacing:.05em;color:var(--ink-muted);text-decoration:none;
-  padding:4px 9px;border-radius:100px;transition:all .2s;min-width:28px;text-align:center;
-}
+.nav-right{display:flex;align-items:center;gap:6px;}
+.nav-dates{display:flex;flex-direction:column;gap:3px;}
+.nav-dates-row{display:flex;gap:2px;justify-content:center;}
+.nav-dates-row a{font-size:10px;font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:.05em;color:var(--ink-muted);text-decoration:none;padding:3px 7px;border-radius:100px;transition:all .2s;min-width:24px;text-align:center;}
 .nav-dates-row a:hover{background:var(--cream-dark);color:var(--ink);}
-
-/* lang switch — 3 buttons */
+.mydate-btn{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:5px 13px;border-radius:100px;cursor:pointer;border:.5px solid var(--cream-dark);background:none;color:var(--ink-muted);font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
+.mydate-btn:hover{background:var(--cream-dark);color:var(--ink);}
+.mydate-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
 .lang-switch{display:flex;align-items:center;border:.5px solid var(--cream-dark);border-radius:100px;overflow:hidden;flex-shrink:0;}
 .lang-btn{font-size:10px;font-weight:500;letter-spacing:.08em;padding:4px 9px;background:none;border:none;cursor:pointer;color:var(--ink-muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
 .lang-btn.active{background:var(--ink);color:var(--cream);}
 .lang-btn:hover:not(.active){background:var(--cream-dark);color:var(--ink);}
-
-/* Desktop nav — single row */
 @media(min-width:640px){
   .sticky-nav{flex-direction:row;align-items:center;justify-content:space-between;padding:.5rem 1.5rem;}
   .nav-utility{flex:0 0 auto;}
-  .nav-dates{flex-direction:row;gap:3px;}
-  .nav-dates-row{gap:3px;}
+  .nav-dates{flex-direction:column;gap:2px;}
+  .nav-dates-row{gap:2px;}
 }
 
-/* ── MAIN ── */
+/* VIEW SWITCHING */
+.view-guide .guide-only{display:block;}
+.view-guide .form-only{display:none;}
+.view-form .guide-only{display:none;}
+.view-form .form-only{display:block;}
+
+/* GUIDE */
 .main{max-width:900px;margin:0 auto;padding:5rem 2rem;}
 .section-eyebrow{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:.75rem;display:block;}
 .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;line-height:1.15;color:var(--ink);margin-bottom:1.25rem;}
 .section-rule{width:40px;height:1.5px;background:var(--gold);margin-bottom:1.5rem;}
 .section-lead{font-size:1rem;color:var(--ink-soft);line-height:1.75;max-width:640px;margin-bottom:3rem;}
-
-/* before grid */
 .before-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--cream-dark);border:1px solid var(--cream-dark);border-radius:16px;overflow:hidden;margin-bottom:3rem;}
 .before-cell{background:var(--cream);padding:1.5rem;}
 .before-cell-title{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:500;}
@@ -91,9 +80,7 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 .do-box li,.dont-box li{font-size:13px;line-height:1.6;margin-bottom:7px;padding-left:16px;position:relative;list-style:none;}
 .do-box li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:#3A6B35;}
 .dont-box li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--rose);}
-.do-box li{color:#2A4A27;} .dont-box li{color:#6B3530;}
-
-/* date sections */
+.do-box li{color:#2A4A27;}.dont-box li{color:#6B3530;}
 .date-section{margin-bottom:5rem;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
 .date-section.visible{opacity:1;transform:translateY(0);}
 .date-header{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:2rem;}
@@ -108,11 +95,9 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 .col-block ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
 .col-block li{font-size:12.5px;line-height:1.6;color:var(--ink-soft);padding-left:14px;position:relative;}
 .col-block li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;}
-.steps-col{background:var(--cream-dark);} .steps-col h4{color:var(--ink-muted);} .steps-col li::before{background:var(--ink-muted);}
-.questions-col{background:var(--gold-light);} .questions-col h4{color:#7A5F30;} .questions-col li{color:#5A4020;font-style:italic;} .questions-col li::before{background:var(--gold);}
-.breaks-col{background:var(--rose-pale);} .breaks-col h4{color:#8A4A44;} .breaks-col li{color:#6B3530;} .breaks-col li::before{background:var(--rose);}
-
-/* ritual */
+.steps-col{background:var(--cream-dark);}.steps-col h4{color:var(--ink-muted);}.steps-col li::before{background:var(--ink-muted);}
+.questions-col{background:var(--gold-light);}.questions-col h4{color:#7A5F30;}.questions-col li{color:#5A4020;font-style:italic;}.questions-col li::before{background:var(--gold);}
+.breaks-col{background:var(--rose-pale);}.breaks-col h4{color:#8A4A44;}.breaks-col li{color:#6B3530;}.breaks-col li::before{background:var(--rose);}
 .ritual-block{background:var(--ink);border-radius:12px;padding:1.5rem;margin-top:1rem;}
 .ritual-eyebrow{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;font-weight:500;}
 .ritual-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--cream);margin-bottom:.75rem;}
@@ -122,36 +107,111 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 .ritual-step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;flex-shrink:0;margin-top:1px;}
 .ritual-why{margin-top:1.25rem;padding-top:1.25rem;border-top:.5px solid rgba(248,243,236,.12);font-size:12px;color:rgba(248,243,236,.4);line-height:1.65;}
 .ritual-why strong{color:rgba(248,243,236,.6);font-weight:500;}
-
-/* divider */
 .ornamental-divider{display:flex;align-items:center;gap:1rem;margin:4rem 0;}
 .ornamental-divider::before,.ornamental-divider::after{content:'';flex:1;height:.5px;background:linear-gradient(to right,transparent,var(--cream-dark));}
 .ornamental-divider::after{background:linear-gradient(to left,transparent,var(--cream-dark));}
 .ornamental-divider span{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--ink-muted);font-style:italic;}
-
-/* footer */
 .footer{background:var(--ink);text-align:center;padding:4rem 2rem;}
 .footer h3{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--cream);margin-bottom:.75rem;}
 .footer p{font-size:13px;color:rgba(248,243,236,.4);margin-bottom:2rem;}
 .footer-line{width:40px;height:1px;background:var(--gold);margin:0 auto 1.5rem;}
 .footer-credit{font-size:11px;color:rgba(248,243,236,.25);letter-spacing:.1em;}
 
-/* color themes */
-.d1{--acc:#7F77DD;--apal:#EEEDFE;--atx:#3C3489;} .d2{--acc:#D85A30;--apal:#FAECE7;--atx:#712B13;}
-.d3{--acc:#C4607E;--apal:#FBEAF0;--atx:#72243E;} .d4{--acc:#BA7517;--apal:#FAEEDA;--atx:#633806;}
-.d5{--acc:#639922;--apal:#EAF3DE;--atx:#27500A;} .d6{--acc:#378ADD;--apal:#E6F1FB;--atx:#0C447C;}
-.d7{--acc:#1D9E75;--apal:#E1F5EE;--atx:#085041;} .d8{--acc:#534AB7;--apal:#EEEDFE;--atx:#26215C;}
-.date-num{color:var(--acc);} .date-focus{background:var(--apal);border-color:var(--acc);color:var(--atx);}
+/* COLOR THEMES — ORIGINAL 8 */
+.d1{--acc:#7F77DD;--apal:#EEEDFE;--atx:#3C3489;}.d2{--acc:#D85A30;--apal:#FAECE7;--atx:#712B13;}
+.d3{--acc:#C4607E;--apal:#FBEAF0;--atx:#72243E;}.d4{--acc:#BA7517;--apal:#FAEEDA;--atx:#633806;}
+.d5{--acc:#639922;--apal:#EAF3DE;--atx:#27500A;}.d6{--acc:#378ADD;--apal:#E6F1FB;--atx:#0C447C;}
+.d7{--acc:#1D9E75;--apal:#E1F5EE;--atx:#085041;}.d8{--acc:#534AB7;--apal:#EEEDFE;--atx:#26215C;}
+/* NEW 4 */
+.d9{--acc:#8B5CF6;--apal:#EDE9FE;--atx:#4C1D95;}
+.d10{--acc:#D97706;--apal:#FEF3C7;--atx:#78350F;}
+.d11{--acc:#059669;--apal:#ECFDF5;--atx:#064E3B;}
+.d12{--acc:#2563EB;--apal:#EFF6FF;--atx:#1E3A8A;}
+.date-num{color:var(--acc);}.date-focus{background:var(--apal);border-color:var(--acc);color:var(--atx);}
+
+/* FORM VIEW */
+.form-view-wrap{max-width:820px;margin:0 auto;padding:2.5rem 2rem 6rem;}
+.progress-wrap{background:rgba(28,21,16,.08);height:2px;}
+.progress-bar{height:2px;background:var(--gold);width:0%;transition:width .4s ease;}
+.save-indicator{font-size:11px;letter-spacing:.1em;color:var(--ink-muted);transition:color .4s;}
+.save-indicator.saved{color:#2A7A5A;}
+.btn-export{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:100px;cursor:pointer;background:var(--gold);color:var(--ink);border:none;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-export:hover{background:#a8823e;}
+.couple-card{background:var(--ink);border-radius:16px;padding:2rem;margin-bottom:2.5rem;}
+.couple-card h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--cream);margin-bottom:.4rem;}
+.couple-card p{font-size:13px;color:rgba(248,243,236,.4);margin-bottom:1.5rem;}
+.couple-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:580px){.couple-fields{grid-template-columns:1fr 1fr;}}
+@media(max-width:380px){.couple-fields{grid-template-columns:1fr;}}
+.field-group label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,243,236,.4);display:block;margin-bottom:6px;font-weight:500;}
+.field-group input{width:100%;background:rgba(248,243,236,.08);border:.5px solid rgba(248,243,236,.15);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--cream);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.field-group input:focus{border-color:rgba(184,151,90,.6);}
+.field-group input::placeholder{color:rgba(248,243,236,.2);}
+.date-block{margin-bottom:3rem;opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s;}
+.date-block.visible{opacity:1;transform:translateY(0);}
+.date-block-header{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem;border-radius:14px 14px 0 0;border:1px solid var(--cream-dark);border-bottom:none;background:var(--cream-mid);}
+.date-num-badge{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;line-height:1;flex-shrink:0;}
+.date-block-meta{flex:1;}
+.date-block-meta h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;line-height:1.2;margin-bottom:2px;}
+.date-block-meta p{font-size:12px;color:var(--ink-muted);letter-spacing:.04em;}
+.date-done-row{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap;}
+.date-done-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-muted);font-weight:500;}
+.date-done-input{background:var(--cream);border:.5px solid var(--cream-dark);border-radius:8px;padding:6px 10px;font-size:13px;color:var(--ink);font-family:'DM Sans',sans-serif;outline:none;}
+.date-done-input:focus{border-color:var(--gold);}
+.date-block-body{border:1px solid var(--cream-dark);border-top:none;border-radius:0 0 14px 14px;background:white;overflow:hidden;}
+.question-row{padding:1.25rem 1.5rem;border-bottom:.5px solid var(--cream-dark);}
+.question-row:last-child{border-bottom:none;}
+.q-label{font-size:12.5px;font-style:italic;color:var(--ink-soft);line-height:1.6;margin-bottom:.75rem;padding-left:12px;border-left:2px solid var(--gold);}
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:540px){.answers-grid{grid-template-columns:1fr;}}
+.answer-group label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-muted);display:block;margin-bottom:5px;font-weight:500;}
+textarea{width:100%;min-height:72px;resize:vertical;background:var(--cream);border:.5px solid var(--cream-dark);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--ink);line-height:1.6;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+textarea:focus{border-color:var(--gold);background:#fff;}
+textarea::placeholder{color:var(--ink-muted);opacity:.5;}
+.notes-row{padding:1.25rem 1.5rem;background:var(--gold-light);border-top:.5px solid var(--cream-dark);}
+.notes-row label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7A5F30;display:block;margin-bottom:6px;font-weight:500;}
+.notes-row textarea{background:#fff;border-color:rgba(184,151,90,.3);min-height:60px;}
+.rating-row{padding:1rem 1.5rem;background:var(--cream-mid);border-top:.5px solid var(--cream-dark);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.rating-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-muted);font-weight:500;white-space:nowrap;}
+.stars{display:flex;gap:4px;}
+.star{width:28px;height:28px;border-radius:50%;border:.5px solid var(--cream-dark);background:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--ink-muted);}
+.star:hover,.star.active{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+.mood-row{padding:1rem 1.5rem;background:var(--rose-pale);border-top:.5px solid var(--cream-dark);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.mood-chip{font-size:12px;padding:5px 13px;border-radius:100px;border:.5px solid rgba(196,117,106,.3);background:none;cursor:pointer;color:var(--rose);font-family:'DM Sans',sans-serif;transition:all .15s;}
+.mood-chip.active{background:var(--rose);color:white;border-color:var(--rose);}
+.completion-banner{background:var(--ink);border-radius:16px;padding:2rem;text-align:center;margin-top:2.5rem;display:none;}
+.completion-banner.show{display:block;}
+.completion-banner h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--cream);margin-bottom:.5rem;}
+.completion-banner p{font-size:13px;color:rgba(248,243,236,.45);margin-bottom:1.5rem;}
+.btn-full-export{display:inline-block;background:var(--gold);color:var(--ink);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:10px 24px;border-radius:100px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-full-export:hover{background:#a8823e;}
+/* form badge colors */
+.fb1 .q-label{border-color:#7F77DD;}.fb1 .date-num-badge{color:#7F77DD;}
+.fb2 .q-label{border-color:#D85A30;}.fb2 .date-num-badge{color:#D85A30;}
+.fb3 .q-label{border-color:#C4607E;}.fb3 .date-num-badge{color:#C4607E;}
+.fb4 .q-label{border-color:#BA7517;}.fb4 .date-num-badge{color:#BA7517;}
+.fb5 .q-label{border-color:#639922;}.fb5 .date-num-badge{color:#639922;}
+.fb6 .q-label{border-color:#378ADD;}.fb6 .date-num-badge{color:#378ADD;}
+.fb7 .q-label{border-color:#1D9E75;}.fb7 .date-num-badge{color:#1D9E75;}
+.fb8 .q-label{border-color:#534AB7;}.fb8 .date-num-badge{color:#534AB7;}
+.fb9 .q-label{border-color:#8B5CF6;}.fb9 .date-num-badge{color:#8B5CF6;}
+.fb10 .q-label{border-color:#D97706;}.fb10 .date-num-badge{color:#D97706;}
+.fb11 .q-label{border-color:#059669;}.fb11 .date-num-badge{color:#059669;}
+.fb12 .q-label{border-color:#2563EB;}.fb12 .date-num-badge{color:#2563EB;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 @keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+@media(max-width:600px){
+  .form-view-wrap{padding:1.5rem 1rem 5rem;}
+  .date-block-header{padding:1.1rem;}
+  .question-row{padding:1rem 1.1rem;}
+}
 </style>
 </head>
-<body>
+<body class="view-guide">
 
 <!-- HERO -->
-<section class="hero">
-  <p class="hero-ornament" data-i18n="hero_ornament"></p>
+<section class="hero guide-only">
   <h1 data-i18n-html="hero_title"></h1>
   <div class="hero-line"></div>
   <p class="hero-sub" data-i18n="hero_sub"></p>
@@ -161,6 +221,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
     <a href="#date-3" data-i18n="nav_3"></a><a href="#date-4" data-i18n="nav_4"></a>
     <a href="#date-5" data-i18n="nav_5"></a><a href="#date-6" data-i18n="nav_6"></a>
     <a href="#date-7" data-i18n="nav_7"></a><a href="#date-8" data-i18n="nav_8"></a>
+    <a href="#date-9" data-i18n="nav_9"></a><a href="#date-10" data-i18n="nav_10"></a>
+    <a href="#date-11" data-i18n="nav_11"></a><a href="#date-12" data-i18n="nav_12"></a>
   </nav>
   <div class="scroll-hint"><div class="scroll-dot"></div><span data-i18n="scroll"></span></div>
 </section>
@@ -168,60 +230,54 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 <!-- STICKY NAV -->
 <nav class="sticky-nav">
   <div class="nav-utility">
-    <a href="#before" class="nav-intro-link" data-i18n="nav_before_short"></a>
-    <div class="lang-switch">
-      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" id="btn-sk" onclick="setLang('sk')">SK</button>
-      <button class="lang-btn" id="btn-cz" onclick="setLang('cz')">CZ</button>
+    <a href="#before" class="nav-intro-link guide-only" data-i18n="nav_before_short"></a>
+    <div class="nav-right">
+      <button class="mydate-btn" id="mydate-tab" onclick="switchView()" data-i18n="mydate_tab">My Date</button>
+      <div class="lang-switch">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-sk" onclick="setLang('sk')">SK</button>
+        <button class="lang-btn" id="btn-cz" onclick="setLang('cz')">CZ</button>
+      </div>
+      <button class="btn-export form-only" onclick="exportAnswers()" data-i18n="export_btn">Export</button>
+      <span class="save-indicator form-only" id="save-indicator" data-i18n="autosaved">Saved</span>
     </div>
   </div>
-  <div class="nav-dates">
+  <div class="nav-dates guide-only">
     <div class="nav-dates-row">
-      <a href="#date-1">I</a><a href="#date-2">II</a>
-      <a href="#date-3">III</a><a href="#date-4">IV</a>
+      <a href="#date-1">I</a><a href="#date-2">II</a><a href="#date-3">III</a><a href="#date-4">IV</a>
     </div>
     <div class="nav-dates-row">
-      <a href="#date-5">V</a><a href="#date-6">VI</a>
-      <a href="#date-7">VII</a><a href="#date-8">VIII</a>
+      <a href="#date-5">V</a><a href="#date-6">VI</a><a href="#date-7">VII</a><a href="#date-8">VIII</a>
+    </div>
+    <div class="nav-dates-row">
+      <a href="#date-9">IX</a><a href="#date-10">X</a><a href="#date-11">XI</a><a href="#date-12">XII</a>
     </div>
   </div>
+  <div class="progress-wrap form-only"><div class="progress-bar" id="progress"></div></div>
 </nav>
 
+<!-- GUIDE VIEW -->
+<div class="guide-only">
 <main class="main">
 
-  <!-- BEFORE -->
   <section id="before" class="date-section">
     <span class="section-eyebrow" data-i18n="before_eyebrow"></span>
     <h2 class="section-title" data-i18n-html="before_title"></h2>
     <div class="section-rule"></div>
     <p class="section-lead" data-i18n="before_lead"></p>
     <div class="before-grid">
-      <div class="before-cell"><div class="before-cell-title" data-i18n="env_title"></div><ul>
-        <li data-i18n="env_1"></li><li data-i18n="env_2"></li><li data-i18n="env_3"></li><li data-i18n="env_4"></li>
-      </ul></div>
-      <div class="before-cell"><div class="before-cell-title" data-i18n="emo_title"></div><ul>
-        <li data-i18n="emo_1"></li><li data-i18n="emo_2"></li><li data-i18n="emo_3"></li><li data-i18n="emo_4"></li>
-      </ul></div>
-      <div class="before-cell"><div class="before-cell-title" data-i18n="rules_title"></div><ul>
-        <li data-i18n="rules_1"></li><li data-i18n="rules_2"></li><li data-i18n="rules_3"></li><li data-i18n="rules_4"></li>
-      </ul></div>
-      <div class="before-cell"><div class="before-cell-title" data-i18n="start_title"></div><ul>
-        <li data-i18n="start_1"></li><li data-i18n="start_2"></li><li data-i18n="start_3"></li><li data-i18n="start_4"></li>
-      </ul></div>
+      <div class="before-cell"><div class="before-cell-title" data-i18n="env_title"></div><ul><li data-i18n="env_1"></li><li data-i18n="env_2"></li><li data-i18n="env_3"></li><li data-i18n="env_4"></li></ul></div>
+      <div class="before-cell"><div class="before-cell-title" data-i18n="emo_title"></div><ul><li data-i18n="emo_1"></li><li data-i18n="emo_2"></li><li data-i18n="emo_3"></li><li data-i18n="emo_4"></li></ul></div>
+      <div class="before-cell"><div class="before-cell-title" data-i18n="rules_title"></div><ul><li data-i18n="rules_1"></li><li data-i18n="rules_2"></li><li data-i18n="rules_3"></li><li data-i18n="rules_4"></li></ul></div>
+      <div class="before-cell"><div class="before-cell-title" data-i18n="start_title"></div><ul><li data-i18n="start_1"></li><li data-i18n="start_2"></li><li data-i18n="start_3"></li><li data-i18n="start_4"></li></ul></div>
     </div>
     <div class="do-dont">
-      <div class="do-box"><h4 data-i18n="do_label"></h4><ul>
-        <li data-i18n="do_1"></li><li data-i18n="do_2"></li><li data-i18n="do_3"></li><li data-i18n="do_4"></li><li data-i18n="do_5"></li>
-      </ul></div>
-      <div class="dont-box"><h4 data-i18n="dont_label"></h4><ul>
-        <li data-i18n="dont_1"></li><li data-i18n="dont_2"></li><li data-i18n="dont_3"></li><li data-i18n="dont_4"></li><li data-i18n="dont_5"></li>
-      </ul></div>
+      <div class="do-box"><h4 data-i18n="do_label"></h4><ul><li data-i18n="do_1"></li><li data-i18n="do_2"></li><li data-i18n="do_3"></li><li data-i18n="do_4"></li><li data-i18n="do_5"></li></ul></div>
+      <div class="dont-box"><h4 data-i18n="dont_label"></h4><ul><li data-i18n="dont_1"></li><li data-i18n="dont_2"></li><li data-i18n="dont_3"></li><li data-i18n="dont_4"></li><li data-i18n="dont_5"></li></ul></div>
     </div>
   </section>
 
   <div class="ornamental-divider"><span>i</span></div>
-
-  <!-- DATE 1 -->
   <section id="date-1" class="date-section d1">
     <div class="date-header"><div class="date-num">01</div><div class="date-heading"><h2 data-i18n="d1_title"></h2><p data-i18n="d1_sub"></p></div></div>
     <div class="date-focus" data-i18n="d1_focus"></div>
@@ -242,9 +298,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d1_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>ii</span></div>
 
-  <!-- DATE 2 -->
+  <div class="ornamental-divider"><span>ii</span></div>
   <section id="date-2" class="date-section d2">
     <div class="date-header"><div class="date-num">02</div><div class="date-heading"><h2 data-i18n="d2_title"></h2><p data-i18n="d2_sub"></p></div></div>
     <div class="date-focus" data-i18n="d2_focus"></div>
@@ -265,9 +320,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d2_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>iii</span></div>
 
-  <!-- DATE 3 -->
+  <div class="ornamental-divider"><span>iii</span></div>
   <section id="date-3" class="date-section d3">
     <div class="date-header"><div class="date-num">03</div><div class="date-heading"><h2 data-i18n="d3_title"></h2><p data-i18n="d3_sub"></p></div></div>
     <div class="date-focus" data-i18n="d3_focus"></div>
@@ -288,9 +342,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d3_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>iv</span></div>
 
-  <!-- DATE 4 -->
+  <div class="ornamental-divider"><span>iv</span></div>
   <section id="date-4" class="date-section d4">
     <div class="date-header"><div class="date-num">04</div><div class="date-heading"><h2 data-i18n="d4_title"></h2><p data-i18n="d4_sub"></p></div></div>
     <div class="date-focus" data-i18n="d4_focus"></div>
@@ -311,9 +364,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d4_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>v</span></div>
 
-  <!-- DATE 5 -->
+  <div class="ornamental-divider"><span>v</span></div>
   <section id="date-5" class="date-section d5">
     <div class="date-header"><div class="date-num">05</div><div class="date-heading"><h2 data-i18n="d5_title"></h2><p data-i18n="d5_sub"></p></div></div>
     <div class="date-focus" data-i18n="d5_focus"></div>
@@ -334,9 +386,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d5_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>vi</span></div>
 
-  <!-- DATE 6 -->
+  <div class="ornamental-divider"><span>vi</span></div>
   <section id="date-6" class="date-section d6">
     <div class="date-header"><div class="date-num">06</div><div class="date-heading"><h2 data-i18n="d6_title"></h2><p data-i18n="d6_sub"></p></div></div>
     <div class="date-focus" data-i18n="d6_focus"></div>
@@ -357,9 +408,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d6_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>vii</span></div>
 
-  <!-- DATE 7 -->
+  <div class="ornamental-divider"><span>vii</span></div>
   <section id="date-7" class="date-section d7">
     <div class="date-header"><div class="date-num">07</div><div class="date-heading"><h2 data-i18n="d7_title"></h2><p data-i18n="d7_sub"></p></div></div>
     <div class="date-focus" data-i18n="d7_focus"></div>
@@ -380,9 +430,8 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
       <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d7_r_why"></span></div>
     </div>
   </section>
-  <div class="ornamental-divider"><span>viii</span></div>
 
-  <!-- DATE 8 -->
+  <div class="ornamental-divider"><span>viii</span></div>
   <section id="date-8" class="date-section d8">
     <div class="date-header"><div class="date-num">08</div><div class="date-heading"><h2 data-i18n="d8_title"></h2><p data-i18n="d8_sub"></p></div></div>
     <div class="date-focus" data-i18n="d8_focus"></div>
@@ -404,27 +453,140 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
     </div>
   </section>
 
+  <!-- ── NEW DATES ── -->
+
+  <div class="ornamental-divider"><span>ix</span></div>
+  <section id="date-9" class="date-section d9">
+    <div class="date-header"><div class="date-num">09</div><div class="date-heading"><h2 data-i18n="d9_title"></h2><p data-i18n="d9_sub"></p></div></div>
+    <div class="date-focus" data-i18n="d9_focus"></div>
+    <div class="three-col">
+      <div class="col-block steps-col"><h4 data-i18n="label_steps"></h4><ul><li data-i18n="d9_s1"></li><li data-i18n="d9_s2"></li><li data-i18n="d9_s3"></li><li data-i18n="d9_s4"></li><li data-i18n="d9_s5"></li></ul></div>
+      <div class="col-block questions-col"><h4 data-i18n="label_questions"></h4><ul><li data-i18n="d9_q1"></li><li data-i18n="d9_q2"></li><li data-i18n="d9_q3"></li><li data-i18n="d9_q4"></li><li data-i18n="d9_q5"></li></ul></div>
+      <div class="col-block breaks-col"><h4 data-i18n="label_breaks"></h4><ul><li data-i18n="d9_b1"></li><li data-i18n="d9_b2"></li><li data-i18n="d9_b3"></li></ul></div>
+    </div>
+    <div class="ritual-block">
+      <div class="ritual-eyebrow" data-i18n="d9_r_eyebrow"></div><div class="ritual-name" data-i18n="d9_r_name"></div><div class="ritual-desc" data-i18n="d9_r_desc"></div>
+      <div class="ritual-steps">
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#8B5CF6;color:#EDE9FE;">1</div><span data-i18n="d9_rs1"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#8B5CF6;color:#EDE9FE;">2</div><span data-i18n="d9_rs2"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#8B5CF6;color:#EDE9FE;">3</div><span data-i18n="d9_rs3"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#8B5CF6;color:#EDE9FE;">4</div><span data-i18n="d9_rs4"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#8B5CF6;color:#EDE9FE;">5</div><span data-i18n="d9_rs5"></span></div>
+      </div>
+      <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d9_r_why"></span></div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>x</span></div>
+  <section id="date-10" class="date-section d10">
+    <div class="date-header"><div class="date-num">10</div><div class="date-heading"><h2 data-i18n="d10_title"></h2><p data-i18n="d10_sub"></p></div></div>
+    <div class="date-focus" data-i18n="d10_focus"></div>
+    <div class="three-col">
+      <div class="col-block steps-col"><h4 data-i18n="label_steps"></h4><ul><li data-i18n="d10_s1"></li><li data-i18n="d10_s2"></li><li data-i18n="d10_s3"></li><li data-i18n="d10_s4"></li><li data-i18n="d10_s5"></li></ul></div>
+      <div class="col-block questions-col"><h4 data-i18n="label_questions"></h4><ul><li data-i18n="d10_q1"></li><li data-i18n="d10_q2"></li><li data-i18n="d10_q3"></li><li data-i18n="d10_q4"></li><li data-i18n="d10_q5"></li></ul></div>
+      <div class="col-block breaks-col"><h4 data-i18n="label_breaks"></h4><ul><li data-i18n="d10_b1"></li><li data-i18n="d10_b2"></li><li data-i18n="d10_b3"></li></ul></div>
+    </div>
+    <div class="ritual-block">
+      <div class="ritual-eyebrow" data-i18n="d10_r_eyebrow"></div><div class="ritual-name" data-i18n="d10_r_name"></div><div class="ritual-desc" data-i18n="d10_r_desc"></div>
+      <div class="ritual-steps">
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#D97706;color:#FEF3C7;">1</div><span data-i18n="d10_rs1"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#D97706;color:#FEF3C7;">2</div><span data-i18n="d10_rs2"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#D97706;color:#FEF3C7;">3</div><span data-i18n="d10_rs3"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#D97706;color:#FEF3C7;">4</div><span data-i18n="d10_rs4"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#D97706;color:#FEF3C7;">5</div><span data-i18n="d10_rs5"></span></div>
+      </div>
+      <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d10_r_why"></span></div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>xi</span></div>
+  <section id="date-11" class="date-section d11">
+    <div class="date-header"><div class="date-num">11</div><div class="date-heading"><h2 data-i18n="d11_title"></h2><p data-i18n="d11_sub"></p></div></div>
+    <div class="date-focus" data-i18n="d11_focus"></div>
+    <div class="three-col">
+      <div class="col-block steps-col"><h4 data-i18n="label_steps"></h4><ul><li data-i18n="d11_s1"></li><li data-i18n="d11_s2"></li><li data-i18n="d11_s3"></li><li data-i18n="d11_s4"></li><li data-i18n="d11_s5"></li></ul></div>
+      <div class="col-block questions-col"><h4 data-i18n="label_questions"></h4><ul><li data-i18n="d11_q1"></li><li data-i18n="d11_q2"></li><li data-i18n="d11_q3"></li><li data-i18n="d11_q4"></li><li data-i18n="d11_q5"></li></ul></div>
+      <div class="col-block breaks-col"><h4 data-i18n="label_breaks"></h4><ul><li data-i18n="d11_b1"></li><li data-i18n="d11_b2"></li><li data-i18n="d11_b3"></li></ul></div>
+    </div>
+    <div class="ritual-block">
+      <div class="ritual-eyebrow" data-i18n="d11_r_eyebrow"></div><div class="ritual-name" data-i18n="d11_r_name"></div><div class="ritual-desc" data-i18n="d11_r_desc"></div>
+      <div class="ritual-steps">
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#059669;color:#ECFDF5;">1</div><span data-i18n="d11_rs1"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#059669;color:#ECFDF5;">2</div><span data-i18n="d11_rs2"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#059669;color:#ECFDF5;">3</div><span data-i18n="d11_rs3"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#059669;color:#ECFDF5;">4</div><span data-i18n="d11_rs4"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#059669;color:#ECFDF5;">5</div><span data-i18n="d11_rs5"></span></div>
+      </div>
+      <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d11_r_why"></span></div>
+    </div>
+  </section>
+
+  <div class="ornamental-divider"><span>xii</span></div>
+  <section id="date-12" class="date-section d12">
+    <div class="date-header"><div class="date-num">12</div><div class="date-heading"><h2 data-i18n="d12_title"></h2><p data-i18n="d12_sub"></p></div></div>
+    <div class="date-focus" data-i18n="d12_focus"></div>
+    <div class="three-col">
+      <div class="col-block steps-col"><h4 data-i18n="label_steps"></h4><ul><li data-i18n="d12_s1"></li><li data-i18n="d12_s2"></li><li data-i18n="d12_s3"></li><li data-i18n="d12_s4"></li><li data-i18n="d12_s5"></li></ul></div>
+      <div class="col-block questions-col"><h4 data-i18n="label_questions"></h4><ul><li data-i18n="d12_q1"></li><li data-i18n="d12_q2"></li><li data-i18n="d12_q3"></li><li data-i18n="d12_q4"></li><li data-i18n="d12_q5"></li></ul></div>
+      <div class="col-block breaks-col"><h4 data-i18n="label_breaks"></h4><ul><li data-i18n="d12_b1"></li><li data-i18n="d12_b2"></li><li data-i18n="d12_b3"></li></ul></div>
+    </div>
+    <div class="ritual-block">
+      <div class="ritual-eyebrow" data-i18n="d12_r_eyebrow"></div><div class="ritual-name" data-i18n="d12_r_name"></div><div class="ritual-desc" data-i18n="d12_r_desc"></div>
+      <div class="ritual-steps">
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#2563EB;color:#EFF6FF;">1</div><span data-i18n="d12_rs1"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#2563EB;color:#EFF6FF;">2</div><span data-i18n="d12_rs2"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#2563EB;color:#EFF6FF;">3</div><span data-i18n="d12_rs3"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#2563EB;color:#EFF6FF;">4</div><span data-i18n="d12_rs4"></span></div>
+        <div class="ritual-step"><div class="ritual-step-num" style="background:#2563EB;color:#EFF6FF;">5</div><span data-i18n="d12_rs5"></span></div>
+      </div>
+      <div class="ritual-why"><strong data-i18n="why_label"></strong> <span data-i18n="d12_r_why"></span></div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
   <div class="footer-line"></div>
-  <h3>Eight <em style="font-family:'Cormorant Garamond',serif;font-style:italic;">Dates</em></h3>
+  <h3>Twelve <em style="font-family:'Cormorant Garamond',serif;font-style:italic;">Dates</em></h3>
   <p data-i18n="footer_credit"></p>
   <div class="footer-credit" data-i18n="footer_sub"></div>
 </footer>
+</div>
+
+<!-- FORM VIEW -->
+<div class="form-only">
+  <div class="form-view-wrap">
+    <div class="couple-card">
+      <h2 data-i18n-html="couple_title"></h2>
+      <p data-i18n="couple_sub"></p>
+      <div class="couple-fields">
+        <div class="field-group"><label data-i18n="p1_label"></label><input type="text" id="partner1" data-i18n-placeholder="p1_placeholder" oninput="autoSave()"></div>
+        <div class="field-group"><label data-i18n="p2_label"></label><input type="text" id="partner2" data-i18n-placeholder="p2_placeholder" oninput="autoSave()"></div>
+        <div class="field-group"><label data-i18n="started_label"></label><input type="date" id="start-date" oninput="autoSave()"></div>
+      </div>
+    </div>
+    <div id="form-dates-container"></div>
+    <div class="completion-banner" id="completion-banner">
+      <h3 data-i18n="complete_title"></h3>
+      <p data-i18n="complete_sub"></p>
+      <button class="btn-full-export" onclick="exportAnswers()" data-i18n="export_full"></button>
+    </div>
+  </div>
+</div>
 
 <script>
 const T = {
 en:{
-  hero_ornament:"Based on the work of John & Julie Gottman",
-  hero_title:"Eight<br><em>Dates</em>",
-  hero_sub:"A guide to the conversations that keep a relationship thriving — with key steps, discussion questions, rituals, and where to pause.",
+  mydate_tab:"My Date",
+  hero_title:"Twelve<br><em>Dates</em>",
+  hero_sub:"A guide to twelve essential conversations for a thriving relationship — with key steps, discussion questions, rituals, and where to pause.",
   scroll:"Scroll",nav_before:"Before you begin",nav_before_short:"Intro",
   nav_1:"Trust",nav_2:"Conflict",nav_3:"Intimacy",nav_4:"Money",nav_5:"Family",nav_6:"Play",nav_7:"Growth",nav_8:"Dreams",
+  nav_9:"Mental Health",nav_10:"Identity",nav_11:"Aging & Health",nav_12:"Values",
   label_steps:"Key steps",label_questions:"Questions to ask",label_breaks:"Step back if...",why_label:"Why it works:",
   before_eyebrow:"Foundation",
   before_title:"Before you<br><em style=\"font-family:'Cormorant Garamond',serif;font-style:italic;\">begin</em>",
-  before_lead:"These eight dates work best when both partners enter them as curious explorers — not debaters or problem-solvers. The goal is understanding, not agreement. Space dates at least a week apart and never skip ahead.",
+  before_lead:"These twelve dates work best when both partners enter them as curious explorers — not debaters or problem-solvers. The goal is understanding, not agreement. Space dates at least a week apart and never skip ahead.",
   env_title:"Environment",env_1:"Choose a private place — no busy restaurants for sensitive topics",env_2:"Phones face-down, notifications off, for the whole date",env_3:"Aim for 1–2 hours minimum — these conversations need room",env_4:"Pick a time when neither of you is exhausted",
   emo_title:"Emotional prep",emo_1:"Take 10 minutes alone to decompress before you sit down",emo_2:"Remind yourself: your partner is not your opponent",emo_3:"Come with curiosity — assume there's something you don't yet know",emo_4:"Set a shared intention aloud before you start",
   rules_title:"Ground rules",rules_1:"One person speaks at a time — no interrupting, even to agree",rules_2:"Use \"I feel…\" language; avoid \"You always…\" or \"You never…\"",rules_3:"Agree on a safe word to pause without it feeling like abandonment",rules_4:"You can pass on any question — nothing is mandatory",
@@ -432,244 +594,255 @@ en:{
   do_label:"Do",dont_label:"Don't",
   do_1:"Listen to understand, not to respond",do_2:"Ask follow-ups: \"Tell me more about that\"",do_3:"Validate feelings even when you disagree with them",do_4:"Acknowledge when something is new information to you",do_5:"Express gratitude at the end, even if it was hard",
   dont_1:"Turn the date into a therapy session or intervention",dont_2:"Give advice when your partner only needs to be heard",dont_3:"Bring up unrelated grievances mid-conversation",dont_4:"Check your phone, even once",dont_5:"Push through emotional flooding — always honour the pause",
-  d1_title:"Trust & Commitment",d1_sub:"The foundation of everything else",
-  d1_focus:"Explore what trust and commitment mean to each of you — not just fidelity, but emotional availability. Ask: \"In what ways have I shown up for you? Where have I fallen short?\"",
-  d1_s1:"Share one moment when you felt truly safe with your partner",d1_s2:"Define commitment beyond loyalty — presence, honesty, consistency",d1_s3:"Ask about hidden fears: \"What could destroy our relationship?\"",d1_s4:"Make a shared promise about handling future breaches of trust",d1_s5:"Acknowledge past moments where trust was tested",
-  d1_q1:"When do you feel most secure — and most uncertain — in our relationship?",d1_q2:"Have I done something that damaged your trust, even in a small way?",d1_q3:"What does loyalty mean to you beyond being faithful?",d1_q4:"What would you need from me to feel completely safe?",d1_q5:"If our relationship were to end, what would you say broke down first?",
-  d1_b1:"Stop if the conversation turns into blame — trust is built here, not prosecuted",d1_b2:"Pause if either partner becomes defensive — take a 20-minute break",d1_b3:"Don't force a resolution tonight — naming the issue is enough",
-  d1_r_eyebrow:"Opening ritual · 5 min",d1_r_name:"The gratitude exchange",d1_r_desc:"Trust grows in small moments of recognition. This anchors you in what already exists before exploring what needs attention.",
-  d1_rs1:"Sit facing each other. Take one slow breath together.",d1_rs2:"Each share one specific thing the other did recently that made you feel safe — be precise, not vague.",d1_rs3:"The listener responds only with: \"Thank you for seeing that.\" Nothing more.",d1_rs4:"Switch. Repeat.",d1_rs5:"Close together: \"I'm here, and I'm not going anywhere.\"",
-  d1_r_why:"Naming specific acts of care activates the brain's safety response — the ideal state for a trust conversation.",
-  d2_title:"Conflict",d2_sub:"Fighting smarter, not harder",
-  d2_focus:"Understand your conflict patterns — not to solve every argument, but to learn how you each handle tension. The goal is curiosity, not winning.",
-  d2_s1:"Identify your conflict style: escalate, withdraw, or deflect?",d2_s2:"Share a recurring argument — describe your feeling, not their fault",d2_s3:"Find the hidden dream beneath the repeated fight",d2_s4:"Agree on a repair signal for when things escalate",d2_s5:"Discuss what a fair fight looks like to both of you",
-  d2_q1:"What do I do when we argue that hurts you the most?",d2_q2:"What are you really asking for when we fight about that topic?",d2_q3:"How did conflict work in your family growing up?",d2_q4:"What would make you feel heard during a disagreement?",d2_q5:"Is there a fight we've had that still sits with you — unresolved?",
-  d2_b1:"Stop if you feel flooded — heart racing, mind blank. You cannot listen in that state",d2_b2:"Don't revisit the actual argument — tonight is about patterns, not the incident",d2_b3:"Step back if one person starts listing grievances — this is not a complaint session",
-  d2_r_eyebrow:"Opening ritual · 5 min",d2_r_name:"The temperature check",d2_r_desc:"Before talking about conflict, know where you each are. This exercise normalises honesty about your starting state.",
-  d2_rs1:"Each rate how you're feeling right now: 1 (calm) to 10 (already tense).",d2_rs2:"Share your number first — no explanation yet. Just the number.",d2_rs3:"One sentence each on what's behind it — stress, tiredness, nerves, anything.",d2_rs4:"If either is above 7, wait 15 minutes and do something calming first.",d2_rs5:"If both are under 7, say together: \"Tonight we're curious, not combative.\"",
-  d2_r_why:"Checking in first prevents you carrying hidden tension into the conversation and mistaking it for conflict with each other.",
-  d3_title:"Sex & Intimacy",d3_sub:"Desire, closeness, and vulnerability",
-  d3_focus:"Talk about what intimacy means beyond the physical — safety, desire, and emotional closeness are all part of this. Approach with warmth and no pressure to perform.",
-  d3_s1:"Share what makes you feel most desired and emotionally connected",d3_s2:"Talk about the difference between sex and intimacy for each of you",d3_s3:"Discuss how stress and life changes affect your desire",d3_s4:"Ask what you could do more of — and what you'd like to change",d3_s5:"Explore what novelty or spontaneity means to each of you",
-  d3_q1:"When do you feel closest to me — physical intimacy, or at other moments?",d3_q2:"Is there something about our sex life you've wanted to say but haven't?",d3_q3:"How do you feel about how often we are intimate right now?",d3_q4:"When I initiate, do you feel desired or pressured?",d3_q5:"What would make you feel more emotionally connected before being physical?",
-  d3_b1:"Stop if the talk drifts into criticism of sexual performance — it shuts people down",d3_b2:"Don't compare to early dating — it pathologises normal evolution",d3_b3:"Step back if shame enters the room — no one should feel judged for their needs",
-  d3_r_eyebrow:"Opening ritual · 3–4 min",d3_r_name:"The two-minute hold",d3_r_desc:"Physical closeness before talking about intimacy is not a contradiction — it's the point. Move from heads to bodies before words.",
-  d3_rs1:"Stand up and hold each other — a real, unhurried hug. Not a greeting. A staying hug.",d3_rs2:"Hold for at least two minutes. No talking.",d3_rs3:"Notice: your breathing, the warmth, any tension in your own body.",d3_rs4:"When you separate, each share one word for how you feel right now.",d3_rs5:"Sit down. Begin the date from that place.",
-  d3_r_why:"A sustained hold triggers oxytocin, reduces cortisol, and creates felt connection before the vulnerability of this conversation begins.",
-  d4_title:"Work & Money",d4_sub:"Values, security, and shared futures",
-  d4_focus:"Money is rarely about money — it's about security, freedom, control, and values. Understand your partner's financial personality, not just their spending habits.",
-  d4_s1:"Share your earliest money memory and how it shaped your beliefs",d4_s2:"Identify your money values: security, freedom, generosity, status?",d4_s3:"Discuss what \"enough\" means to each of you",d4_s4:"Talk about work — do you feel seen and supported in your career?",d4_s5:"Build a shared vision of financial security 5–10 years from now",
-  d4_q1:"Was money a source of stress, safety, or something else growing up?",d4_q2:"Do you feel financially secure in our relationship right now?",d4_q3:"What does financial freedom look like to you?",d4_q4:"Is there a financial decision I've made that worried or frustrated you?",d4_q5:"Do you feel supported in your career goals — or held back?",
-  d4_b1:"Stop if the conversation becomes about fault for past financial mistakes",d4_b2:"Don't use this date to negotiate a budget — that's practical, not emotional",d4_b3:"Step back if resentment about income inequality is triggered — it needs its own space",
-  d4_r_eyebrow:"Opening ritual · 8 min",d4_r_name:"The money memory",d4_r_desc:"Money conversations hurt when they're about numbers. This ritual grounds you in the emotional history each person brings to the topic.",
-  d4_rs1:"Each take two minutes in silence to recall your earliest memory involving money.",d4_rs2:"Share the memory in full. The listener only listens — no commentary yet.",d4_rs3:"After both share, each answer: \"What feeling does that memory leave you with?\"",d4_rs4:"Acknowledge what you heard: \"It makes sense that you think about money the way you do.\"",d4_rs5:"Only then begin the date.",
-  d4_r_why:"Your financial personality was shaped long before you met your partner. Understanding its roots prevents you from taking each other's reactions personally.",
-  d5_title:"Family",d5_sub:"Roots, roles, and the families we came from",
-  d5_focus:"You didn't just marry a person — you married their entire family history. Explore how each of your upbringings shape your expectations of partnership and parenting.",
-  d5_s1:"Describe your family growing up — what was the emotional climate?",d5_s2:"Identify which patterns you want to carry forward and which to leave behind",d5_s3:"Discuss roles: who did what, and what do you expect now?",d5_s4:"If you have or want children, explore parenting philosophies and fears",d5_s5:"Ask what your parents got right — and what you wish had been different",
-  d5_q1:"What's one thing from your upbringing you want us to carry forward?",d5_q2:"What pattern from your family are you afraid of repeating?",d5_q3:"How was love expressed in your home — words, acts, time?",d5_q4:"What did conflict look like in your household — resolved or buried?",d5_q5:"What kind of family culture do you want us to create together?",
-  d5_b1:"Stop if the conversation indicts each other's families — they aren't the enemy",d5_b2:"Pause if childhood trauma surfaces unexpectedly — it deserves a supported space",d5_b3:"Don't let in-law tensions dominate — focus on values and patterns, not specific people",
-  d5_r_eyebrow:"Opening ritual · 7–8 min",d5_r_name:"Show me one thing",d5_r_desc:"Family is abstract until it's specific. Bring your origins into the room concretely before you discuss them.",
-  d5_rs1:"Before the date, each find one photo or small object connected to your family or childhood.",d5_rs2:"Share it with your partner. Tell the story behind it in two or three minutes.",d5_rs3:"The listener asks just one follow-up: \"What do you love most about that memory?\"",d5_rs4:"Put the objects somewhere visible for the rest of the date.",d5_rs5:"Begin, knowing you've each brought your family into the room with you.",
-  d5_r_why:"Objects bypass defensiveness. They make family feel present and real — not a concept to debate, but a life to understand.",
-  d6_title:"Play & Adventure",d6_sub:"Fun, spontaneity, and shared joy",
-  d6_focus:"Couples who play together stay together. Explore what lights you both up and how well you know each other's idea of fun.",
-  d6_s1:"Share your happiest childhood memory of play or adventure",d6_s2:"Describe your dream adventure together — big or small",d6_s3:"Identify activities that energise you vs. ones you do out of obligation",d6_s4:"Find at least one new thing you'd both like to try",d6_s5:"Talk about what \"fun\" looked like early in your relationship",
-  d6_q1:"What playful thing we used to do have we stopped — and do you miss it?",d6_q2:"What would your ideal spontaneous day with me look like?",d6_q3:"Is there something you secretly want to try but haven't mentioned?",d6_q4:"Do we laugh enough together? What makes you laugh with me?",d6_q5:"What does adventure mean to you — travel, novelty, risk, or something else?",
-  d6_b1:"Stop if it becomes a catalogue of what's missing or boring in your relationship",d6_b2:"Don't dismiss your partner's idea of fun as childish — all play is valid",d6_b3:"Step back if comparison to other couples creeps in — it leads nowhere useful",
-  d6_r_eyebrow:"Opening ritual · 3 min",d6_r_name:"The 60-second silly",d6_r_desc:"You cannot talk about play while being serious. This cracks open lightness before the date begins.",
-  d6_rs1:"Set a 60-second timer.",d6_rs2:"Both must make each other laugh before it runs out — using only face, voice, or body. No tickling. No props.",d6_rs3:"If the first person fails, the other tries.",d6_rs4:"Sit down still smiling.",d6_rs5:"Begin by sharing: \"The funniest thing we ever did together was…\"",
-  d6_r_why:"Laughter is physiologically incompatible with anxiety. Starting from joy makes it far easier to talk honestly about fun.",
-  d7_title:"Growth & Spirituality",d7_sub:"Meaning, purpose, and personal evolution",
-  d7_focus:"The deepest questions — what do you believe, what gives your life meaning, and how do you grow together? There are no right answers, only honest ones.",
-  d7_s1:"Share what gives your life a sense of meaning and purpose",d7_s2:"Discuss your beliefs — spiritual, philosophical, or secular",d7_s3:"Ask: \"How have you changed in the last five years? What changed you?\"",d7_s4:"Explore what personal growth looks like and how you support each other in it",d7_s5:"Discuss rituals or practices that feel meaningful to you as a couple",
-  d7_q1:"What do you believe happens after we die — and does it bring you comfort?",d7_q2:"What gives your life the most meaning right now?",d7_q3:"Do you feel I support who you're becoming, or who you used to be?",d7_q4:"Is there a part of yourself you feel you've lost in our relationship? Or gained?",d7_q5:"What would you regret not doing if you knew your time was limited?",
-  d7_b1:"Stop if it turns into a debate about whose beliefs are correct — it's about understanding",d7_b2:"Pause if existential fears become overwhelming — that's deep work, not a dinner topic",d7_b3:"Step back if one partner feels pressured to adopt the other's worldview",
-  d7_r_eyebrow:"Opening ritual · 8–10 min",d7_r_name:"The silence sit",d7_r_desc:"This date asks the biggest questions. It deserves the most intentional opening. Shared silence is not awkward — it is the beginning of the conversation.",
-  d7_rs1:"Sit together somewhere quiet. Turn off all sound.",d7_rs2:"Set a timer for five minutes. Sit in complete silence side by side or facing each other.",d7_rs3:"No phones. No fidgeting. Just sit.",d7_rs4:"When the timer ends, each share the first word that came to mind during the silence.",d7_rs5:"Use those two words as the opening question: \"Why did that word come to you?\"",
-  d7_r_why:"Silence creates interiority. Meaning and purpose live beneath the noise — five minutes of shared quiet is often more connecting than five minutes of conversation.",
-  d8_title:"Dreams & Visions",d8_sub:"The future you're building together",
-  d8_focus:"The capstone date. Build a shared map of the future — not a rigid plan, but a living vision that honours both people's dreams.",
-  d8_s1:"Each share your deepest personal dream — something never fully voiced",d8_s2:"Describe your ideal life together in ten years",d8_s3:"Look for overlap and divergence — where do dreams align and pull apart?",d8_s4:"Discuss what legacy you want to leave as a couple and as individuals",d8_s5:"Create a shared vision statement: \"We are building a life that…\"",
-  d8_q1:"What's a dream you've had since childhood you've never told me about?",d8_q2:"If money and fear were removed, what would you do with your life?",d8_q3:"What does success look like to you — and does our life reflect that?",d8_q4:"What do you want people to say about us as a couple when we're gone?",d8_q5:"Is there a dream you're afraid to share because you think I won't support it?",
-  d8_b1:"Stop if dreams are met with \"that's not realistic\" — it kills vulnerability instantly",d8_b2:"Don't treat diverging dreams as incompatibility — different visions can coexist",d8_b3:"Step back if anxiety about the future overrides possibility — return to what's already good",
-  d8_r_eyebrow:"Opening ritual · 10 min",d8_r_name:"The future letter",d8_r_desc:"This is the last and biggest date. The ritual opens you to a future orientation — from who you've been to who you are becoming.",
-  d8_rs1:"Each take a piece of paper and write a letter to yourself, ten years from now. Five to eight sentences. What do you hope is true?",d8_rs2:"Take five minutes. Write in silence.",d8_rs3:"Read your letters aloud to each other. No interruption.",d8_rs4:"Each respond with: \"The part that moved me most was…\"",d8_rs5:"Fold the letters and keep them. Begin the date knowing you've spoken your future into the room.",
-  d8_r_why:"Writing activates future-self thinking, which creates hope and intentionality — exactly the mindset needed to build a shared vision rather than manage current problems.",
-  footer_credit:"Based on the book by John Gottman, Julie Schwartz Gottman, Doug Abrams & Rachel Carlton Abrams",
-  footer_sub:"A guide to the conversations that keep love alive"
+  couple_title:"Our <em>twelve dates</em>",couple_sub:"Fill in together or separately. Everything is saved automatically in your browser.",
+  p1_label:"Partner 1",p1_placeholder:"Name",p2_label:"Partner 2",p2_placeholder:"Name",started_label:"Started",
+  autosaved:"Saved",export_btn:"Export",
+  label_done:"Date completed",label_p1:"Partner 1",label_p2:"Partner 2",
+  label_notes:"Shared notes & reflections",notes_placeholder:"What came up? What surprised you? What do you want to remember?",
+  label_rating:"How did this date feel?",label_mood:"Mood after this date",
+  moods:["Connected","Vulnerable","Hopeful","Difficult","Surprised","Grateful"],
+  complete_title:"All twelve dates complete",complete_sub:"You've answered every question together. Export your answers to reflect on them later.",export_full:"Download full analysis",
+  // DATE 1
+  d1_title:"Trust & Commitment",d1_sub:"The foundation of everything else",d1_focus:"Explore what trust and commitment mean to each of you — not just fidelity, but emotional availability. Ask: \"In what ways have I shown up for you? Where have I fallen short?\"",d1_s1:"Share one moment when you felt truly safe with your partner",d1_s2:"Define commitment beyond loyalty — presence, honesty, consistency",d1_s3:"Ask about hidden fears: \"What could destroy our relationship?\"",d1_s4:"Make a shared promise about handling future breaches of trust",d1_s5:"Acknowledge past moments where trust was tested",d1_q1:"When do you feel most secure — and most uncertain — in our relationship?",d1_q2:"Have I done something that damaged your trust, even in a small way?",d1_q3:"What does loyalty mean to you beyond being faithful?",d1_q4:"What would you need from me to feel completely safe?",d1_q5:"If our relationship were to end, what would you say broke down first?",d1_b1:"Stop if the conversation turns into blame — trust is built here, not prosecuted",d1_b2:"Pause if either partner becomes defensive — take a 20-minute break",d1_b3:"Don't force a resolution tonight — naming the issue is enough",d1_r_eyebrow:"Opening ritual · 5 min",d1_r_name:"The gratitude exchange",d1_r_desc:"Trust grows in small moments of recognition. This anchors you in what already exists before exploring what needs attention.",d1_rs1:"Sit facing each other. Take one slow breath together.",d1_rs2:"Each share one specific thing the other did recently that made you feel safe — be precise, not vague.",d1_rs3:"The listener responds only with: \"Thank you for seeing that.\" Nothing more.",d1_rs4:"Switch. Repeat.",d1_rs5:"Close together: \"I'm here, and I'm not going anywhere.\"",d1_r_why:"Naming specific acts of care activates the brain's safety response — the ideal state for a trust conversation.",
+  // DATE 2
+  d2_title:"Conflict",d2_sub:"Fighting smarter, not harder",d2_focus:"Understand your conflict patterns — not to solve every argument, but to learn how you each handle tension. The goal is curiosity, not winning.",d2_s1:"Identify your conflict style: escalate, withdraw, or deflect?",d2_s2:"Share a recurring argument — describe your feeling, not their fault",d2_s3:"Find the hidden dream beneath the repeated fight",d2_s4:"Agree on a repair signal for when things escalate",d2_s5:"Discuss what a fair fight looks like to both of you",d2_q1:"What do I do when we argue that hurts you the most?",d2_q2:"What are you really asking for when we fight about that topic?",d2_q3:"How did conflict work in your family growing up?",d2_q4:"What would make you feel heard during a disagreement?",d2_q5:"Is there a fight we've had that still sits with you — unresolved?",d2_b1:"Stop if you feel flooded — heart racing, mind blank. You cannot listen in that state",d2_b2:"Don't revisit the actual argument — tonight is about patterns, not the incident",d2_b3:"Step back if one person starts listing grievances — this is not a complaint session",d2_r_eyebrow:"Opening ritual · 5 min",d2_r_name:"The temperature check",d2_r_desc:"Before talking about conflict, know where you each are. This exercise normalises honesty about your starting state.",d2_rs1:"Each rate how you're feeling right now: 1 (calm) to 10 (already tense).",d2_rs2:"Share your number first — no explanation yet. Just the number.",d2_rs3:"One sentence each on what's behind it — stress, tiredness, nerves, anything.",d2_rs4:"If either is above 7, wait 15 minutes and do something calming first.",d2_rs5:"If both are under 7, say together: \"Tonight we're curious, not combative.\"",d2_r_why:"Checking in first prevents you carrying hidden tension into the conversation and mistaking it for conflict with each other.",
+  // DATE 3
+  d3_title:"Sex & Intimacy",d3_sub:"Desire, closeness, and vulnerability",d3_focus:"Talk about what intimacy means beyond the physical — safety, desire, and emotional closeness are all part of this. Approach with warmth and no pressure to perform.",d3_s1:"Share what makes you feel most desired and emotionally connected",d3_s2:"Talk about the difference between sex and intimacy for each of you",d3_s3:"Discuss how stress and life changes affect your desire",d3_s4:"Ask what you could do more of — and what you'd like to change",d3_s5:"Explore what novelty or spontaneity means to each of you",d3_q1:"When do you feel closest to me — physical intimacy, or at other moments?",d3_q2:"Is there something about our sex life you've wanted to say but haven't?",d3_q3:"How do you feel about how often we are intimate right now?",d3_q4:"When I initiate, do you feel desired or pressured?",d3_q5:"What would make you feel more emotionally connected before being physical?",d3_b1:"Stop if the talk drifts into criticism of sexual performance — it shuts people down",d3_b2:"Don't compare to early dating — it pathologises normal evolution",d3_b3:"Step back if shame enters the room — no one should feel judged for their needs",d3_r_eyebrow:"Opening ritual · 3–4 min",d3_r_name:"The two-minute hold",d3_r_desc:"Physical closeness before talking about intimacy is not a contradiction — it's the point. Move from heads to bodies before words.",d3_rs1:"Stand up and hold each other — a real, unhurried hug. Not a greeting. A staying hug.",d3_rs2:"Hold for at least two minutes. No talking.",d3_rs3:"Notice: your breathing, the warmth, any tension in your own body.",d3_rs4:"When you separate, each share one word for how you feel right now.",d3_rs5:"Sit down. Begin the date from that place.",d3_r_why:"A sustained hold triggers oxytocin, reduces cortisol, and creates felt connection before the vulnerability of this conversation begins.",
+  // DATE 4
+  d4_title:"Work & Money",d4_sub:"Values, security, and shared futures",d4_focus:"Money is rarely about money — it's about security, freedom, control, and values. Understand your partner's financial personality, not just their spending habits.",d4_s1:"Share your earliest money memory and how it shaped your beliefs",d4_s2:"Identify your money values: security, freedom, generosity, status?",d4_s3:"Discuss what \"enough\" means to each of you",d4_s4:"Talk about work — do you feel seen and supported in your career?",d4_s5:"Build a shared vision of financial security 5–10 years from now",d4_q1:"Was money a source of stress, safety, or something else growing up?",d4_q2:"Do you feel financially secure in our relationship right now?",d4_q3:"What does financial freedom look like to you?",d4_q4:"Is there a financial decision I've made that worried or frustrated you?",d4_q5:"Do you feel supported in your career goals — or held back?",d4_b1:"Stop if the conversation becomes about fault for past financial mistakes",d4_b2:"Don't use this date to negotiate a budget — that's practical, not emotional",d4_b3:"Step back if resentment about income inequality is triggered — it needs its own space",d4_r_eyebrow:"Opening ritual · 8 min",d4_r_name:"The money memory",d4_r_desc:"Money conversations hurt when they're about numbers. This ritual grounds you in the emotional history each person brings to the topic.",d4_rs1:"Each take two minutes in silence to recall your earliest memory involving money.",d4_rs2:"Share the memory in full. The listener only listens — no commentary yet.",d4_rs3:"After both share, each answer: \"What feeling does that memory leave you with?\"",d4_rs4:"Acknowledge what you heard: \"It makes sense that you think about money the way you do.\"",d4_rs5:"Only then begin the date.",d4_r_why:"Your financial personality was shaped long before you met your partner. Understanding its roots prevents you from taking each other's reactions personally.",
+  // DATE 5
+  d5_title:"Family",d5_sub:"Roots, roles, and the families we came from",d5_focus:"You didn't just marry a person — you married their entire family history. Explore how each of your upbringings shape your expectations of partnership and parenting.",d5_s1:"Describe your family growing up — what was the emotional climate?",d5_s2:"Identify which patterns you want to carry forward and which to leave behind",d5_s3:"Discuss roles: who did what, and what do you expect now?",d5_s4:"If you have or want children, explore parenting philosophies and fears",d5_s5:"Ask what your parents got right — and what you wish had been different",d5_q1:"What's one thing from your upbringing you want us to carry forward?",d5_q2:"What pattern from your family are you afraid of repeating?",d5_q3:"How was love expressed in your home — words, acts, time?",d5_q4:"What did conflict look like in your household — resolved or buried?",d5_q5:"What kind of family culture do you want us to create together?",d5_b1:"Stop if the conversation indicts each other's families — they aren't the enemy",d5_b2:"Pause if childhood trauma surfaces unexpectedly — it deserves a supported space",d5_b3:"Don't let in-law tensions dominate — focus on values and patterns, not specific people",d5_r_eyebrow:"Opening ritual · 7–8 min",d5_r_name:"Show me one thing",d5_r_desc:"Family is abstract until it's specific. Bring your origins into the room concretely before you discuss them.",d5_rs1:"Before the date, each find one photo or small object connected to your family or childhood.",d5_rs2:"Share it with your partner. Tell the story behind it in two or three minutes.",d5_rs3:"The listener asks just one follow-up: \"What do you love most about that memory?\"",d5_rs4:"Put the objects somewhere visible for the rest of the date.",d5_rs5:"Begin, knowing you've each brought your family into the room with you.",d5_r_why:"Objects bypass defensiveness. They make family feel present and real — not a concept to debate, but a life to understand.",
+  // DATE 6
+  d6_title:"Play & Adventure",d6_sub:"Fun, spontaneity, and shared joy",d6_focus:"Couples who play together stay together. Explore what lights you both up and how well you know each other's idea of fun.",d6_s1:"Share your happiest childhood memory of play or adventure",d6_s2:"Describe your dream adventure together — big or small",d6_s3:"Identify activities that energise you vs. ones you do out of obligation",d6_s4:"Find at least one new thing you'd both like to try",d6_s5:"Talk about what \"fun\" looked like early in your relationship",d6_q1:"What playful thing we used to do have we stopped — and do you miss it?",d6_q2:"What would your ideal spontaneous day with me look like?",d6_q3:"Is there something you secretly want to try but haven't mentioned?",d6_q4:"Do we laugh enough together? What makes you laugh with me?",d6_q5:"What does adventure mean to you — travel, novelty, risk, or something else?",d6_b1:"Stop if it becomes a catalogue of what's missing or boring in your relationship",d6_b2:"Don't dismiss your partner's idea of fun as childish — all play is valid",d6_b3:"Step back if comparison to other couples creeps in — it leads nowhere useful",d6_r_eyebrow:"Opening ritual · 3 min",d6_r_name:"The 60-second silly",d6_r_desc:"You cannot talk about play while being serious. This cracks open lightness before the date begins.",d6_rs1:"Set a 60-second timer.",d6_rs2:"Both must make each other laugh before it runs out — using only face, voice, or body. No tickling. No props.",d6_rs3:"If the first person fails, the other tries.",d6_rs4:"Sit down still smiling.",d6_rs5:"Begin by sharing: \"The funniest thing we ever did together was…\"",d6_r_why:"Laughter is physiologically incompatible with anxiety. Starting from joy makes it far easier to talk honestly about fun.",
+  // DATE 7
+  d7_title:"Growth & Spirituality",d7_sub:"Meaning, purpose, and personal evolution",d7_focus:"The deepest questions — what do you believe, what gives your life meaning, and how do you grow together? There are no right answers, only honest ones.",d7_s1:"Share what gives your life a sense of meaning and purpose",d7_s2:"Discuss your beliefs — spiritual, philosophical, or secular",d7_s3:"Ask: \"How have you changed in the last five years? What changed you?\"",d7_s4:"Explore what personal growth looks like and how you support each other in it",d7_s5:"Discuss rituals or practices that feel meaningful to you as a couple",d7_q1:"What do you believe happens after we die — and does it bring you comfort?",d7_q2:"What gives your life the most meaning right now?",d7_q3:"Do you feel I support who you're becoming, or who you used to be?",d7_q4:"Is there a part of yourself you feel you've lost in our relationship? Or gained?",d7_q5:"What would you regret not doing if you knew your time was limited?",d7_b1:"Stop if it turns into a debate about whose beliefs are correct — it's about understanding",d7_b2:"Pause if existential fears become overwhelming — that's deep work, not a dinner topic",d7_b3:"Step back if one partner feels pressured to adopt the other's worldview",d7_r_eyebrow:"Opening ritual · 8–10 min",d7_r_name:"The silence sit",d7_r_desc:"This date asks the biggest questions. It deserves the most intentional opening. Shared silence is not awkward — it is the beginning of the conversation.",d7_rs1:"Sit together somewhere quiet. Turn off all sound.",d7_rs2:"Set a timer for five minutes. Sit in complete silence side by side or facing each other.",d7_rs3:"No phones. No fidgeting. Just sit.",d7_rs4:"When the timer ends, each share the first word that came to mind during the silence.",d7_rs5:"Use those two words as the opening question: \"Why did that word come to you?\"",d7_r_why:"Silence creates interiority. Meaning and purpose live beneath the noise — five minutes of shared quiet is often more connecting than five minutes of conversation.",
+  // DATE 8
+  d8_title:"Dreams & Visions",d8_sub:"The future you're building together",d8_focus:"The capstone date. Build a shared map of the future — not a rigid plan, but a living vision that honours both people's dreams.",d8_s1:"Each share your deepest personal dream — something never fully voiced",d8_s2:"Describe your ideal life together in ten years",d8_s3:"Look for overlap and divergence — where do dreams align and pull apart?",d8_s4:"Discuss what legacy you want to leave as a couple and as individuals",d8_s5:"Create a shared vision statement: \"We are building a life that…\"",d8_q1:"What's a dream you've had since childhood you've never told me about?",d8_q2:"If money and fear were removed, what would you do with your life?",d8_q3:"What does success look like to you — and does our life reflect that?",d8_q4:"What do you want people to say about us as a couple when we're gone?",d8_q5:"Is there a dream you're afraid to share because you think I won't support it?",d8_b1:"Stop if dreams are met with \"that's not realistic\" — it kills vulnerability instantly",d8_b2:"Don't treat diverging dreams as incompatibility — different visions can coexist",d8_b3:"Step back if anxiety about the future overrides possibility — return to what's already good",d8_r_eyebrow:"Opening ritual · 10 min",d8_r_name:"The future letter",d8_r_desc:"This is the last of the original eight dates. The ritual opens you to a future orientation — from who you've been to who you are becoming.",d8_rs1:"Each take a piece of paper and write a letter to yourself, ten years from now. Five to eight sentences. What do you hope is true?",d8_rs2:"Take five minutes. Write in silence.",d8_rs3:"Read your letters aloud to each other. No interruption.",d8_rs4:"Each respond with: \"The part that moved me most was…\"",d8_rs5:"Fold the letters and keep them. Begin the date knowing you've spoken your future into the room.",d8_r_why:"Writing activates future-self thinking, which creates hope and intentionality — exactly the mindset needed to build a shared vision rather than manage current problems.",
+  // DATE 9 — MENTAL HEALTH
+  d9_title:"Mental Health & Wellbeing",d9_sub:"The conversation most couples only have after crisis",
+  d9_focus:"Explore your emotional landscapes — the conditions, patterns, and needs that shape how you each function. This isn't therapy; it's the prerequisite for being each other's ally rather than each other's mystery.",
+  d9_s1:"Share your personal history with anxiety, depression, or emotional struggles",d9_s2:"Describe your early warning signs — what does 'not okay' look like for you?",d9_s3:"Tell your partner what you need when struggling — and what makes it worse",d9_s4:"Discuss your relationship with therapy — individual and as a couple",d9_s5:"Make a quiet plan together: what should I do if I notice you're not okay?",
+  d9_q1:"What are your early warning signs that you're struggling emotionally?",d9_q2:"What do you need from me when you're not doing well — space, presence, or something else?",d9_q3:"Is there a mental health struggle from your past that still shapes how you behave today?",d9_q4:"Have I ever made things harder for you without realising it during a difficult period?",d9_q5:"What's the most helpful thing I've done for your emotional wellbeing without knowing it?",
+  d9_b1:"Stop if you begin diagnosing or explaining their mental state back to them",d9_b2:"Pause if a current crisis surfaces — this needs real support, not a date format",d9_b3:"Step back if mental health is used to explain hurtful behaviour rather than understand it",
+  d9_r_eyebrow:"Opening ritual · 5 min",d9_r_name:"The weather report",
+  d9_r_desc:"Before talking about your inner landscape, map it with a simple metaphor. This removes the pressure of finding the right words for complex emotional states.",
+  d9_rs1:"Each take 2 minutes alone to silently complete: \"My emotional weather this week has been...\"",d9_rs2:"Share your weather report — sunny, foggy, stormy, changeable, calm. No explanation required yet.",d9_rs3:"The listener responds: \"Tell me more about the [word they used].\"",d9_rs4:"Share for just 2 minutes each. Don't solve. Don't fix.",d9_rs5:"End with: \"I'm glad I know this about you.\"",
+  d9_r_why:"Metaphor creates distance from shame. Weather isn't anyone's fault — it just is. This makes it safer to speak about mental states before the harder conversation has begun.",
+  // DATE 10 — IDENTITY
+  d10_title:"Identity & Personal Freedom",d10_sub:"Who are you outside this relationship?",
+  d10_focus:"Healthy relationships require each person to remain a distinct individual. This date is about the parts of yourself that exist — or once existed — independent of being someone's partner. Knowing who your partner truly is requires knowing who they are alone.",
+  d10_s1:"Share who you were before this relationship — what defined you?",d10_s2:"Name interests, ambitions, or habits you've quietly set aside since being together",d10_s3:"Discuss how much alone time you genuinely need and what it restores in you",d10_s4:"Explore the parts of yourself you feel you can't fully express in this relationship",d10_s5:"Ask each other: who are you becoming — and are we growing in compatible directions?",
+  d10_q1:"Is there a version of yourself you feel you've lost or suppressed since we got together?",d10_q2:"What do you do — or who do you become — when you have time completely to yourself?",d10_q3:"What do you need from me to feel free to be fully yourself?",d10_q4:"Have you quietly given up an ambition or interest for this relationship?",d10_q5:"Are we growing in directions that feel compatible to you?",
+  d10_b1:"Stop if the conversation becomes a list of what the relationship has cost you — that's a harder, different conversation",d10_b2:"Pause if identity loss feels very deep — it may need individual therapy, not a date",d10_b3:"Step back if comparison to a previous relationship or ex-partner surfaces as a reference point",
+  d10_r_eyebrow:"Opening ritual · 5 min",d10_r_name:"Three words",
+  d10_r_desc:"Before the date, each person quietly chooses three words that describe who they are outside this relationship. Not a role — just self.",
+  d10_rs1:"Take 3 minutes in silence. Each write down three words for who you are independent of this relationship.",d10_rs2:"Share your three words one at a time. No explanation yet.",d10_rs3:"The listener picks the most surprising word: \"Tell me about [that word].\"",d10_rs4:"Each person speaks for 2 minutes about that word.",d10_rs5:"End by saying: \"I want you to always be that person.\"",
+  d10_r_why:"Beginning with three words removes the blank-page anxiety of self-description. It tends to surface things neither person expected — and creates a felt sense of being truly seen.",
+  // DATE 11 — AGING & HEALTH
+  d11_title:"Aging, Health & the Body",d11_sub:"Physical vulnerability and growing older together",
+  d11_focus:"The conversation about bodies, health, and aging is one most couples defer until circumstances force it. Having it early — from curiosity rather than fear — changes how both people navigate illness, change, and the passage of time together.",
+  d11_s1:"Share your family health history and what it might mean for your future",d11_s2:"Talk honestly about your relationship with your body — not just appearance, but vitality",d11_s3:"Discuss caregiving: what would you need from me if you were seriously ill?",d11_s4:"Explore end-of-life wishes — the conversation that protects both of you",d11_s5:"Talk about aging parents: what responsibility each of you feels, and how that affects us",
+  d11_q1:"Is there a health concern you carry quietly that I don't fully know about?",d11_q2:"What would you need from me if you became seriously ill?",d11_q3:"How do you feel about your body right now — are you at peace with it?",d11_q4:"How do you feel about getting older — does it frighten you, or feel okay?",d11_q5:"Have you thought about what you'd want at the end of your life?",
+  d11_b1:"Stop if end-of-life discussion triggers acute anxiety — take it in smaller pieces another time",d11_b2:"Pause if body image vulnerabilities are met with dismissal rather than curiosity",d11_b3:"Step back if caregiving becomes transactional — \"would you stay if I got sick?\" is a test, not a conversation",
+  d11_r_eyebrow:"Opening ritual · 8 min",d11_r_name:"The letter to your body",
+  d11_r_desc:"Before discussing health and aging, each person takes time to quietly acknowledge the body they're in — with gratitude rather than judgment.",
+  d11_rs1:"Take 3 minutes alone to silently complete: \"Dear body, thank you for...\"",d11_rs2:"You don't need to write it — just think it. But write if it helps.",d11_rs3:"Share what came up. Not the whole letter — just one thing you felt grateful for.",d11_rs4:"The listener responds only: \"I'm glad you told me that.\"",d11_rs5:"Begin the date from that place of acceptance.",
+  d11_r_why:"Most conversations about health start from fear or deficit. Beginning with gratitude reorients both people toward care rather than anxiety — a fundamentally different emotional starting point.",
+  // DATE 12 — POLITICAL VALUES
+  d12_title:"Political & Social Values",d12_sub:"What you believe about the world",
+  d12_focus:"Political and social values are deeply personal — shaped by childhood, experience, and what you've witnessed. Many couples assume alignment without ever verifying it. This date is about understanding each other's worldview, not agreeing on it.",
+  d12_s1:"Share how your political and social values were formed — what experiences shaped them?",d12_s2:"Name the social issue you care most deeply about — and why it feels personal",d12_s3:"Explore where your values genuinely diverge — and whether that feels manageable",d12_s4:"Discuss what you'd want to teach children about fairness, community, and power",d12_s5:"Find one value you share completely and name it aloud together",
+  d12_q1:"What political or social issue is closest to your heart — and what made it personal?",d12_q2:"Is there a value of mine that you fundamentally don't share?",d12_q3:"How do you feel when we disagree about something political — threatened, curious, or indifferent?",d12_q4:"Is there a community or cause you wish I cared about more?",d12_q5:"Is there something I believe that quietly worries you?",
+  d12_b1:"Stop if the conversation becomes a debate with a right and wrong answer",d12_b2:"Step back if either person begins editing themselves to avoid conflict — silence is not agreement",d12_b3:"Pause if the conversation conflates political views with personal character or intelligence",
+  d12_r_eyebrow:"Opening ritual · 5 min",d12_r_name:"The headline",
+  d12_r_desc:"Before discussing your values, each person shares one news story from the past week that made them feel something. Not to debate — just to share the feeling.",
+  d12_rs1:"Each think of one news story or event from the past week that made you feel something strongly.",d12_rs2:"Share it in one sentence — just the headline.",d12_rs3:"Then say: \"It made me feel [emotion] because...\"",d12_rs4:"The listener responds only to the feeling: \"I understand why that would feel that way.\"",d12_rs5:"Switch. Then begin the date.",
+  d12_r_why:"Entering a values conversation through emotion rather than position removes the defensive structure of debate. You're not arguing for a policy — you're sharing what it's like to be you in the world.",
+  footer_credit:"A guide to twelve essential conversations for a lasting relationship",footer_sub:"A guide to the conversations that keep love alive",
+  formDates:[
+    {num:"01",title:"Trust & Commitment",sub:"The foundation of everything else",qs:["When do you feel most secure — and most uncertain — in our relationship?","Have I done something that damaged your trust, even in a small way?","What does loyalty mean to you beyond being faithful?","What would you need from me to feel completely safe?","If our relationship were to end, what would you say broke down first?"]},
+    {num:"02",title:"Conflict",sub:"Fighting smarter, not harder",qs:["What do I do when we argue that hurts you the most?","What are you really asking for when we fight about a recurring topic?","How did conflict work in your family growing up?","What would make you feel heard during a disagreement?","Is there a fight we've had that still sits with you — unresolved?"]},
+    {num:"03",title:"Sex & Intimacy",sub:"Desire, closeness, and vulnerability",qs:["When do you feel closest to me — physical intimacy, or at other moments?","Is there something about our sex life you've wanted to say but haven't?","How do you feel about how often we are intimate right now?","When I initiate, do you feel desired or pressured?","What would make you feel more emotionally connected before being physical?"]},
+    {num:"04",title:"Work & Money",sub:"Values, security, and shared futures",qs:["Was money a source of stress, safety, or something else growing up?","Do you feel financially secure in our relationship right now?","What does financial freedom look like to you?","Is there a financial decision I've made that worried or frustrated you?","Do you feel supported in your career goals — or held back?"]},
+    {num:"05",title:"Family",sub:"Roots, roles, and the families we came from",qs:["What's one thing from your upbringing you want us to carry forward?","What pattern from your family are you afraid of repeating?","How was love expressed in your home — words, acts, time?","What did conflict look like in your household — resolved or buried?","What kind of family culture do you want us to create together?"]},
+    {num:"06",title:"Play & Adventure",sub:"Fun, spontaneity, and shared joy",qs:["What playful thing we used to do have we stopped — and do you miss it?","What would your ideal spontaneous day with me look like?","Is there something you secretly want to try but haven't mentioned?","Do we laugh enough together? What makes you laugh with me?","What does adventure mean to you — travel, novelty, risk, or something else?"]},
+    {num:"07",title:"Growth & Spirituality",sub:"Meaning, purpose, and personal evolution",qs:["What do you believe happens after we die — and does it bring you comfort?","What gives your life the most meaning right now?","Do you feel I support who you're becoming, or who you used to be?","Is there a part of yourself you feel you've lost in our relationship? Or gained?","What would you regret not doing if you knew your time was limited?"]},
+    {num:"08",title:"Dreams & Visions",sub:"The future you're building together",qs:["What's a dream you've had since childhood you've never told me about?","If money and fear were removed, what would you do with your life?","What does success look like to you — and does our life reflect that?","What do you want people to say about us as a couple when we're gone?","Is there a dream you're afraid to share because you think I won't support it?"]},
+    {num:"09",title:"Mental Health & Wellbeing",sub:"The conversation most couples only have after crisis",qs:["What are your early warning signs that you're struggling emotionally?","What do you need from me when you're not doing well?","Is there a mental health struggle from your past that still shapes you today?","Have I ever made things harder for you without realising it during a difficult period?","What's the most helpful thing I've done for your wellbeing without knowing it?"]},
+    {num:"10",title:"Identity & Personal Freedom",sub:"Who are you outside this relationship?",qs:["Is there a version of yourself you feel you've lost since we got together?","Who do you become when you have time completely to yourself?","What do you need from me to feel free to be fully yourself?","Have you quietly given up an ambition or interest for this relationship?","Are we growing in directions that feel compatible to you?"]},
+    {num:"11",title:"Aging, Health & the Body",sub:"Physical vulnerability and growing older together",qs:["Is there a health concern you carry quietly that I don't fully know about?","What would you need from me if you became seriously ill?","How do you feel about your body right now — are you at peace with it?","How do you feel about getting older — does it frighten you?","Have you thought about what you'd want at the end of your life?"]},
+    {num:"12",title:"Political & Social Values",sub:"What you believe about the world",qs:["What political or social issue is closest to your heart — and what made it personal?","Is there a value of mine that you fundamentally don't share?","How do you feel when we disagree about something political?","Is there a cause or community you wish I cared about more?","Is there something I believe that quietly worries you?"]}
+  ]
 },
 sk:{
-  hero_ornament:"Podľa práce Johna a Julie Gottmanovcov",
-  hero_title:"Osem<br><em>Rande</em>",
-  hero_sub:"Sprievodca rozhovormi, ktoré udržujú vzťah živým — s kľúčovými krokmi, diskusnými otázkami, rituálmi a miestami, kde sa zastaviť.",
-  scroll:"Rolovať",nav_before:"Pred začatím",nav_before_short:"Úvod",
-  nav_1:"Dôvera",nav_2:"Konflikt",nav_3:"Intimita",nav_4:"Peniaze",nav_5:"Rodina",nav_6:"Zábava",nav_7:"Rast",nav_8:"Sny",
+  mydate_tab:"Moje Rande",hero_title:"Dvanásť<br><em>Rande</em>",hero_sub:"Sprievodca dvanástimi rozhovormi, ktoré udržujú vzťah živým — s kľúčovými krokmi, otázkami, rituálmi a miestami, kde sa zastaviť.",scroll:"Rolovať",nav_before:"Pred začatím",nav_before_short:"Úvod",nav_1:"Dôvera",nav_2:"Konflikt",nav_3:"Intimita",nav_4:"Peniaze",nav_5:"Rodina",nav_6:"Zábava",nav_7:"Rast",nav_8:"Sny",nav_9:"Duševné zdravie",nav_10:"Identita",nav_11:"Starnutie a zdravie",nav_12:"Hodnoty",
   label_steps:"Kľúčové kroky",label_questions:"Otázky na diskusiu",label_breaks:"Zastavte sa ak...",why_label:"Prečo to funguje:",
-  before_eyebrow:"Základ",
-  before_title:"Pred<br><em style=\"font-family:'Cormorant Garamond',serif;font-style:italic;\">začatím</em>",
-  before_lead:"Týchto osem rande funguje najlepšie, keď obaja partneri do nich vstupujú ako zvedaví objavitelia — nie ako diskutéri či riešitelia problémov. Cieľom je porozumenie, nie súhlas. Rande rozdeľte aspoň o týždeň a nikdy nevynechávajte poradie.",
-  env_title:"Prostredie",env_1:"Vyberte súkromné miesto — žiadne preplnené reštaurácie pre citlivé témy",env_2:"Telefóny otočené nadol, notifikácie vypnuté počas celého rande",env_3:"Plánujte aspoň 1–2 hodiny — tieto rozhovory potrebujú priestor",env_4:"Vyberte čas, keď žiadny z vás nie je vyčerpaný",
-  emo_title:"Emocionálna príprava",emo_1:"Venujte 10 minút sami sebe na upokojenie pred tým, ako si sadnete",emo_2:"Pripomeňte si: váš partner nie je váš súper",emo_3:"Príďte so zvedavosťou — predpokladajte, že je niečo, čo ešte neviete",emo_4:"Pred začatím nahlas vyjadrite spoločný zámer",
-  rules_title:"Základné pravidlá",rules_1:"Hovorí vždy len jedna osoba — neprerušujte, ani keď súhlasíte",rules_2:"Používajte jazyk \"Cítim sa...\" — vyhýbajte sa \"Ty vždy...\" alebo \"Ty nikdy...\"",rules_3:"Dohodnite sa na bezpečnom slove pre pauzu, aby to nepôsobilo ako opustenie",rules_4:"Na každú otázku môžete odpovedať neskôr — nič nie je povinné",
-  start_title:"Na začiatku každého rande",start_1:"Začnite jedným úprimným ocenením vášho partnera",start_2:"Opýtajte sa na energiu: \"Ako sa cítiš pred týmto rozhovorom?\"",start_3:"Pripomeňte si, že ste na rovnakom tíme",start_4:"Najprv si spolu prečítajte tému rande",
-  do_label:"Robte",dont_label:"Nerobte",
-  do_1:"Počúvajte, aby ste porozumeli, nie aby ste odpovedali",do_2:"Pýtajte sa ďalej: \"Povedz mi viac o tom\"",do_3:"Uznajte pocity aj vtedy, keď s nimi nesúhlasíte",do_4:"Uznajte, keď je niečo pre vás novou informáciou",do_5:"Vyjadrite vďačnosť na konci, aj keď to bolo ťažké",
-  dont_1:"Nepremeňte rande na terapeutické sedenie alebo intervenciu",dont_2:"Nedávajte rady, keď váš partner len potrebuje byť vypočutý",dont_3:"Nevytahujte nesúvisiace sťažnosti počas rozhovoru",dont_4:"Nekontrolujte telefón, ani raz",dont_5:"Neprekračujte emočné zahltenie — vždy rešpektujte pauzu",
-  d1_title:"Dôvera a záväzok",d1_sub:"Základ všetkého ostatného",
-  d1_focus:"Preskúmajte, čo dôvera a záväzok znamenajú pre každého z vás — nielen vernosť, ale aj emocionálna dostupnosť. Opýtajte sa: \"Akými spôsobmi som tu pre teba bol/a? Kde som zlyhal/a?\"",
-  d1_s1:"Podeľte sa o moment, kedy ste sa cítili skutočne bezpečne so svojim partnerom",d1_s2:"Definujte záväzok nad rámec vernosti — prítomnosť, úprimnosť, konzistentnosť",d1_s3:"Opýtajte sa na skryté obavy: \"Čo by mohlo zničiť náš vzťah?\"",d1_s4:"Urobte spoločný sľub o tom, ako budete riešiť budúce porušenia dôvery",d1_s5:"Uznajte minulé momenty, kedy bola dôvera testovaná",
-  d1_q1:"Kedy sa cítiš v našom vzťahu najbezpečnejšie — a kedy najneistejšie?",d1_q2:"Urobil/a som niečo, čo poškodilo tvoju dôveru, hoci len v malej miere?",d1_q3:"Čo pre teba znamená vernosť nad rámec fyzickej lojality?",d1_q4:"Čo by si odo mňa potreboval/a, aby si sa cítil/a úplne bezpečne?",d1_q5:"Keby sa náš vzťah skončil, čo by si povedal/a, že sa najprv rozpadlo?",
-  d1_b1:"Zastavte sa, ak sa rozhovor zmení na obviňovanie — dôvera sa tu buduje, nie súdi",d1_b2:"Urobte prestávku, ak sa niektorý partner stane defenzívnym — dajte si 20 minút",d1_b3:"Nevynucujte riešenie dnes — pomenovanie problému je dostatočným pokrokom",
-  d1_r_eyebrow:"Úvodný rituál · 5 min",d1_r_name:"Výmena vďačnosti",d1_r_desc:"Dôvera rastie v malých momentoch uznania. Toto vás zakorení v tom, čo už existuje — pred preskúmaním toho, čo potrebuje pozornosť.",
-  d1_rs1:"Sadnite si naproti sebe. Spolu sa pomaly nadýchnite.",d1_rs2:"Každý zdieľa jednu konkrétnu vec, ktorú ten druhý nedávno urobil a vďaka ktorej sa cítil bezpečne.",d1_rs3:"Poslucháč odpovie iba: \"Ďakujem, že si to videl/a.\" Nič viac.",d1_rs4:"Vymeňte si roly. Zopakujte.",d1_rs5:"Zakončite spoločne: \"Som tu a nikam neodídem.\"",
-  d1_r_why:"Pomenovanie konkrétnych aktov starostlivosti aktivuje časť mozgu spojenú s bezpečím — ideálny stav pre rozhovor o dôvere.",
-  d2_title:"Konflikt",d2_sub:"Hádate sa múdrejšie, nie tvrdšie",
-  d2_focus:"Pochopte svoje vzorce konfliktov — nie aby ste vyriešili každý spor, ale aby ste sa naučili, ako každý z vás zvláda napätie. Cieľom je zvedavosť, nie víťazstvo.",
-  d2_s1:"Identifikujte svoj štýl konfliktu: eskalujete, stiahujete sa alebo vyhýbate?",d2_s2:"Podeľte sa o opakujúci sa spor — opíšte, ako sa cítite, nie čo urobil ten druhý",d2_s3:"Nájdite skrytý sen za opakujúcim sa sporom — aká hlbšia potreba je v stávke?",d2_s4:"Dohodnite sa na opravnom signáli — slove alebo geste pri eskalácii",d2_s5:"Diskutujte o tom, ako vyzerá spravodlivý spor pre vás oboch",
-  d2_q1:"Čo robím počas hádky, čo ti najviac ubližuje?",d2_q2:"O čo skutočne žiadaš, keď sa hádame o tejto téme?",d2_q3:"Ako fungoval konflikt vo vašej rodine v detstve — krik, ticho, vyhýbanie?",d2_q4:"Čo by ti pomohlo cítiť sa vypočutý/á počas hádky?",d2_q5:"Je nejaká hádka, ktorá ti stále leží na srdci — nevyriešená?",
-  d2_b1:"Zastavte sa ihneď, ak sa cítite zaplavení — búšiace srdce, prázdna myseľ. Nemôžete počúvať",d2_b2:"Nevracajte sa k obsahu hádky — dnes ide o vzorce, nie o konkrétny incident",d2_b3:"Ustúpte, ak niekto začne vymenúvať sťažnosti — toto nie je sedenie na sťažnosti",
-  d2_r_eyebrow:"Úvodný rituál · 5 min",d2_r_name:"Kontrola teploty",d2_r_desc:"Pred rozhovorom o konflikte je dobré vedieť, kde každý z vás je emocionálne. Toto cvičenie normalizuje úprimnosť o vašom počiatočnom stave.",
-  d2_rs1:"Každý ohodnoťte, ako sa práve cítite na stupnici 1–10: 1 = úplne pokojný, 10 = už napätý.",d2_rs2:"Najprv povedzte svoje číslo — bez vysvetlenia. Len číslo.",d2_rs3:"Jedna veta každý o tom, čo za tým stojí — stres, únava, nervozita z témy.",d2_rs4:"Ak je niektorý nad 7, počkajte 15 minút a najprv urobte niečo upokojujúce.",d2_rs5:"Ak sú obaja pod 7, povedzte nahlas: \"Dnes večer sme zvedaví, nie bojovní.\"",
-  d2_r_why:"Kontrola vopred vám bráni vnášať skryté napätie do rozhovoru a zamieňať ho za konflikt medzi sebou.",
-  d3_title:"Sex a intimita",d3_sub:"Túžba, blízkosť a zraniteľnosť",
-  d3_focus:"Rozprávajte sa o tom, čo intimita znamená nad rámec fyzického — bezpečie, túžba a emocionálna blízkosť sú všetko súčasťou toho. Pristupujte s teplosťou a bez tlaku na výkon.",
-  d3_s1:"Podeľte sa o to, čo vás robí najviac žiadaným/ou a emocionálne prepojeným/ou",d3_s2:"Rozprávajte sa o rozdiele medzi sexom a integritou pre každého z vás",d3_s3:"Diskutujte o tom, ako stres a životné zmeny ovplyvňujú vašu túžbu",d3_s4:"Opýtajte sa: čo by som mohol/a robiť viac, čo miluješ? Čo by si chcel/a zmeniť?",d3_s5:"Preskúmajte, čo pre každého z vás znamená novosť alebo spontánnosť",
-  d3_q1:"Kedy sa cítiš mi najbližšie — pri fyzickej intímnosti alebo v iných momentoch?",d3_q2:"Je niečo o našom sexuálnom živote, čo si chcel/a povedať, ale nepovedal/a?",d3_q3:"Ako sa cítiš ohľadom toho, ako často sme v súčasnosti intímni?",d3_q4:"Keď sa ja iniciatívne priblížim, cítiš sa žiadaný/á alebo pod tlakom?",d3_q5:"Čo by ti pomohlo cítiť sa emocionálne bližšie predtým, ako sa fyzicky zblížime?",
-  d3_b1:"Zastavte sa, ak sa rozhovor zvrhne na kritiku sexuálneho výkonu — to ľudí uzatvára",d3_b2:"Neporovnávajte váš súčasný sexuálny život s počiatkami vzťahu",d3_b3:"Ustúpte, ak vstúpi do miestnosti hanba — nikto by sa nemal cítiť súdený za svoje potreby",
-  d3_r_eyebrow:"Úvodný rituál · 3–4 min",d3_r_name:"Dvojminútové objatie",d3_r_desc:"Fyzická blízkosť pred rozhovorom o intímnosti nie je rozporom — je to presne ten bod. Prejdite od mysle k telu predtým, ako prídu slová.",
-  d3_rs1:"Vstaňte a objímte sa — skutočné, bez zhonu. Nie pozdravné objatie. Objatie zotrvania.",d3_rs2:"Objímajte sa aspoň dve minúty. Bez slov.",d3_rs3:"Všímajte si: váš dych, teplo, akékoľvek napätie vo vašom vlastnom tele.",d3_rs4:"Keď sa oddelíte, každý zdieľa jedno slovo pre to, ako sa teraz cítite.",d3_rs5:"Sadnite si. Začnite rande z tohto miesta.",
-  d3_r_why:"Dlhé objatie spúšťa uvoľňovanie oxytocínu, znižuje kortizol a vytvára pocit spojenia pred zraniteľnosťou tohto rozhovoru.",
-  d4_title:"Práca a peniaze",d4_sub:"Hodnoty, bezpečie a spoločná budúcnosť",
-  d4_focus:"Peniaze zriedka bývajú o peniazoch — ide o bezpečie, slobodu, kontrolu a hodnoty. Pochopte finančnú osobnosť vášho partnera, nielen jeho návyky.",
-  d4_s1:"Podeľte sa o svoju najrannejšiu spomienku na peniaze a ako formovala vaše presvedčenia",d4_s2:"Identifikujte svoje finančné hodnoty: bezpečie, sloboda, štedrota, status?",d4_s3:"Diskutujte o tom, čo pre každého z vás znamená \"dostatok\"",d4_s4:"Rozprávajte sa o práci — cítite sa videný/á a rešpektovaný/á vo svojej kariére?",d4_s5:"Vytvorte spoločnú víziu finančného zabezpečenia na 5–10 rokov",
-  d4_q1:"Boli peniaze v detstve zdrojom stresu, bezpečia alebo niečoho iného?",d4_q2:"Cítiš sa finančne bezpečne v našom vzťahu práve teraz?",d4_q3:"Čo pre teba znamená finančná sloboda — ako by vyzerala?",d4_q4:"Je nejaké finančné rozhodnutie, ktoré som urobil/a a ktoré ťa znepokojilo alebo frustrovalo?",d4_q5:"Cítiš sa podporovaný/á vo svojich kariérnych cieľoch — alebo obmedzovaný/á?",
-  d4_b1:"Zastavte sa, ak sa rozhovor zmení na hľadanie vinníka za minulé finančné chyby",d4_b2:"Nepoužívajte toto rande na vyjednávanie rozpočtu — to je praktická, nie emocionálna úloha",d4_b3:"Ustúpte, ak sa objaví nevôľa kvôli nerovnosti príjmov — to potrebuje vlastný priestor",
-  d4_r_eyebrow:"Úvodný rituál · 8 min",d4_r_name:"Spomienka na peniaze",d4_r_desc:"Rozhovory o peniazoch bolía, keď sú o číslach. Tento rituál vás zakorení v emocionálnej histórii, ktorú každý z vás prináša k tejto téme.",
-  d4_rs1:"Každý si dajte dve minúty ticha na pripomenutie svojej najrannejšej spomienky spojenej s peniazmi.",d4_rs2:"Podeľte sa o spomienku úplne. Poslucháč iba počúva — zatiaľ žiadne komentáre.",d4_rs3:"Po zdieľaní oboch každý odpovie: \"Aký pocit vám táto spomienka zanecháva?\"",d4_rs4:"Uznajte, čo ste počuli: \"Dáva zmysel, že o peniazoch premýšľaš takto.\"",d4_rs5:"Až potom začnite rande.",
-  d4_r_why:"Vaša finančná osobnosť sa formovala dlho pred tým, ako ste stretli partnera. Pochopenie jej koreňov vám bráni brať reakcie toho druhého osobne.",
-  d5_title:"Rodina",d5_sub:"Korene, roly a rodiny, z ktorých pochádzame",
-  d5_focus:"Nevstúpili ste do vzťahu len s osobou — vstúpili ste do celej jej rodinnej histórie. Preskúmajte, ako vaše detstvo formuje vaše očakávania od partnerstva a rodičovstva.",
-  d5_s1:"Opíšte svoju rodinu v detstve — aká bola emocionálna atmosféra?",d5_s2:"Určite, ktoré rodinné vzory chcete zachovať a ktoré nechať za sebou",d5_s3:"Diskutujte o roliach: kto čo robil vo vašej pôvodnej rodine a čo očakávate teraz?",d5_s4:"Ak máte alebo chcete deti, preskúmajte filozofie rodičovstva a obavy",d5_s5:"Opýtajte sa: čo vaši rodičia urobili správne? Čo by ste si priali, aby bolo inak?",
-  d5_q1:"Čo z vášho detstva chcete preniesť do našej vlastnej rodiny?",d5_q2:"Aký vzor z vašej rodiny sa bojíte opakovať?",d5_q3:"Ako sa prejavovala láska vo vašej rodine — slovami, skutkami alebo inak?",d5_q4:"Ako vyzeral konflikt vo vašej domácnosti — bol riešený alebo potlačený?",d5_q5:"Akú rodinnú kultúru chcete spoločne vytvoriť?",
-  d5_b1:"Zastavte sa, ak sa rozhovor zmení na obvinenie rodín toho druhého — nie sú to nepriatelia",d5_b2:"Pozastavte sa, ak sa neočakávane objaví detská trauma — zaslúži si podporený priestor",d5_b3:"Nenechajte, aby dominovali napätia so svokrovcami — sústreďte sa na hodnoty a vzory",
-  d5_r_eyebrow:"Úvodný rituál · 7–8 min",d5_r_name:"Ukáž mi jednu vec",d5_r_desc:"Rodina je abstraktná, kým nie je konkrétna. Prineste svoje korene do miestnosti konkrétne, pred tým, ako o nich budete diskutovať.",
-  d5_rs1:"Pred rande každý nájdite jednu fotografiu alebo malý predmet spojený s vašou rodinou alebo detstvom.",d5_rs2:"Zdieľajte ho s partnerom. Povedzte príbeh za ním v dvoch alebo troch minútach.",d5_rs3:"Poslucháč položí len jednu otázku: \"Čo miluješ najviac na tejto spomienke?\"",d5_rs4:"Položte predmety na viditeľné miesto počas celého rande.",d5_rs5:"Začnite rande vediac, že ste každý priviedli svoju rodinu do miestnosti.",
-  d5_r_why:"Predmety obchádzajú defenzívnosť. Robia rodinu prítomnou a skutočnou — nie pojmom na debatovanie, ale životom na pochopenie.",
-  d6_title:"Zábava a dobrodružstvo",d6_sub:"Radosť, spontánnosť a spoločné potešenie",
-  d6_focus:"Páry, ktoré sa spolu bavia, zostávajú spolu. Preskúmajte, čo vás oboch zapaľuje a ako dobre poznáte predstavu zábavy toho druhého.",
-  d6_s1:"Podeľte sa o svoju najšťastnejšiu spomienku z detstva na hru alebo dobrodružstvo",d6_s2:"Opíšte vaše spoločné dobrodružstvo snov — veľké alebo malé",d6_s3:"Identifikujte aktivity, ktoré vás energizujú verzus tie, ktoré robíte z povinnosti",d6_s4:"Nájdite aspoň jednu novú vec, ktorú by ste obaja chceli vyskúšať",d6_s5:"Porozprávajte sa, ako vyzerala \"zábava\" na začiatku vášho vzťahu",
-  d6_q1:"Čo hravé sme kedysi robili a prestali sme — a chýba ti to?",d6_q2:"Ako by vyzeral tvoj ideálny spontánny deň so mnou?",d6_q3:"Je niečo, čo by si tajne chcel/a vyskúšať, ale nespomínal/a si to?",d6_q4:"Smejeme sa spolu dosť? Čo ťa so mnou rozosmieva?",d6_q5:"Čo pre teba znamená dobrodružstvo — cestovanie, novosť, riziko alebo niečo iné?",
-  d6_b1:"Zastavte sa, ak sa to stane katalógom toho, čo chýba alebo je nudné vo vzťahu",d6_b2:"Neznevažujte partnerovu predstavu zábavy ako detinistickú — každá hra je platná",d6_b3:"Ustúpte, ak sa objaví porovnávanie s inými pármi — nikam to nevedie",
-  d6_r_eyebrow:"Úvodný rituál · 3 min",d6_r_name:"60 sekúnd smiešnosti",d6_r_desc:"O hre nemôžete hovoriť, keď ste vážni. Toto cvičenie otvára ľahkosť pred začatím rande.",
-  d6_rs1:"Nastavte časovač na 60 sekúnd.",d6_rs2:"Obaja musíte toho druhého rozosmiať pred vypršaním — iba tvárou, hlasom alebo telom. Žiadne šteklenie. Žiadne rekvizity.",d6_rs3:"Ak prvý zlyhá, skúsi druhý.",d6_rs4:"Sadnite si stále s úsmevom.",d6_rs5:"Začnite zdieľaním: \"Najsmiešnejšia vec, ktorú sme kedy spolu urobili, bola...\"",
-  d6_r_why:"Smiech je fyziologicky nezlučiteľný s úzkosťou. Začatie od radosti uľahčuje úprimný rozhovor o zábave.",
-  d7_title:"Rast a spiritualita",d7_sub:"Zmysel, účel a osobná evolúcia",
-  d7_focus:"Najhlbšie otázky — čo veríte, čo dáva vášmu životu zmysel a ako rastete spolu? Nie sú tu správne odpovede, len úprimné.",
-  d7_s1:"Podeľte sa o to, čo dáva vášmu životu zmysel a účel",d7_s2:"Diskutujte o svojich presvedčeniach — duchovných, filozofických alebo svetských",d7_s3:"Opýtajte sa: \"Ako si sa zmenil/a za posledných päť rokov? Čo ťa zmenilo?\"",d7_s4:"Preskúmajte, čo pre každého z vás znamená osobný rast a ako sa navzájom podporujete",d7_s5:"Diskutujte o rituáloch alebo praktikách, ktoré sú pre vás ako pár zmysluplné",
-  d7_q1:"Čo veríš, že sa stane po smrti — a prináša ti to útechu?",d7_q2:"Čo dáva vášmu životu teraz najväčší zmysel?",d7_q3:"Cítiš, že podporujem to, kým sa stávaš, alebo to, kým si bol/a?",d7_q4:"Je nejaká časť seba, ktorú si cítiš stratiť v našom vzťahu? Alebo získať?",d7_q5:"Čoho by si ľutoval/a, keby si vedel/a, že tvoj čas je obmedzený?",
-  d7_b1:"Zastavte sa, ak sa to zmení na debatu o tom, čie presvedčenia sú správne — ide o porozumenie",d7_b2:"Pozastavte sa, ak existenciálne strachy stanú ohromujúcimi — to je hlboká práca",d7_b3:"Ustúpte, ak sa jeden partner cíti tlačený prevziať svetonázor toho druhého",
-  d7_r_eyebrow:"Úvodný rituál · 8–10 min",d7_r_name:"Spoločné ticho",d7_r_desc:"Toto rande kladie najväčšie otázky. Zaslúži si najintentívnejší úvod. Zdieľané ticho nie je trápne — je to začiatok rozhovoru.",
-  d7_rs1:"Sadnite si spolu na tiché miesto. Vypnite všetky zvuky.",d7_rs2:"Nastavte časovač na päť minút. Seďte v úplnom tichu vedľa seba alebo oproti sebe.",d7_rs3:"Žiadne telefóny. Žiadne vrtenie. Len seďte.",d7_rs4:"Keď sa časovač skončí, každý zdieľa prvé slovo, ktoré mu prišlo na myseľ počas ticha.",d7_rs5:"Použite tieto dve slová ako úvodnú otázku: \"Prečo ti prišlo práve to slovo?\"",
-  d7_r_why:"Ticho vytvára vnútornosť. Zmysel a účel žijú pod hlukom — päť minút zdieľaného ticha je často viac spájajúcich ako päť minút rozhovoru.",
-  d8_title:"Sny a vízie",d8_sub:"Budúcnosť, ktorú budujete spolu",
-  d8_focus:"Záverečné rande. Vytvorte spoločnú mapu budúcnosti — nie rigidný plán, ale živú víziu, ktorá rešpektuje sny oboch.",
-  d8_s1:"Každý zdieľajte svoj najhlbší osobný sen — niečo, čo ste ešte nikdy úplne nevyjadrili",d8_s2:"Opíšte svoju víziu ideálneho spoločného života za desať rokov",d8_s3:"Hľadajte zhody a rozdiely — kde sa vaše sny stretávajú a kde sa rozchádzajú?",d8_s4:"Diskutujte o tom, aký odkaz chcete zanechať — ako pár, ako jednotlivci, ako rodina",d8_s5:"Vytvorte spoločné vyhlásenie vízie: \"Budujeme život, ktorý...\"",
-  d8_q1:"Aký sen máš od detstva, o ktorom si mi nikdy nepovedal/a?",d8_q2:"Keby peniaze a strach neexistovali, čo by si robil/a so svojím životom?",d8_q3:"Čo pre teba znamená úspech — a odráža to náš súčasný život?",d8_q4:"Čo chceš, aby ľudia hovorili o nás ako o páre, keď nás nebude?",d8_q5:"Je nejaký sen, ktorý sa bojíš zdieľať, pretože si myslíš, že ho nepodporím?",
-  d8_b1:"Zastavte sa, ak sú sny okamžite zrušené s \"to nie je realistické\" — to okamžite zabíja zraniteľnosť",d8_b2:"Nepokladajte divergujúce sny za nekompatibilitu — rôzne vízie môžu koexistovať",d8_b3:"Ustúpte, ak úzkosť z budúcnosti preváži zmysel pre možnosti — vráťte sa k tomu, čo je už dobré",
-  d8_r_eyebrow:"Úvodný rituál · 10 min",d8_r_name:"List budúcnosti",d8_r_desc:"Toto je posledné a najväčšie rande. Rituál vás otvára orientácii na budúcnosť — od toho, kým ste boli, k tomu, kým sa stávate.",
-  d8_rs1:"Každý vezmite kúsok papiera a napíšte list sebe, o desať rokov. Päť až osem viet. Čo dúfate, že bude pravda?",d8_rs2:"Dajte si päť minút. Píšte v tichu.",d8_rs3:"Prečítajte si listy nahlas tomu druhému. Bez prerušenia.",d8_rs4:"Každý odpovie: \"Časť, ktorá ma najviac dojala, bola...\"",d8_rs5:"Zložte listy a uschovajte ich. Začnite rande vediac, že ste vypovedali svoju budúcnosť do miestnosti.",
-  d8_r_why:"Písanie aktivuje myslenie o budúcom ja, čo vytvára nádej a zámernosť — presne taký postoj, aký je potrebný na budovanie spoločnej vízie.",
-  footer_credit:"Podľa knihy Johna Gottmana, Julie Schwartz Gottmanovej, Douga Abramsa a Rachel Carlton Abramsovej",
-  footer_sub:"Sprievodca rozhovormi, ktoré udržujú lásku nažive"
+  before_eyebrow:"Základ",before_title:"Pred<br><em style=\"font-family:'Cormorant Garamond',serif;font-style:italic;\">začatím</em>",before_lead:"Týchto dvanásť rande funguje najlepšie, keď obaja partneri do nich vstupujú ako zvedaví objavitelia. Cieľom je porozumenie, nie súhlas. Rande rozdeľte aspoň o týždeň.",
+  env_title:"Prostredie",env_1:"Vyberte súkromné miesto",env_2:"Telefóny otočené nadol, notifikácie vypnuté",env_3:"Plánujte aspoň 1–2 hodiny",env_4:"Vyberte čas, keď nie ste vyčerpaní",
+  emo_title:"Emocionálna príprava",emo_1:"10 minút sami sebe pred tým, ako si sadnete",emo_2:"Váš partner nie je váš súper",emo_3:"Príďte so zvedavosťou — predpokladajte, že niečo ešte neviete",emo_4:"Pred začatím vyjadrite spoločný zámer",
+  rules_title:"Základné pravidlá",rules_1:"Hovorí vždy len jedna osoba",rules_2:"Používajte \"Cítim sa...\" — nie \"Ty vždy...\"",rules_3:"Dohodnite sa na bezpečnom slove pre pauzu",rules_4:"Na každú otázku môžete odpovedať neskôr",
+  start_title:"Na začiatku každého rande",start_1:"Začnite jedným úprimným ocenením partnera",start_2:"Zistite náladu: \"Ako sa cítiš pred týmto?\"",start_3:"Ste na rovnakom tíme",start_4:"Najprv si prečítajte tému rande",
+  do_label:"Robte",dont_label:"Nerobte",do_1:"Počúvajte, aby ste porozumeli",do_2:"Pýtajte sa ďalej: \"Povedz mi viac\"",do_3:"Uznajte pocity aj keď nesúhlasíte",do_4:"Uznajte novú informáciu",do_5:"Vyjadrite vďačnosť na konci",
+  dont_1:"Nepremeňte rande na terapiu",dont_2:"Nedávajte rady, keď partner potrebuje byť vypočutý",dont_3:"Nevytahujte nesúvisiace sťažnosti",dont_4:"Nekontrolujte telefón",dont_5:"Neprekračujte emočné zahltenie",
+  couple_title:"Naše <em>dvanásť rande</em>",couple_sub:"Vyplňte spolu alebo oddelene. Všetko sa automaticky ukladá.",p1_label:"Partner 1",p1_placeholder:"Meno",p2_label:"Partner 2",p2_placeholder:"Meno",started_label:"Začaté",autosaved:"Uložené",export_btn:"Export",label_done:"Dátum rande",label_p1:"Partner 1",label_p2:"Partner 2",label_notes:"Spoločné poznámky",notes_placeholder:"Čo sa objavilo? Čo vás prekvapilo?",label_rating:"Ako sa rande cítilo?",label_mood:"Nálada po rande",
+  moods:["Prepojení","Zraniteľní","Plní nádeje","Náročné","Prekvapení","Vďační"],
+  complete_title:"Všetkých dvanásť rande dokončených",complete_sub:"Exportujte odpovede na neskoršiu reflexiu.",export_full:"Stiahnuť úplnú analýzu",
+  d1_title:"Dôvera a záväzok",d1_sub:"Základ všetkého ostatného",d1_focus:"Preskúmajte, čo dôvera a záväzok znamenajú pre každého z vás — nielen vernosť, ale aj emocionálna dostupnosť.",d1_s1:"Moment, kedy ste sa cítili skutočne bezpečne",d1_s2:"Záväzok nad rámec vernosti — prítomnosť, úprimnosť",d1_s3:"Skryté obavy: \"Čo by mohlo zničiť náš vzťah?\"",d1_s4:"Spoločný sľub o budúcich porušeniach dôvery",d1_s5:"Uznajte minulé momenty, kedy bola dôvera testovaná",d1_q1:"Kedy sa cítiš najbezpečnejšie — a kedy najneistejšie?",d1_q2:"Urobil/a som niečo, čo poškodilo tvoju dôveru?",d1_q3:"Čo pre teba znamená vernosť?",d1_q4:"Čo by si odo mňa potreboval/a pre úplné bezpečie?",d1_q5:"Keby sa vzťah skončil, čo by si povedal/a, že sa rozpadlo?",d1_b1:"Stop, ak sa to zmení na obviňovanie",d1_b2:"Prestávka pri defenzivite — 20 minút",d1_b3:"Nevynucujte riešenie dnes",d1_r_eyebrow:"Úvodný rituál · 5 min",d1_r_name:"Výmena vďačnosti",d1_r_desc:"Dôvera rastie v malých momentoch uznania.",d1_rs1:"Sadnite si naproti sebe. Spolu sa pomaly nadýchnite.",d1_rs2:"Každý zdieľa konkrétnu vec, vďaka ktorej sa cítil bezpečne.",d1_rs3:"Poslucháč: \"Ďakujem, že si to videl/a.\"",d1_rs4:"Vymeňte roly. Zopakujte.",d1_rs5:"\"Som tu a nikam neodídem.\"",d1_r_why:"Pomenovanie aktov starostlivosti aktivuje bezpečnostnú odpoveď mozgu.",
+  d2_title:"Konflikt",d2_sub:"Hádate sa múdrejšie, nie tvrdšie",d2_focus:"Pochopte vzorce konfliktov — nie aby ste vyriešili každý spor, ale aby ste sa naučili, ako každý z vás zvláda napätie.",d2_s1:"Váš štýl konfliktu: eskalácia, stiahnutie alebo vyhýbanie?",d2_s2:"Opakujúci sa spor — váš pocit, nie vina toho druhého",d2_s3:"Skrytý sen za opakujúcim sa sporom",d2_s4:"Opravný signál pri eskalácii",d2_s5:"Ako vyzerá spravodlivý spor pre vás oboch?",d2_q1:"Čo robím pri hádke, čo ti najviac ubližuje?",d2_q2:"O čo skutočne žiadaš pri opakujúcich sa hádkach?",d2_q3:"Ako fungoval konflikt vo vašej rodine?",d2_q4:"Čo by ti pomohlo cítiť sa vypočutý/á?",d2_q5:"Je hádka, ktorá ti stále leží na srdci?",d2_b1:"Stop pri zahltení — búšiace srdce, prázdna myseľ",d2_b2:"Nevracajte sa k obsahu hádky",d2_b3:"Ustúpte pri vymenúvaní sťažností",d2_r_eyebrow:"Úvodný rituál · 5 min",d2_r_name:"Kontrola teploty",d2_r_desc:"Pred rozhovorom o konflikte zistite, kde každý z vás je.",d2_rs1:"Ohodnoťte pocit na stupnici 1–10.",d2_rs2:"Povedzte číslo — bez vysvetlenia.",d2_rs3:"Jedna veta o tom, čo za tým stojí.",d2_rs4:"Nad 7? Počkajte 15 minút.",d2_rs5:"\"Dnes večer sme zvedaví, nie bojovní.\"",d2_r_why:"Kontrola vopred bráni vnášaniu skrytého napätia do rozhovoru.",
+  d3_title:"Sex a intimita",d3_sub:"Túžba, blízkosť a zraniteľnosť",d3_focus:"Rozprávajte sa o tom, čo intimita znamená nad rámec fyzického.",d3_s1:"Čo vás robí najviac žiadaným/ou a prepojeným/ou",d3_s2:"Rozdiel medzi sexom a integritou pre každého z vás",d3_s3:"Ako stres a životné zmeny ovplyvňujú vašu túžbu",d3_s4:"Čo by som mohol/a robiť viac? Čo zmeniť?",d3_s5:"Čo pre každého znamená spontánnosť?",d3_q1:"Kedy sa cítiš mi najbližšie?",d3_q2:"Je niečo o našom živote, čo si chcel/a povedať?",d3_q3:"Ako sa cítiš ohľadom frekvencie intímnosti?",d3_q4:"Pri mojej iniciatíve — žiadaný/á alebo pod tlakom?",d3_q5:"Čo by ti pomohlo cítiť sa emocionálne bližšie?",d3_b1:"Stop pri kritike výkonu",d3_b2:"Neporovnávajte so začiatkami vzťahu",d3_b3:"Ustúpte pri vstupe hanby",d3_r_eyebrow:"Úvodný rituál · 3–4 min",d3_r_name:"Dvojminútové objatie",d3_r_desc:"Fyzická blízkosť pred intimitou nie je rozporom.",d3_rs1:"Vstante a objímte sa — skutočné, bez zhonu.",d3_rs2:"Aspoň dve minúty. Bez slov.",d3_rs3:"Všímajte si dych, teplo, napätie.",d3_rs4:"Každý zdieľa jedno slovo.",d3_rs5:"Sadnite. Začnite rande.",d3_r_why:"Dlhé objatie spúšťa oxytocín a znižuje kortizol.",
+  d4_title:"Práca a peniaze",d4_sub:"Hodnoty, bezpečie a spoločná budúcnosť",d4_focus:"Peniaze sú o bezpečí, slobode, kontrole a hodnotách — nie o číslach.",d4_s1:"Najrannejšia spomienka na peniaze",d4_s2:"Vaše finančné hodnoty",d4_s3:"Čo pre každého znamená \"dostatok\"?",d4_s4:"Cítite sa v kariére videní a podporovaní?",d4_s5:"Spoločná vízia finančného zabezpečenia",d4_q1:"Peniaze v detstve — stres alebo bezpečie?",d4_q2:"Cítiš sa finančne bezpečne v našom vzťahu?",d4_q3:"Čo pre teba znamená finančná sloboda?",d4_q4:"Finančné rozhodnutie, ktoré ťa znepokojilo?",d4_q5:"Cítiš sa podporovaný/á v kariére?",d4_b1:"Stop pri hľadaní vinníka za minulé chyby",d4_b2:"Nepoužívajte toto rande na vyjednávanie rozpočtu",d4_b3:"Ustúpte pri nevôli kvôli nerovnosti príjmov",d4_r_eyebrow:"Úvodný rituál · 8 min",d4_r_name:"Spomienka na peniaze",d4_r_desc:"Rozhovory o peniazoch bolía, keď sú o číslach.",d4_rs1:"Dve minúty ticha — najrannejšia spomienka na peniaze.",d4_rs2:"Podeľte sa úplne. Poslucháč len počúva.",d4_rs3:"\"Aký pocit zanecháva táto spomienka?\"",d4_rs4:"\"Dáva zmysel, že o peniazoch premýšľaš takto.\"",d4_rs5:"Až potom začnite rande.",d4_r_why:"Vaša finančná osobnosť sa formovala dlho pred stretnutím s partnerom.",
+  d5_title:"Rodina",d5_sub:"Korene, roly a rodiny, z ktorých pochádzame",d5_focus:"Vstúpili ste do celej rodinnej histórie vášho partnera, nielen do jeho osobnosti.",d5_s1:"Emocionálna atmosféra vašej rodiny v detstve",d5_s2:"Vzory, ktoré chcete zachovať alebo zanechať",d5_s3:"Roly a očakávania",d5_s4:"Filozofie rodičovstva a obavy",d5_s5:"Čo rodičia urobili správne? Čo by bolo inak?",d5_q1:"Čo z detstva chcete preniesť do vlastnej rodiny?",d5_q2:"Aký vzor z rodiny sa bojíte opakovať?",d5_q3:"Ako sa prejavovala láska vo vašej rodine?",d5_q4:"Ako vyzeral konflikt vo vašej domácnosti?",d5_q5:"Akú rodinnú kultúru chcete vytvoriť?",d5_b1:"Stop pri obvinení rodinám toho druhého",d5_b2:"Pozastavte sa pri neočakávanej traume",d5_b3:"Nesústreďujte sa na napätia so svokrovcami",d5_r_eyebrow:"Úvodný rituál · 7–8 min",d5_r_name:"Ukáž mi jednu vec",d5_r_desc:"Rodina je abstraktná, kým nie je konkrétna.",d5_rs1:"Nájdite fotografiu alebo predmet z detstva.",d5_rs2:"Podeľte sa. Príbeh v 2–3 minútach.",d5_rs3:"\"Čo miluješ najviac na tejto spomienke?\"",d5_rs4:"Položte predmety na viditeľné miesto.",d5_rs5:"Začnite vediac, že ste priviedli rodinu do miestnosti.",d5_r_why:"Predmety obchádzajú defenzívnosť a robia rodinu prítomnou.",
+  d6_title:"Zábava a dobrodružstvo",d6_sub:"Radosť, spontánnosť a spoločné potešenie",d6_focus:"Páry, ktoré sa spolu bavia, zostávajú spolu.",d6_s1:"Najšťastnejšia spomienka na hru alebo dobrodružstvo",d6_s2:"Vaše spoločné dobrodružstvo snov",d6_s3:"Aktivity, ktoré vás energizujú verzus povinnosti",d6_s4:"Nová vec, ktorú by ste chceli vyskúšať",d6_s5:"Ako vyzerala zábava na začiatku vzťahu?",d6_q1:"Čo hravé sme prestali robiť a chýba ti to?",d6_q2:"Ideálny spontánny deň so mnou?",d6_q3:"Niečo, čo by si tajne chcel/a vyskúšať?",d6_q4:"Smejeme sa spolu dosť?",d6_q5:"Čo pre teba znamená dobrodružstvo?",d6_b1:"Stop pri katalógu toho, čo chýba",d6_b2:"Neznevažujte partnerovu zábavu",d6_b3:"Ustúpte pri porovnávaní s inými pármi",d6_r_eyebrow:"Úvodný rituál · 3 min",d6_r_name:"60 sekúnd smiešnosti",d6_r_desc:"O hre nemôžete hovoriť vážne.",d6_rs1:"Nastavte časovač na 60 sekúnd.",d6_rs2:"Obaja musíte toho druhého rozosmiať.",d6_rs3:"Ak prvý zlyhá, skúsi druhý.",d6_rs4:"Sadnite si stále s úsmevom.",d6_rs5:"\"Najsmiešnejšia vec, ktorú sme kedy spolu urobili...\"",d6_r_why:"Smiech je nezlučiteľný s úzkosťou.",
+  d7_title:"Rast a spiritualita",d7_sub:"Zmysel, účel a osobná evolúcia",d7_focus:"Najhlbšie otázky — čo veríte, čo dáva životu zmysel a ako rastete spolu.",d7_s1:"Čo dáva životu zmysel a účel",d7_s2:"Vaše presvedčenia — duchovné, filozofické alebo svetské",d7_s3:"\"Ako si sa zmenil/a za posledných päť rokov?\"",d7_s4:"Osobný rast a vzájemná podpora",d7_s5:"Rituály zmysluplné pre vás ako pár",d7_q1:"Čo veríš, že sa stane po smrti?",d7_q2:"Čo dáva životu teraz najväčší zmysel?",d7_q3:"Podporujem to, kým sa stávaš?",d7_q4:"Časť seba, ktorú strácaš alebo získavaš?",d7_q5:"Čoho by si ľutoval/a pri obmedzenom čase?",d7_b1:"Stop pri debate o správnosti presvedčení",d7_b2:"Pozastavte sa pri existenciálnych strachoch",d7_b3:"Ustúpte pri tlaku na prevzatie svetonázoru",d7_r_eyebrow:"Úvodný rituál · 8–10 min",d7_r_name:"Spoločné ticho",d7_r_desc:"Toto rande kladie najväčšie otázky.",d7_rs1:"Tiché miesto. Vypnite všetky zvuky.",d7_rs2:"Päť minút úplného ticha.",d7_rs3:"Žiadne telefóny. Žiadne vrtenie.",d7_rs4:"Prvé slovo, ktoré vám prišlo na myseľ.",d7_rs5:"\"Prečo ti prišlo práve to slovo?\"",d7_r_why:"Ticho vytvára vnútornosť — päť minút je viac spájajúcich ako päť minút rozhovoru.",
+  d8_title:"Sny a vízie",d8_sub:"Budúcnosť, ktorú budujete spolu",d8_focus:"Záverečné z pôvodných ôsmich rande. Vytvorte spoločnú mapu budúcnosti.",d8_s1:"Každý zdieľa najhlbší osobný sen",d8_s2:"Ideálny spoločný život za desať rokov",d8_s3:"Kde sa sny stretávajú a rozchádzajú?",d8_s4:"Aký odkaz chcete zanechať?",d8_s5:"\"Budujeme život, ktorý...\"",d8_q1:"Sen od detstva, o ktorom si mi nikdy nepovedal/a?",d8_q2:"Bez peňazí a strachu — čo by si robil/a?",d8_q3:"Čo pre teba znamená úspech?",d8_q4:"Čo chceš, aby o nás hovorili?",d8_q5:"Sen, ktorý sa bojíš zdieľať?",d8_b1:"Stop pri \"to nie je realistické\"",d8_b2:"Divergujúce sny nie sú nekompatibilita",d8_b3:"Ustúpte pri úzkosti z budúcnosti",d8_r_eyebrow:"Úvodný rituál · 10 min",d8_r_name:"List budúcnosti",d8_r_desc:"Posledné z pôvodných ôsmich rande.",d8_rs1:"Napíšte list sebe o desať rokov. Päť až osem viet.",d8_rs2:"Päť minút v tichu.",d8_rs3:"Prečítajte nahlas. Bez prerušenia.",d8_rs4:"\"Časť, ktorá ma najviac dojala, bola...\"",d8_rs5:"Zložte listy a uschovajte ich.",d8_r_why:"Písanie aktivuje myslenie o budúcom ja.",
+  // NOVÉ RANDE 9
+  d9_title:"Duševné zdravie a pohoda",d9_sub:"Rozhovor, ktorý väčšina párov vedie až po kríze",
+  d9_focus:"Preskúmajte vaše emocionálne krajiny — podmienky, vzory a potreby, ktoré formujú to, ako každý z vás funguje. Toto nie je terapia; je to predpoklad pre to, byť si navzájom spojencami.",
+  d9_s1:"Podeľte sa o svoju osobnú históriu s úzkosťou, depresiou alebo emocionálnymi ťažkosťami",d9_s2:"Opíšte vaše rané varovné signály — ako vyzerá \"nie v poriadku\" pre vás?",d9_s3:"Povedzte partnerovi, čo potrebujete pri ťažkostiach — a čo veci zhoršuje",d9_s4:"Diskutujte o vzťahu k terapii — individuálnej aj párová",d9_s5:"Spolu vytvorte tichý plán: čo mám urobiť, ak zbadám, že nie si v poriadku?",
+  d9_q1:"Aké sú vaše rané varovné signály, že sa emocionálne trápite?",d9_q2:"Čo odo mňa potrebujete, keď nie ste v poriadku — priestor, prítomnosť alebo niečo iné?",d9_q3:"Je nejaký duševný boj z minulosti, ktorý stále ovplyvňuje vaše správanie dnes?",d9_q4:"Urobil/a som niekedy veci ťažšími počas vášho ťažkého obdobia bez toho, aby som si to uvedomoval/a?",d9_q5:"Čo je najužitočnejšia vec, ktorú som urobil/a pre vašu pohodu bez toho, aby som vedel/a?",
+  d9_b1:"Stop, ak začnete diagnostikovať alebo vysvetľovať ich duševný stav naspäť k nim",d9_b2:"Pozastavte sa, ak sa objaví súčasná kríza — potrebuje skutočnú podporu, nie formát rande",d9_b3:"Ustúpte, ak sa duševné zdravie používa na vysvetlenie zraňujúceho správania namiesto pochopenia",
+  d9_r_eyebrow:"Úvodný rituál · 5 min",d9_r_name:"Predpoveď počasia",
+  d9_r_desc:"Pred rozhovorom o vnútornej krajine ju zmapujte pomocou jednoduchej metafory. Tým sa odstraňuje tlak na nájdenie správnych slov.",
+  d9_rs1:"Každý si dajte 2 minúty ticha a dokončite: \"Moje emocionálne počasie tento týždeň bolo...\"",d9_rs2:"Zdieľajte predpoveď — slnečno, hmla, búrka, premenlivé, pokojné. Bez vysvetlenia.",d9_rs3:"Poslucháč odpovie: \"Povedz mi viac o [slove, ktoré použili].\"",d9_rs4:"Zdieľajte len 2 minúty každý. Neriešte. Neopravujte.",d9_rs5:"Zakončite: \"Som rád/a, že to viem o tebe.\"",
+  d9_r_why:"Metafora vytvára odstup od hanby. Počasie nie je ničia vina — jednoducho je. Tým je bezpečnejšie hovoriť o duševných stavoch.",
+  // NOVÉ RANDE 10
+  d10_title:"Identita a osobná sloboda",d10_sub:"Kto ste mimo tohto vzťahu?",
+  d10_focus:"Zdravé vzťahy si vyžadujú, aby každý z partnerov zostal výraznou individualitou. Toto rande je o tých častiach seba, ktoré existujú — alebo kedysi existovali — nezávisle od toho, že ste partnerom niekoho iného.",
+  d10_s1:"Podeľte sa o to, kto ste boli pred týmto vzťahom — čo vás definovalo?",d10_s2:"Pomenujte záujmy, ambície alebo návyky, ktoré ste ticho odložili od chvíle, keď ste spolu",d10_s3:"Diskutujte o tom, koľko času sami pre seba skutočne potrebujete a čo vám to obnoví",d10_s4:"Preskúmajte časti seba, ktoré nemôžete plne vyjadriť v tomto vzťahu",d10_s5:"Opýtajte sa navzájom: kým sa stávate — a rastieme kompatibilnými smermi?",
+  d10_q1:"Je nejaká verzia vás samého/samej, ktorú ste stratili alebo potlačili odkedy sme spolu?",d10_q2:"Čo robíte — alebo kým sa stávate — keď máte čas úplne pre seba?",d10_q3:"Čo odo mňa potrebujete, aby ste sa cítili slobodní byť plne sami sebou?",d10_q4:"Vzdali ste sa ticho nejakej ambície alebo záujmu pre tento vzťah?",d10_q5:"Rastieme smermi, ktoré sa vám zdajú kompatibilné?",
+  d10_b1:"Stop, ak sa rozhovor stane zoznamom toho, čo vzťah stál — to je iný, ťažší rozhovor",d10_b2:"Pozastavte sa, ak strata identity pociťuje veľmi hlboko — môže potrebovať individuálnu terapiu",d10_b3:"Ustúpte, ak sa porovnanie s predchádzajúcim vzťahom alebo ex-partnerom objaví ako referencia",
+  d10_r_eyebrow:"Úvodný rituál · 5 min",d10_r_name:"Tri slová",
+  d10_r_desc:"Pred rande každý ticho vyberie tri slová, ktoré opisujú, kto je mimo tohto vzťahu. Nie rolu — len seba.",
+  d10_rs1:"3 minúty ticha. Každý napíše tri slová pre to, kto je nezávisle od tohto vzťahu.",d10_rs2:"Zdieľajte tri slová jedno po druhom. Zatiaľ bez vysvetlenia.",d10_rs3:"Poslucháč si vyberie to najprekvapivejšie: \"Povedz mi o [tom slove].\"",d10_rs4:"Každý hovorí 2 minúty o tom slove.",d10_rs5:"Zakončite: \"Chcem, aby ste vždy boli touto osobou.\"",
+  d10_r_why:"Začiatok tromi slovami odstraňuje úzkosť z prázdnej stránky sebaopisu. Zvyčajne sa objavujú veci, ktoré nikto z vás nečakal.",
+  // NOVÉ RANDE 11
+  d11_title:"Starnutie, zdravie a telo",d11_sub:"Fyzická zraniteľnosť a starnutie spolu",
+  d11_focus:"Rozhovor o telesnosti, zdraví a starnutí je ten, ktorý väčšina párov odkláda, kým ich okolnosti neprinútia. Mať ho skoro — zo zvedavosti, nie zo strachu — mení to, ako obaja partneri zvládajú chorobu, zmenu a plynutie času spolu.",
+  d11_s1:"Podeľte sa o rodinnú zdravotnú históriu a čo to môže znamenať pre vašu budúcnosť",d11_s2:"Úprimne hovorte o svojom vzťahu k telu — nielen o vzhľade, ale o vitalite",d11_s3:"Diskutujte o opatrovníctve: čo by ste odo mňa potrebovali, keby ste boli vážne chorý/á?",d11_s4:"Preskúmajte priania na konci života — rozhovor, ktorý chráni vás oboch",d11_s5:"Hovorte o starých rodičoch: akú zodpovednosť každý cítite a ako to ovplyvňuje nás",
+  d11_q1:"Je nejaký zdravotný problém, ktorý ticho nesiate a ktorý plne nepoznám?",d11_q2:"Čo by ste odo mňa potrebovali, keby ste vážne ochoreli?",d11_q3:"Ako sa cítite ohľadom svojho tela teraz — ste s ním v mieri?",d11_q4:"Ako sa cítite pri myšlienke na starnutie — straší vás to alebo je to v poriadku?",d11_q5:"Premýšľali ste o tom, čo by ste chceli na konci svojho života?",
+  d11_b1:"Stop, ak diskusia o konci života vyvolá akútnu úzkosť — vezmite to v menších kúskoch inokedy",d11_b2:"Pozastavte sa, ak sa zraniteľnosti ohľadom imidžu tela stretávajú s odmietnutím namiesto zvedavosti",d11_b3:"Ustúpte, ak sa opatrovníctvo stáva transakčným — \"zostal/a by si, keby som ochorel/a?\" je test, nie rozhovor",
+  d11_r_eyebrow:"Úvodný rituál · 8 min",d11_r_name:"List telu",
+  d11_r_desc:"Pred diskusiou o zdraví a starnutí každý ticho uzná telo, v ktorom je — s vďačnosťou, nie súdom.",
+  d11_rs1:"3 minúty ticha. Dokončite: \"Drahé telo, ďakujem ti za...\"",d11_rs2:"Nemusíte to písať — stačí si to myslieť. Ale píšte, ak chcete.",d11_rs3:"Podeľte sa o to, čo sa objavilo. Nie celý list — len jednu vec, za ktorú ste vďační.",d11_rs4:"Poslucháč odpovie len: \"Som rád/a, že si mi to povedal/a.\"",d11_rs5:"Začnite rande z toho miesta prijatia.",
+  d11_r_why:"Väčšina rozhovorov o zdraví začína zo strachu alebo deficitu. Začiatok s vďačnosťou preorientuje oboch smerom k starostlivosti.",
+  // NOVÉ RANDE 12
+  d12_title:"Politické a spoločenské hodnoty",d12_sub:"Čomu veríte ohľadom sveta",
+  d12_focus:"Politické a spoločenské hodnoty sú hlboko osobné — formované detstvom, skúsenosťami a tým, čo ste svedkami. Mnohé páry predpokladajú zhodu bez toho, aby ju overili. Toto rande je o pochopení svetonázoru toho druhého, nie o súhlase s ním.",
+  d12_s1:"Podeľte sa o to, ako boli formované vaše politické a spoločenské hodnoty",d12_s2:"Pomenujte spoločenskú otázku, na ktorej vám najviac záleží — a prečo je osobná",d12_s3:"Preskúmajte, kde sa vaše hodnoty skutočne rozchádzajú — a či to zvládate",d12_s4:"Diskutujte o tom, čo by ste chceli naučiť deti o spravodlivosti, komunite a moci",d12_s5:"Nájdite jednu hodnotu, ktorú úplne zdieľate a pomenujte ju nahlas spolu",
+  d12_q1:"Aká politická alebo spoločenská otázka je vám najbližšia — a čo ju urobilo osobnou?",d12_q2:"Je nejaká moja hodnota, ktorú zásadne nezdieľate?",d12_q3:"Ako sa cítite, keď sa hádame o niečom politickom — ohrození, zvedaví alebo ľahostajní?",d12_q4:"Je nejaká komunita alebo vec, o ktorú by ste si priali, aby som sa viac staral/a?",d12_q5:"Je niečo, čomu verím a čo vás ticho znepokojuje?",
+  d12_b1:"Stop, ak sa rozhovor stane debatou so správnou a nesprávnou odpoveďou",d12_b2:"Ustúpte, ak sa niektorý z partnerov začína upravovať, aby sa vyhol konfliktu — ticho nie je súhlas",d12_b3:"Pozastavte sa, ak rozhovor stotožňuje politické názory s osobným charakterom alebo inteligenciou",
+  d12_r_eyebrow:"Úvodný rituál · 5 min",d12_r_name:"Titulok správ",
+  d12_r_desc:"Pred diskusiou o hodnotách každý zdieľa jednu správu z minulého týždňa, ktorá v ňom niečo vyvolala. Nie na debatu — len na zdieľanie pocitu.",
+  d12_rs1:"Každý si premyslí jednu správu alebo udalosť z minulého týždňa, ktorá vo vás vyvolala silný pocit.",d12_rs2:"Zdieľajte ju v jednej vete — len titulok.",d12_rs3:"Potom povedzte: \"Cítil/a som [emócia], pretože...\"",d12_rs4:"Poslucháč reaguje len na pocit: \"Rozumiem, prečo by ste sa takto cítili.\"",d12_rs5:"Vymeňte roly. Potom začnite rande.",
+  d12_r_why:"Vstup do rozhovoru o hodnotách cez emóciu namiesto pozície odstraňuje defenzívnu štruktúru debaty.",
+  footer_credit:"Sprievodca dvanástimi základnými rozhovormi pre trvalý vzťah",footer_sub:"Sprievodca rozhovormi, ktoré udržujú lásku nažive",
+  formDates:[
+    {num:"01",title:"Dôvera a záväzok",sub:"Základ všetkého ostatného",qs:["Kedy sa cítiš najbezpečnejšie — a kedy najneistejšie?","Urobil/a som niečo, čo poškodilo tvoju dôveru?","Čo pre teba znamená vernosť?","Čo by si potreboval/a pre úplné bezpečie?","Keby sa vzťah skončil, čo sa rozpadlo?"]},
+    {num:"02",title:"Konflikt",sub:"Hádate sa múdrejšie",qs:["Čo robím pri hádke, čo ti ubližuje?","O čo žiadaš pri opakujúcich sa hádkach?","Ako fungoval konflikt vo vašej rodine?","Čo by ti pomohlo cítiť sa vypočutý/á?","Je nevyriešená hádka?"]},
+    {num:"03",title:"Sex a intimita",sub:"Túžba a blízkosť",qs:["Kedy sa cítiš mi najbližšie?","Je niečo, čo si chcel/a povedať?","Ako sa cítiš ohľadom frekvencie?","Pri iniciatíve — žiadaný/á alebo pod tlakom?","Čo by pomohlo emocionálnej blízkosti?"]},
+    {num:"04",title:"Práca a peniaze",sub:"Hodnoty a bezpečie",qs:["Peniaze v detstve — stres alebo bezpečie?","Cítiš sa finančne bezpečne?","Čo znamená finančná sloboda?","Finančné rozhodnutie, ktoré ťa znepokojilo?","Cítiš sa podporovaný/á v kariére?"]},
+    {num:"05",title:"Rodina",sub:"Korene a roly",qs:["Čo z detstva preniesť do vlastnej rodiny?","Aký vzor sa bojíte opakovať?","Ako sa prejavovala láska?","Ako vyzeral konflikt?","Akú kultúru chcete vytvoriť?"]},
+    {num:"06",title:"Zábava",sub:"Radosť a spontánnosť",qs:["Čo hravé sme prestali robiť?","Ideálny spontánny deň?","Niečo, čo by si tajne chcel/a?","Smejeme sa dosť?","Čo znamená dobrodružstvo?"]},
+    {num:"07",title:"Rast a spiritualita",sub:"Zmysel a účel",qs:["Čo sa stane po smrti?","Čo dáva životu zmysel?","Podporujem to, kým sa stávaš?","Časť seba, ktorú strácaš alebo získavaš?","Čoho by si ľutoval/a?"]},
+    {num:"08",title:"Sny a vízie",sub:"Spoločná budúcnosť",qs:["Sen od detstva?","Bez peňazí a strachu?","Čo znamená úspech?","Čo chceš, aby o nás hovorili?","Sen, ktorý sa bojíš zdieľať?"]},
+    {num:"09",title:"Duševné zdravie",sub:"Rozhovor po kríze",qs:["Vaše varovné signály?","Čo potrebujete pri ťažkostiach?","Boj z minulosti, ktorý vás stále ovplyvňuje?","Urobil/a som veci ťažšie?","Najužitočnejšia vec pre vašu pohodu?"]},
+    {num:"10",title:"Identita",sub:"Kto ste mimo vzťahu?",qs:["Verzia seba, ktorú ste stratili?","Kým sa stávate sami?","Čo potrebujete, aby ste boli slobodní?","Vzdali ste sa ambície?","Rastieme kompatibilnými smermi?"]},
+    {num:"11",title:"Starnutie a zdravie",sub:"Fyzická zraniteľnosť",qs:["Zdravotný problém, ktorý ticho nesiate?","Čo by ste potrebovali pri vážnej chorobe?","Ste v mieri so svojím telom?","Ako sa cítite pri myšlienke na starnutie?","Čo chcete na konci života?"]},
+    {num:"12",title:"Hodnoty",sub:"Čomu veríte",qs:["Najdôležitejšia spoločenská otázka?","Moja hodnota, ktorú nezdieľate?","Ako sa cítite pri politickej hádke?","Niečo, o čo by ste si priali, aby som sa viac staral/a?","Niečo, čo vás ticho znepokojuje?"]}
+  ]
 },
 cz:{
-  hero_ornament:"Podle práce Johna a Julie Gottmanových",
-  hero_title:"Osm<br><em>Rande</em>",
-  hero_sub:"Průvodce rozhovory, které udržují vztah živým — s klíčovými kroky, diskusními otázkami, rituály a místy, kde se zastavit.",
-  scroll:"Rolovat",nav_before:"Před začátkem",nav_before_short:"Úvod",
-  nav_1:"Důvěra",nav_2:"Konflikt",nav_3:"Intimita",nav_4:"Peníze",nav_5:"Rodina",nav_6:"Zábava",nav_7:"Růst",nav_8:"Sny",
+  mydate_tab:"Moje Rande",hero_title:"Dvanáct<br><em>Rande</em>",hero_sub:"Průvodce dvanácti rozhovory, které udržují vztah živým — s klíčovými kroky, otázkami, rituály a místy, kde se zastavit.",scroll:"Rolovat",nav_before:"Před začátkem",nav_before_short:"Úvod",nav_1:"Důvěra",nav_2:"Konflikt",nav_3:"Intimita",nav_4:"Peníze",nav_5:"Rodina",nav_6:"Zábava",nav_7:"Růst",nav_8:"Sny",nav_9:"Duševní zdraví",nav_10:"Identita",nav_11:"Stárnutí a zdraví",nav_12:"Hodnoty",
   label_steps:"Klíčové kroky",label_questions:"Otázky k diskuzi",label_breaks:"Zastavte se pokud...",why_label:"Proč to funguje:",
-  before_eyebrow:"Základ",
-  before_title:"Před<br><em style=\"font-family:'Cormorant Garamond',serif;font-style:italic;\">začátkem</em>",
-  before_lead:"Těchto osm rande funguje nejlépe, když oba partneři do nich vstupují jako zvědaví průzkumníci — ne jako diskutéři nebo řešitelé problémů. Cílem je porozumění, ne dohoda. Rande rozdělte alespoň o týden a nikdy nepřeskakujte.",
-  env_title:"Prostředí",env_1:"Vyberte soukromé místo — žádné přeplněné restaurace pro citlivá témata",env_2:"Telefony otočené dolů, notifikace vypnuté po celou dobu rande",env_3:"Plánujte alespoň 1–2 hodiny — tyto rozhovory potřebují prostor",env_4:"Vyberte čas, kdy žádný z vás není vyčerpaný",
-  emo_title:"Emocionální příprava",emo_1:"Věnujte 10 minut sami sobě na uklidnění před tím, než si sednete",emo_2:"Připomeňte si: váš partner není váš soupeř",emo_3:"Přijďte se zvědavostí — předpokládejte, že je něco, co ještě nevíte",emo_4:"Před začátkem nahlas vyjádřete společný záměr",
-  rules_title:"Základní pravidla",rules_1:"Mluví vždy jen jedna osoba — nepřerušujte, ani když souhlasíte",rules_2:"Používejte jazyk \"Cítím se...\" — vyhýbejte se \"Ty vždy...\" nebo \"Ty nikdy...\"",rules_3:"Dohodněte se na bezpečném slově pro pauzu, aby to nepůsobilo jako opuštění",rules_4:"Na každou otázku můžete odpovědět později — nic není povinné",
-  start_title:"Na začátku každého rande",start_1:"Začněte jedním upřímným oceněním vašeho partnera",start_2:"Zeptejte se na energii: \"Jak se cítíš před tímto rozhovorem?\"",start_3:"Připomeňte si, že jste na stejném týmu",start_4:"Nejprve si společně přečtěte téma rande",
-  do_label:"Dělejte",dont_label:"Nedělejte",
-  do_1:"Poslouchejte, abyste porozuměli, ne abyste odpovídali",do_2:"Ptejte se dál: \"Řekni mi o tom víc\"",do_3:"Uznávejte pocity i tehdy, když s nimi nesouhlasíte",do_4:"Uznejte, když je něco pro vás novou informací",do_5:"Vyjádřete vděčnost na konci, i když to bylo těžké",
-  dont_1:"Neproměňujte rande v terapeutické sezení nebo intervenci",dont_2:"Nedávejte rady, když váš partner jen potřebuje být vyslechnut",dont_3:"Nevytahujte nesouvisející stížnosti během rozhovoru",dont_4:"Nekontrolujte telefon, ani jednou",dont_5:"Nepřekračujte emocionální zahlcení — vždy respektujte pauzu",
-  d1_title:"Důvěra a závazek",d1_sub:"Základ všeho ostatního",
-  d1_focus:"Prozkoumejte, co důvěra a závazek znamenají pro každého z vás — nejen věrnost, ale i emocionální dostupnost. Zeptejte se: \"Jakými způsoby jsem tu pro tebe byl/a? Kde jsem selhal/a?\"",
-  d1_s1:"Podělte se o moment, kdy jste se cítili skutečně bezpečně se svým partnerem",d1_s2:"Definujte závazek nad rámec věrnosti — přítomnost, upřímnost, konzistentnost",d1_s3:"Zeptejte se na skryté obavy: \"Co by mohlo zničit náš vztah?\"",d1_s4:"Udělejte společný slib o tom, jak budete řešit budoucí porušení důvěry",d1_s5:"Uznejte minulé momenty, kdy byla důvěra testována",
-  d1_q1:"Kdy se cítíš v našem vztahu nejbezpečněji — a kdy nejistěji?",d1_q2:"Udělal/a jsem něco, co poškodilo tvou důvěru, třeba jen v malé míře?",d1_q3:"Co pro tebe znamená věrnost nad rámec fyzické loajality?",d1_q4:"Co bys ode mě potřeboval/a, abys se cítil/a úplně bezpečně?",d1_q5:"Kdyby se náš vztah skončil, co bys řekl/a, že se nejdříve rozpadlo?",
-  d1_b1:"Zastavte se, pokud se rozhovor změní v obviňování — důvěra se zde buduje, nesoudí",d1_b2:"Udělejte přestávku, pokud se některý partner stane defenzivním — dejte si 20 minut",d1_b3:"Nevynucujte řešení dnes — pojmenování problému je dostatečným pokrokem",
-  d1_r_eyebrow:"Úvodní rituál · 5 min",d1_r_name:"Výměna vděčnosti",d1_r_desc:"Důvěra roste v malých momentech uznání. Toto vás zakotví v tom, co již existuje — před prozkoumáním toho, co potřebuje pozornost.",
-  d1_rs1:"Sedněte si naproti sobě. Společně se pomalu nadechněte.",d1_rs2:"Každý sdílí jednu konkrétní věc, kterou ten druhý nedávno udělal a díky které se cítil bezpečně.",d1_rs3:"Posluchač odpoví pouze: \"Díky, že jsi to viděl/a.\" Nic víc.",d1_rs4:"Vyměňte si role. Opakujte.",d1_rs5:"Zakončete společně: \"Jsem tu a nikam neodcházím.\"",
-  d1_r_why:"Pojmenování konkrétních aktů péče aktivuje část mozku spojenou s bezpečím — ideální stav pro rozhovor o důvěře.",
-  d2_title:"Konflikt",d2_sub:"Hádejte se chytřeji, ne tvrději",
-  d2_focus:"Pochopte své vzorce konfliktů — ne abyste vyřešili každý spor, ale abyste se naučili, jak každý z vás zvládá napětí. Cílem je zvědavost, ne vítězství.",
-  d2_s1:"Identifikujte svůj styl konfliktu: eskalujete, stahujete se nebo se vyhýbáte?",d2_s2:"Podělte se o opakující se spor — popište, jak se cítíte, ne čí je vina",d2_s3:"Najděte skrytý sen za opakujícím se sporem — jaká hlubší potřeba je ve hře?",d2_s4:"Dohodněte se na opravném signálu — slovu nebo gestu při eskalaci",d2_s5:"Diskutujte o tom, jak vypadá spravedlivý spor pro vás oba",
-  d2_q1:"Co dělám při hádce, co ti nejvíce ubližuje?",d2_q2:"O co skutečně žádáš, když se hádáme o tomto tématu?",d2_q3:"Jak fungoval konflikt ve vaší rodině v dětství — křik, ticho, vyhýbání?",d2_q4:"Co by ti pomohlo cítit se vyslechnut/a během hádky?",d2_q5:"Je nějaká hádka, která ti stále leží na srdci — nevyřešená?",
-  d2_b1:"Zastavte se ihned, pokud se cítíte zahlceni — bušící srdce, prázdná mysl. Nemůžete poslouchat",d2_b2:"Nevracejte se k obsahu hádky — dnes jde o vzorce, ne o konkrétní incident",d2_b3:"Ustupte, pokud někdo začne vyjmenovávat stížnosti — toto není sezení na stížnosti",
-  d2_r_eyebrow:"Úvodní rituál · 5 min",d2_r_name:"Kontrola teploty",d2_r_desc:"Před rozhovorem o konfliktu je dobré vědět, kde každý z vás je emocionálně. Toto cvičení normalizuje upřímnost o vašem počátečním stavu.",
-  d2_rs1:"Každý ohodnoťte, jak se právě cítíte na stupnici 1–10: 1 = úplně klidný, 10 = již napjatý.",d2_rs2:"Nejprve řekněte své číslo — bez vysvětlení. Jen číslo.",d2_rs3:"Jedna věta každý o tom, co za tím stojí — stres, únava, nervozita z tématu.",d2_rs4:"Pokud je někdo nad 7, počkejte 15 minut a nejprve udělejte něco uklidňujícího.",d2_rs5:"Pokud jsou oba pod 7, řekněte nahlas: \"Dnes večer jsme zvědaví, ne bojovní.\"",
-  d2_r_why:"Kontrola předem vám brání vnášet skryté napětí do rozhovoru a zaměňovat ho za konflikt mezi sebou.",
-  d3_title:"Sex a intimita",d3_sub:"Touha, blízkost a zranitelnost",
-  d3_focus:"Mluvte o tom, co intimita znamená nad rámec fyzického — bezpečí, touha a emocionální blízkost jsou všechno součástí toho. Přistupujte s laskavostí a bez tlaku na výkon.",
-  d3_s1:"Podělte se o to, co vás dělá nejvíce žádaným/ou a emocionálně propojeným/ou",d3_s2:"Mluvte o rozdílu mezi sexem a integritou pro každého z vás",d3_s3:"Diskutujte o tom, jak stres a životní změny ovlivňují vaši touhu",d3_s4:"Zeptejte se: co bych mohl/a dělat více, co miluješ? Co bys chtěl/a změnit?",d3_s5:"Prozkoumejte, co pro každého z vás znamená novost nebo spontánnost",
-  d3_q1:"Kdy se cítíš mi nejblíže — při fyzické intimitě nebo v jiných momentech?",d3_q2:"Je něco o našem sexuálním životě, co jsi chtěl/a říct, ale neřekl/a?",d3_q3:"Jak se cítíš ohledně toho, jak často jsme v současnosti intimní?",d3_q4:"Když se já iniciativně přiblížím, cítíš se žádaný/á nebo pod tlakem?",d3_q5:"Co by ti pomohlo cítit se emocionálně blíže předtím, než se fyzicky sblížíme?",
-  d3_b1:"Zastavte se, pokud se rozhovor zvrhne v kritiku sexuálního výkonu — to lidi uzavírá",d3_b2:"Nesrovnávejte váš současný sexuální život s počátky vztahu",d3_b3:"Ustupte, pokud vstoupí do místnosti stud — nikdo by se neměl cítit souzen za své potřeby",
-  d3_r_eyebrow:"Úvodní rituál · 3–4 min",d3_r_name:"Dvěminutové objetí",d3_r_desc:"Fyzická blízkost před rozhovorem o intimitě není rozporom — je to přesně ten bod. Přejděte od mysli k tělu předtím, než přijdou slova.",
-  d3_rs1:"Vstaňte a obejměte se — skutečné, bez spěchu. Ne pozdravné objetí. Objetí setrvání.",d3_rs2:"Objímejte se alespoň dvě minuty. Bez slov.",d3_rs3:"Všímejte si: váš dech, teplo, jakékoli napětí ve vašem vlastním těle.",d3_rs4:"Když se oddělíte, každý sdílí jedno slovo pro to, jak se teď cítíte.",d3_rs5:"Sedněte si. Začněte rande z tohoto místa.",
-  d3_r_why:"Dlouhé objetí spouští uvolňování oxytocinu, snižuje kortizol a vytváří pocit spojení před zranitelností tohoto rozhovoru.",
-  d4_title:"Práce a peníze",d4_sub:"Hodnoty, bezpečí a společná budoucnost",
-  d4_focus:"Peníze zřídka bývají o penězích — jde o bezpečí, svobodu, kontrolu a hodnoty. Pochopte finanční osobnost vašeho partnera, nejen jeho návyky.",
-  d4_s1:"Podělte se o svou nejranější vzpomínku na peníze a jak formovala vaše přesvědčení",d4_s2:"Identifikujte své finanční hodnoty: bezpečí, svoboda, štědrost, status?",d4_s3:"Diskutujte o tom, co pro každého z vás znamená \"dostatek\"",d4_s4:"Mluvte o práci — cítíte se viděný/á a respektovaný/á ve své kariéře?",d4_s5:"Vytvořte společnou vizi finančního zabezpečení na 5–10 let",
-  d4_q1:"Byly peníze v dětství zdrojem stresu, bezpečí nebo něčeho jiného?",d4_q2:"Cítíš se finančně bezpečně v našem vztahu právě teď?",d4_q3:"Co pro tebe znamená finanční svoboda — jak by vypadala?",d4_q4:"Je nějaké finanční rozhodnutí, které jsem udělal/a a které tě znepokojilo nebo frustrovalo?",d4_q5:"Cítíš se podporovaný/á ve svých kariérních cílech — nebo omezovaný/á?",
-  d4_b1:"Zastavte se, pokud se rozhovor změní v hledání viníka za minulé finanční chyby",d4_b2:"Nepoužívejte toto rande k vyjednávání rozpočtu — to je praktický, ne emocionální úkol",d4_b3:"Ustupte, pokud se objeví nevole kvůli nerovnosti příjmů — to potřebuje vlastní prostor",
-  d4_r_eyebrow:"Úvodní rituál · 8 min",d4_r_name:"Vzpomínka na peníze",d4_r_desc:"Rozhovory o penězích bolí, když jsou o číslech. Tento rituál vás zakotví v emocionální historii, kterou každý z vás přináší k tomuto tématu.",
-  d4_rs1:"Každý si dejte dvě minuty ticha na připomenutí své nejranější vzpomínky spojené s penězi.",d4_rs2:"Podělte se o vzpomínku úplně. Posluchač jen poslouchá — zatím žádné komentáře.",d4_rs3:"Po sdílení obou každý odpoví: \"Jaký pocit vám tato vzpomínka zanechává?\"",d4_rs4:"Uznejte, co jste slyšeli: \"Dává smysl, že o penězích přemýšlíš takto.\"",d4_rs5:"Až poté začněte rande.",
-  d4_r_why:"Vaše finanční osobnost se formovala dlouho před tím, než jste potkali partnera. Pochopení jejích kořenů vám brání brát reakce toho druhého osobně.",
-  d5_title:"Rodina",d5_sub:"Kořeny, role a rodiny, ze kterých pocházíme",
-  d5_focus:"Nevstoupili jste do vztahu jen s osobou — vstoupili jste do celé její rodinné historie. Prozkoumejte, jak vaše dětství formuje vaše očekávání od partnerství a rodičovství.",
-  d5_s1:"Popište svou rodinu v dětství — jaké bylo emocionální klima?",d5_s2:"Určete, které rodinné vzory chcete zachovat a které nechat za sebou",d5_s3:"Diskutujte o rolích: kdo co dělal ve vaší původní rodině a co očekáváte teď?",d5_s4:"Pokud máte nebo chcete děti, prozkoumejte filozofie rodičovství a obavy",d5_s5:"Zeptejte se: co vaši rodiče udělali správně? Co byste si přáli, aby bylo jinak?",
-  d5_q1:"Co z vašeho dětství chcete přenést do naší vlastní rodiny?",d5_q2:"Jaký vzor z vaší rodiny se bojíte opakovat?",d5_q3:"Jak se projevovala láska ve vaší rodině — slovy, skutky nebo jinak?",d5_q4:"Jak vypadal konflikt ve vaší domácnosti — byl řešen nebo potlačen?",d5_q5:"Jakou rodinnou kulturu chcete společně vytvořit?",
-  d5_b1:"Zastavte se, pokud se rozhovor změní v obvinění rodin toho druhého — nejsou to nepřátelé",d5_b2:"Pozastavte se, pokud se neočekávaně objeví dětské trauma — zaslouží si podporený prostor",d5_b3:"Nenechte, aby dominovala napětí s tchánem a tchyní — soustřeďte se na hodnoty a vzory",
-  d5_r_eyebrow:"Úvodní rituál · 7–8 min",d5_r_name:"Ukaž mi jednu věc",d5_r_desc:"Rodina je abstraktní, dokud není konkrétní. Přineste své kořeny do místnosti konkrétně, před tím, než o nich budete diskutovat.",
-  d5_rs1:"Před rande každý najděte jednu fotografii nebo malý předmět spojený s vaší rodinou nebo dětstvím.",d5_rs2:"Sdílejte ho s partnerem. Řekněte příběh za ním ve dvou nebo třech minutách.",d5_rs3:"Posluchač položí jen jednu otázku: \"Co miluješ nejvíce na této vzpomínce?\"",d5_rs4:"Položte předměty na viditelné místo po celou dobu rande.",d5_rs5:"Začněte rande vědouce, že jste každý přivedli svou rodinu do místnosti.",
-  d5_r_why:"Předměty obcházejí defenzivitu. Dělají rodinu přítomnou a skutečnou — ne pojmem k debatování, ale životem k pochopení.",
-  d6_title:"Zábava a dobrodružství",d6_sub:"Radost, spontánnost a společné potěšení",
-  d6_focus:"Páry, které se spolu baví, zůstávají spolu. Prozkoumejte, co vás oba zapaluje a jak dobře znáte představu zábavy toho druhého.",
-  d6_s1:"Podělte se o svou nejšťastnější vzpomínku z dětství na hru nebo dobrodružství",d6_s2:"Popište vaše společné dobrodružství snů — velké nebo malé",d6_s3:"Identifikujte aktivity, které vás energizují versus ty, které děláte z povinnosti",d6_s4:"Najděte alespoň jednu novou věc, kterou byste oba chtěli vyzkoušet",d6_s5:"Promluvte si, jak vypadala \"zábava\" na začátku vašeho vztahu",
-  d6_q1:"Co hravého jsme kdysi dělali a přestali — a chybí ti to?",d6_q2:"Jak by vypadal tvůj ideální spontánní den se mnou?",d6_q3:"Je něco, co bys tajně chtěl/a vyzkoušet, ale nezmiňoval/a jsi to?",d6_q4:"Smějeme se spolu dost? Co tě se mnou rozesměje?",d6_q5:"Co pro tebe znamená dobrodružství — cestování, novost, riziko nebo něco jiného?",
-  d6_b1:"Zastavte se, pokud se to stane katalogem toho, co chybí nebo je nudné ve vztahu",d6_b2:"Neznevažujte partnerovu představu zábavy jako dětinskou — každá hra je platná",d6_b3:"Ustupte, pokud se objeví srovnávání s jinými páry — nikam to nevede",
-  d6_r_eyebrow:"Úvodní rituál · 3 min",d6_r_name:"60 sekund legrace",d6_r_desc:"O hře nemůžete mluvit, když jste vážní. Toto cvičení otevírá lehkost před začátkem rande.",
-  d6_rs1:"Nastavte časovač na 60 sekund.",d6_rs2:"Oba musíte toho druhého rozesmát před vypršením — pouze tváří, hlasem nebo tělem. Žádné šimrání. Žádné rekvizity.",d6_rs3:"Pokud první selže, zkusí druhý.",d6_rs4:"Sedněte si stále s úsměvem.",d6_rs5:"Začněte sdílením: \"Nejsrandovnější věc, kterou jsme kdy společně udělali, byla...\"",
-  d6_r_why:"Smích je fyziologicky neslučitelný s úzkostí. Začátek od radosti usnadňuje upřímný rozhovor o zábavě.",
-  d7_title:"Růst a spiritualita",d7_sub:"Smysl, účel a osobní evoluce",
-  d7_focus:"Nejhlubší otázky — čemu věříte, co dává vašemu životu smysl a jak rostete spolu? Nejsou tu správné odpovědi, jen upřímné.",
-  d7_s1:"Podělte se o to, co dává vašemu životu smysl a účel",d7_s2:"Diskutujte o svých přesvědčeních — duchovních, filozofických nebo světských",d7_s3:"Zeptejte se: \"Jak ses změnil/a za posledních pět let? Co tě změnilo?\"",d7_s4:"Prozkoumejte, co pro každého z vás znamená osobní růst a jak se navzájem podporujete",d7_s5:"Diskutujte o rituálech nebo praktikách, které jsou pro vás jako pár smysluplné",
-  d7_q1:"Čemu věříš, že se stane po smrti — a přináší ti to útěchu?",d7_q2:"Co dává vašemu životu teď největší smysl?",d7_q3:"Cítíš, že podporuji to, kým se stáváš, nebo to, kým jsi byl/a?",d7_q4:"Je nějaká část sebe, kterou cítíš ztratit v našem vztahu? Nebo získat?",d7_q5:"Čeho bys litoval/a, kdybys věděl/a, že tvůj čas je omezený?",
-  d7_b1:"Zastavte se, pokud se to změní v debatu o tom, čí přesvědčení jsou správná — jde o porozumění",d7_b2:"Pozastavte se, pokud existenciální strachy začnou být ohromující — to je hluboká práce",d7_b3:"Ustupte, pokud se jeden partner cítí tlačen převzít světonázor toho druhého",
-  d7_r_eyebrow:"Úvodní rituál · 8–10 min",d7_r_name:"Společné ticho",d7_r_desc:"Toto rande klade největší otázky. Zaslouží si nejzáměrnější úvod. Sdílené ticho není trapné — je to začátek rozhovoru.",
-  d7_rs1:"Sedněte si společně na tiché místo. Vypněte všechny zvuky.",d7_rs2:"Nastavte časovač na pět minut. Seďte v úplném tichu vedle sebe nebo naproti sobě.",d7_rs3:"Žádné telefony. Žádné vrtění. Jen seďte.",d7_rs4:"Když se časovač skončí, každý sdílí první slovo, které mu přišlo na mysl během ticha.",d7_rs5:"Použijte tato dvě slova jako úvodní otázku: \"Proč ti přišlo právě to slovo?\"",
-  d7_r_why:"Ticho vytváří vnitřnost. Smysl a účel žijí pod hlukem — pět minut sdíleného ticha je často více spojujících než pět minut rozhovoru.",
-  d8_title:"Sny a vize",d8_sub:"Budoucnost, kterou budujete spolu",
-  d8_focus:"Závěrečné rande. Vytvořte společnou mapu budoucnosti — ne rigidní plán, ale živou vizi, která respektuje sny obou.",
-  d8_s1:"Každý sdílejte svůj nejhlubší osobní sen — něco, co jste ještě nikdy úplně nevyjádřili",d8_s2:"Popište svou vizi ideálního společného života za deset let",d8_s3:"Hledejte shody a rozdíly — kde se vaše sny setkávají a kde se rozcházejí?",d8_s4:"Diskutujte o tom, jaký odkaz chcete zanechat — jako pár, jako jednotlivci, jako rodina",d8_s5:"Vytvořte společné prohlášení vize: \"Budujeme život, který...\"",
-  d8_q1:"Jaký sen máš od dětství, o kterém jsi mi nikdy neřekl/a?",d8_q2:"Kdyby peníze a strach neexistovaly, co bys dělal/a se svým životem?",d8_q3:"Co pro tebe znamená úspěch — a odráží to náš současný život?",d8_q4:"Co chceš, aby lidé říkali o nás jako o páru, až nás nebude?",d8_q5:"Je nějaký sen, který se bojíš sdílet, protože si myslíš, že ho nepodpořím?",
-  d8_b1:"Zastavte se, pokud jsou sny okamžitě zamítnuty s \"to není realistické\" — to okamžitě zabíjí zranitelnost",d8_b2:"Nepovažujte divergující sny za nekompatibilitu — různé vize mohou koexistovat",d8_b3:"Ustupte, pokud úzkost z budoucnosti převáží smysl pro možnosti — vraťte se k tomu, co je již dobré",
-  d8_r_eyebrow:"Úvodní rituál · 10 min",d8_r_name:"Dopis budoucnosti",d8_r_desc:"Toto je poslední a největší rande. Rituál vás otevírá orientaci na budoucnost — od toho, kým jste byli, k tomu, kým se stáváte.",
-  d8_rs1:"Každý vezměte kus papíru a napište dopis sobě, za deset let. Pět až osm vět. Co doufáte, že bude pravda?",d8_rs2:"Dejte si pět minut. Pište v tichu.",d8_rs3:"Přečtěte si dopisy nahlas tomu druhému. Bez přerušení.",d8_rs4:"Každý odpoví: \"Část, která mě nejvíce dojala, byla...\"",d8_rs5:"Složte dopisy a uschovejte je. Začněte rande vědouce, že jste vyřkli svou budoucnost do místnosti.",
-  d8_r_why:"Psaní aktivuje myšlení o budoucím já, což vytváří naději a záměrnost — přesně takový postoj, jaký je potřebný k budování společné vize.",
-  footer_credit:"Podle knihy Johna Gottmana, Julie Schwartz Gottmanové, Douga Abramse a Rachel Carlton Abramsové",
-  footer_sub:"Průvodce rozhovory, které udržují lásku naživu"
+  before_eyebrow:"Základ",before_title:"Před<br><em style=\"font-family:'Cormorant Garamond',serif;font-style:italic;\">začátkem</em>",before_lead:"Těchto dvanáct rande funguje nejlépe, když oba partneři vstupují jako zvědaví průzkumníci. Cílem je porozumění, ne dohoda. Rande rozdělte alespoň o týden.",
+  env_title:"Prostředí",env_1:"Vyberte soukromé místo",env_2:"Telefony otočené dolů, notifikace vypnuté",env_3:"Plánujte alespoň 1–2 hodiny",env_4:"Vyberte čas, kdy nejste vyčerpaní",
+  emo_title:"Emocionální příprava",emo_1:"10 minut sami sobě před tím, než si sednete",emo_2:"Váš partner není váš soupeř",emo_3:"Přijďte se zvědavostí",emo_4:"Před začátkem vyjádřete společný záměr",
+  rules_title:"Základní pravidla",rules_1:"Mluví vždy jen jedna osoba",rules_2:"Používejte \"Cítím se...\" — ne \"Ty vždy...\"",rules_3:"Dohodněte se na bezpečném slově pro pauzu",rules_4:"Na každou otázku můžete odpovědět později",
+  start_title:"Na začátku každého rande",start_1:"Začněte oceněním partnera",start_2:"Zjistěte náladu: \"Jak se cítíš?\"",start_3:"Jste na stejném týmu",start_4:"Nejprve si přečtěte téma rande",
+  do_label:"Dělejte",dont_label:"Nedělejte",do_1:"Poslouchejte, abyste porozuměli",do_2:"Ptejte se dál: \"Řekni mi víc\"",do_3:"Uznávejte pocity i když nesouhlasíte",do_4:"Uznejte novou informaci",do_5:"Vyjádřete vděčnost na konci",
+  dont_1:"Neproměňujte rande v terapii",dont_2:"Nedávejte rady, když partner potřebuje být slyšen",dont_3:"Nevytahujte nesouvisející stížnosti",dont_4:"Nekontrolujte telefon",dont_5:"Nepřekračujte emocionální zahlcení",
+  couple_title:"Naše <em>dvanáct rande</em>",couple_sub:"Vyplňte společně nebo odděleně. Vše se automaticky ukládá.",p1_label:"Partner 1",p1_placeholder:"Jméno",p2_label:"Partner 2",p2_placeholder:"Jméno",started_label:"Začato",autosaved:"Uloženo",export_btn:"Export",label_done:"Datum rande",label_p1:"Partner 1",label_p2:"Partner 2",label_notes:"Společné poznámky",notes_placeholder:"Co se vynořilo? Co vás překvapilo?",label_rating:"Jak se rande cítilo?",label_mood:"Nálada po rande",
+  moods:["Propojení","Zranitelní","Plní naděje","Náročné","Překvapení","Vděční"],
+  complete_title:"Všechna dvanáct rande dokončena",complete_sub:"Exportujte odpovědi pro pozdější reflexi.",export_full:"Stáhnout úplnou analýzu",
+  d1_title:"Důvěra a závazek",d1_sub:"Základ všeho ostatního",d1_focus:"Prozkoumejte, co důvěra a závazek znamenají pro každého — nejen věrnost, ale emocionální dostupnost.",d1_s1:"Moment, kdy jste se cítili skutečně bezpečně",d1_s2:"Závazek nad rámec věrnosti — přítomnost, upřímnost",d1_s3:"Skryté obavy: \"Co by mohlo zničit náš vztah?\"",d1_s4:"Společný slib o budoucích porušeních důvěry",d1_s5:"Uznejte minulé momenty, kdy byla důvěra testována",d1_q1:"Kdy se cítíš nejbezpečněji — a kdy nejistěji?",d1_q2:"Udělal/a jsem něco, co poškodilo tvou důvěru?",d1_q3:"Co pro tebe znamená věrnost?",d1_q4:"Co bys potřeboval/a pro úplné bezpečí?",d1_q5:"Kdyby se vztah skončil, co se rozpadlo?",d1_b1:"Stop, pokud se to změní v obviňování",d1_b2:"Přestávka při defenzivitě — 20 minut",d1_b3:"Nevynucujte řešení dnes",d1_r_eyebrow:"Úvodní rituál · 5 min",d1_r_name:"Výměna vděčnosti",d1_r_desc:"Důvěra roste v malých momentech uznání.",d1_rs1:"Sedněte naproti sobě. Pomalu se nadechněte.",d1_rs2:"Každý sdílí konkrétní věc, díky které se cítil bezpečně.",d1_rs3:"Posluchač: \"Díky, že jsi to viděl/a.\"",d1_rs4:"Vyměňte role. Opakujte.",d1_rs5:"\"Jsem tu a nikam neodcházím.\"",d1_r_why:"Pojmenování aktů péče aktivuje bezpečnostní odpověď mozku.",
+  d2_title:"Konflikt",d2_sub:"Hádejte se chytřeji",d2_focus:"Pochopte vzorce konfliktů — ne vyřešit každý spor, ale učit se, jak každý zvládá napětí.",d2_s1:"Váš styl konfliktu: eskalace, stažení nebo vyhýbání?",d2_s2:"Opakující se spor — váš pocit, ne vina druhého",d2_s3:"Skrytý sen za opakujícím se sporem",d2_s4:"Opravný signál při eskalaci",d2_s5:"Jak vypadá spravedlivý spor pro vás oba?",d2_q1:"Co dělám při hádce, co ti ubližuje?",d2_q2:"O co žádáš při opakujících se hádkách?",d2_q3:"Jak fungoval konflikt ve vaší rodině?",d2_q4:"Co by ti pomohlo cítit se vyslechnut/a?",d2_q5:"Je nevyřešená hádka?",d2_b1:"Stop při zahlcení",d2_b2:"Nevracejte se k obsahu hádky",d2_b3:"Ustupte při vyjmenovávání stížností",d2_r_eyebrow:"Úvodní rituál · 5 min",d2_r_name:"Kontrola teploty",d2_r_desc:"Před rozhovorem o konfliktu zjistěte, kde každý z vás je.",d2_rs1:"Ohodnoťte pocit na stupnici 1–10.",d2_rs2:"Číslo bez vysvětlení.",d2_rs3:"Jedna věta o tom, co za tím stojí.",d2_rs4:"Nad 7? Počkejte 15 minut.",d2_rs5:"\"Dnes večer jsme zvědaví, ne bojovní.\"",d2_r_why:"Kontrola předem brání vnášení skrytého napětí.",
+  d3_title:"Sex a intimita",d3_sub:"Touha, blízkost a zranitelnost",d3_focus:"Mluvte o tom, co intimita znamená nad rámec fyzického.",d3_s1:"Co vás dělá nejvíce žádaným/ou a propojeným/ou",d3_s2:"Rozdíl mezi sexem a intimitou pro každého",d3_s3:"Jak stres ovlivňuje vaši touhu",d3_s4:"Co bych mohl/a dělat více? Co změnit?",d3_s5:"Co pro každého znamená spontánnost?",d3_q1:"Kdy se cítíš mi nejblíže?",d3_q2:"Je něco, co jsi chtěl/a říct?",d3_q3:"Jak se cítíš ohledně frekvence?",d3_q4:"Při iniciativě — žádaný/á nebo pod tlakem?",d3_q5:"Co by pomohlo emocionální blízkosti?",d3_b1:"Stop při kritice výkonu",d3_b2:"Nesrovnávejte se začátkem vztahu",d3_b3:"Ustupte při vstupu studu",d3_r_eyebrow:"Úvodní rituál · 3–4 min",d3_r_name:"Dvěminutové objetí",d3_r_desc:"Fyzická blízkost před intimitou není rozporom.",d3_rs1:"Vstaňte a obejměte se — skutečně, bez spěchu.",d3_rs2:"Alespoň dvě minuty. Bez slov.",d3_rs3:"Všímejte si dechu, tepla, napětí.",d3_rs4:"Každý sdílí jedno slovo.",d3_rs5:"Sedněte. Začněte rande.",d3_r_why:"Objetí spouští oxytocin a snižuje kortizol.",
+  d4_title:"Práce a peníze",d4_sub:"Hodnoty a bezpečí",d4_focus:"Peníze jsou o bezpečí, svobodě a hodnotách — ne o číslech.",d4_s1:"Nejranější vzpomínka na peníze",d4_s2:"Vaše finanční hodnoty",d4_s3:"Co pro každého znamená \"dostatek\"?",d4_s4:"Cítíte se v kariéře viděni a podporováni?",d4_s5:"Společná vize finančního zabezpečení",d4_q1:"Peníze v dětství — stres nebo bezpečí?",d4_q2:"Cítíš se finančně bezpečně?",d4_q3:"Co znamená finanční svoboda?",d4_q4:"Finanční rozhodnutí, které tě znepokojilo?",d4_q5:"Cítíš se podporovaný/á v kariéře?",d4_b1:"Stop při hledání viníka",d4_b2:"Nepoužívejte k vyjednávání rozpočtu",d4_b3:"Ustupte při nevoli kvůli nerovnosti",d4_r_eyebrow:"Úvodní rituál · 8 min",d4_r_name:"Vzpomínka na peníze",d4_r_desc:"Rozhovory o penězích bolí, když jsou o číslech.",d4_rs1:"Dvě minuty ticha — nejranější vzpomínka.",d4_rs2:"Plné sdílení. Posluchač jen poslouchá.",d4_rs3:"\"Jaký pocit tato vzpomínka zanechává?\"",d4_rs4:"\"Dává smysl, že o penězích přemýšlíš takto.\"",d4_rs5:"Až poté začněte rande.",d4_r_why:"Finanční osobnost se formuje dlouho před setkáním s partnerem.",
+  d5_title:"Rodina",d5_sub:"Kořeny a role",d5_focus:"Vstoupili jste do celé rodinné historie vašeho partnera.",d5_s1:"Emocionální klima rodiny v dětství",d5_s2:"Vzory k zachování nebo opuštění",d5_s3:"Role a očekávání",d5_s4:"Filozofie rodičovství a obavy",d5_s5:"Co rodiče udělali správně?",d5_q1:"Co z dětství přenést?",d5_q2:"Jaký vzor se bojíte opakovat?",d5_q3:"Jak se projevovala láska?",d5_q4:"Jak vypadal konflikt?",d5_q5:"Jakou kulturu chcete vytvořit?",d5_b1:"Stop při obvinění rodin",d5_b2:"Pauza při traumatu",d5_b3:"Nesoustřeďujte se na tchána a tchyni",d5_r_eyebrow:"Úvodní rituál · 7–8 min",d5_r_name:"Ukaž mi jednu věc",d5_r_desc:"Rodina je abstraktní, dokud není konkrétní.",d5_rs1:"Fotografie nebo předmět z dětství.",d5_rs2:"Příběh ve 2–3 minutách.",d5_rs3:"\"Co miluješ na této vzpomínce?\"",d5_rs4:"Položte předměty na viditelné místo.",d5_rs5:"Začněte vědouce, že jste přivedli rodinu.",d5_r_why:"Předměty obcházejí defenzivitu.",
+  d6_title:"Zábava a dobrodružství",d6_sub:"Radost a spontánnost",d6_focus:"Páry, které se spolu baví, zůstávají spolu.",d6_s1:"Nejšťastnější vzpomínka na hru",d6_s2:"Vaše společné dobrodružství snů",d6_s3:"Aktivity, které vás energizují",d6_s4:"Nová věc, kterou byste vyzkoušeli",d6_s5:"Jak vypadala zábava na začátku?",d6_q1:"Co hravého jsme přestali dělat?",d6_q2:"Ideální spontánní den?",d6_q3:"Něco tajně chtěného?",d6_q4:"Smějeme se dost?",d6_q5:"Co znamená dobrodružství?",d6_b1:"Stop při katalogu chybějícího",d6_b2:"Neznevažujte partnerovu zábavu",d6_b3:"Ustupte při srovnávání",d6_r_eyebrow:"Úvodní rituál · 3 min",d6_r_name:"60 sekund legrace",d6_r_desc:"O hře nelze mluvit vážně.",d6_rs1:"Nastavte časovač na 60 sekund.",d6_rs2:"Oba musíte toho druhého rozesmát.",d6_rs3:"Pokud první selže, zkusí druhý.",d6_rs4:"Sedněte stále s úsměvem.",d6_rs5:"\"Nejsrandovnější věc, kterou jsme udělali...\"",d6_r_why:"Smích je neslučitelný s úzkostí.",
+  d7_title:"Růst a spiritualita",d7_sub:"Smysl a účel",d7_focus:"Nejhlubší otázky — čemu věříte, co dává životu smysl.",d7_s1:"Co dává životu smysl a účel",d7_s2:"Vaše přesvědčení",d7_s3:"\"Jak ses změnil/a za pět let?\"",d7_s4:"Osobní růst a vzájemná podpora",d7_s5:"Rituály smysluplné pro vás",d7_q1:"Co věříš, že se stane po smrti?",d7_q2:"Co dává životu největší smysl?",d7_q3:"Podporuji to, kým se stáváš?",d7_q4:"Část sebe, kterou ztrácíš nebo získáváš?",d7_q5:"Čeho bys litoval/a?",d7_b1:"Stop při debatě o přesvědčeních",d7_b2:"Pauza při existenciálních strachách",d7_b3:"Ustupte při tlaku na světonázor",d7_r_eyebrow:"Úvodní rituál · 8–10 min",d7_r_name:"Společné ticho",d7_r_desc:"Toto rande klade největší otázky.",d7_rs1:"Tiché místo. Vypněte zvuky.",d7_rs2:"Pět minut ticha.",d7_rs3:"Žádné telefony.",d7_rs4:"První slovo v tichu.",d7_rs5:"\"Proč ti přišlo to slovo?\"",d7_r_why:"Ticho vytváří vnitřnost.",
+  d8_title:"Sny a vize",d8_sub:"Společná budoucnost",d8_focus:"Poslední z původních osmi rande. Společná mapa budoucnosti.",d8_s1:"Nejhlubší osobní sen každého",d8_s2:"Ideální společný život za deset let",d8_s3:"Kde se sny setkávají a rozcházejí?",d8_s4:"Jaký odkaz zanechat?",d8_s5:"\"Budujeme život, který...\"",d8_q1:"Sen od dětství?",d8_q2:"Bez peněz a strachu?",d8_q3:"Co znamená úspěch?",d8_q4:"Co chceš, aby o nás říkali?",d8_q5:"Sen, který se bojíš sdílet?",d8_b1:"Stop při \"to není realistické\"",d8_b2:"Různé vize mohou koexistovat",d8_b3:"Ustupte při úzkosti z budoucnosti",d8_r_eyebrow:"Úvodní rituál · 10 min",d8_r_name:"Dopis budoucnosti",d8_r_desc:"Poslední z původních osmi rande.",d8_rs1:"Dopis sobě za deset let. Pět až osm vět.",d8_rs2:"Pět minut v tichu.",d8_rs3:"Přečtěte nahlas. Bez přerušení.",d8_rs4:"\"Část, která mě nejvíce dojala...\"",d8_rs5:"Složte dopisy. Uschovejte.",d8_r_why:"Psaní aktivuje myšlení o budoucím já.",
+  // NOVÉ RANDE 9 CZ
+  d9_title:"Duševní zdraví a pohoda",d9_sub:"Rozhovor, který většina párů vede až po krizi",
+  d9_focus:"Prozkoumejte vaše emocionální krajiny — podmínky, vzory a potřeby, které formují to, jak každý z vás funguje. Toto není terapie; je to předpoklad pro to, být si navzájem spojenci.",
+  d9_s1:"Podělte se o osobní historii s úzkostí, depresí nebo emocionálními obtížemi",d9_s2:"Popište vaše rané varovné signály — jak vypadá \"není v pořádku\" pro vás?",d9_s3:"Řekněte partnerovi, co potřebujete při obtížích — a co věci zhoršuje",d9_s4:"Diskutujte o vztahu k terapii — individuální i párové",d9_s5:"Společně vytvořte tichý plán: co mám dělat, pokud si všimnu, že nejsi v pořádku?",
+  d9_q1:"Jaké jsou vaše rané varovné signály, že se emocionálně trápíte?",d9_q2:"Co ode mě potřebujete, když nejste v pořádku?",d9_q3:"Je nějaký duševní boj z minulosti, který stále ovlivňuje vaše chování?",d9_q4:"Udělal/a jsem někdy věci těžšími v obtížném období bez vědomí?",d9_q5:"Co je nejužitečnější věc, kterou jsem udělal/a pro vaši pohodu?",
+  d9_b1:"Stop, pokud začnete diagnostikovat nebo vysvětlovat jejich duševní stav",d9_b2:"Pozastavte se, pokud se objeví současná krize",d9_b3:"Ustupte, pokud se duševní zdraví používá k vysvětlení zraňujícího chování",
+  d9_r_eyebrow:"Úvodní rituál · 5 min",d9_r_name:"Předpověď počasí",
+  d9_r_desc:"Před rozhovorem o vnitřní krajině ji zmapujte pomocí jednoduché metafory.",
+  d9_rs1:"Každý 2 minuty ticha: \"Moje emocionální počasí tento týden bylo...\"",d9_rs2:"Sdílejte předpověď — slunečno, mlha, bouře, proměnlivé, klidné.",d9_rs3:"Posluchač: \"Řekni mi víc o [slovu, které použili].\"",d9_rs4:"2 minuty každý. Neřešte. Neopravujte.",d9_rs5:"Zakončete: \"Jsem rád/a, že to o tobě vím.\"",
+  d9_r_why:"Metafora vytváří odstup od studu. Počasí není ničí vina — prostě je.",
+  // NOVÉ RANDE 10 CZ
+  d10_title:"Identita a osobní svoboda",d10_sub:"Kdo jste mimo tento vztah?",
+  d10_focus:"Zdravé vztahy vyžadují, aby každý zůstal výraznou individualitou. Toto rande je o těch částech sebe, které existují nezávisle na tom, být partnerem.",
+  d10_s1:"Podělte se o to, kdo jste byli před tímto vztahem",d10_s2:"Pojmenujte zájmy nebo ambice, které jste tiše odložili",d10_s3:"Diskutujte o tom, kolik času sami pro sebe potřebujete",d10_s4:"Prozkoumejte části sebe, které nemůžete plně vyjádřit",d10_s5:"Kdo se stáváte — a rosteme kompatibilními směry?",
+  d10_q1:"Je verze sebe sama, kterou jste ztratili od doby, kdy jsme spolu?",d10_q2:"Co děláte nebo kým se stáváte, když máte čas sami pro sebe?",d10_q3:"Co ode mě potřebujete, abyste se cítili svobodní být plně sami sebou?",d10_q4:"Vzdali jste se tiše nějaké ambice nebo zájmu pro tento vztah?",d10_q5:"Rosteme směry, které vám připadají kompatibilní?",
+  d10_b1:"Stop, pokud se rozhovor stane seznamem toho, co vztah stál",d10_b2:"Pozastavte se, pokud ztráta identity pociťuje velmi hluboko",d10_b3:"Ustupte, pokud se srovnání s předchozím vztahem objeví jako reference",
+  d10_r_eyebrow:"Úvodní rituál · 5 min",d10_r_name:"Tři slova",
+  d10_r_desc:"Před rande každý tiše vybere tři slova popisující, kdo je mimo tento vztah.",
+  d10_rs1:"3 minuty ticha. Každý napíše tři slova pro to, kdo je nezávisle na tomto vztahu.",d10_rs2:"Sdílejte tři slova jedno po druhém. Zatím bez vysvětlení.",d10_rs3:"Posluchač vybere nejpřekvapivější: \"Řekni mi o [tom slově].\"",d10_rs4:"Každý mluví 2 minuty o tom slově.",d10_rs5:"Zakončete: \"Chci, abyste vždy byli touto osobou.\"",
+  d10_r_why:"Začátek třemi slovy odstraňuje úzkost z prázdné stránky sebepopisu.",
+  // NOVÉ RANDE 11 CZ
+  d11_title:"Stárnutí, zdraví a tělo",d11_sub:"Fyzická zranitelnost a stárnutí spolu",
+  d11_focus:"Rozhovor o tělesnosti, zdraví a stárnutí je ten, který většina párů odkládá, dokud je okolnosti nedonutí. Mít ho brzy — ze zvědavosti, ne ze strachu — mění vše.",
+  d11_s1:"Podělte se o rodinnou zdravotní historii a co to může znamenat",d11_s2:"Upřímně mluvte o vztahu ke svému tělu",d11_s3:"Opatrovnictví: co byste ode mě potřebovali při vážné nemoci?",d11_s4:"Přání na konci života — rozhovor, který vás oba chrání",d11_s5:"Stárnoucí rodiče: jakou odpovědnost každý cítíte?",
+  d11_q1:"Je zdravotní problém, který tiše nesete a který plně neznám?",d11_q2:"Co byste ode mě potřebovali, kdybys vážně onemocněl/a?",d11_q3:"Jak se cítíte ohledně svého těla — jste s ním v míru?",d11_q4:"Jak se cítíte při myšlence na stárnutí?",d11_q5:"Přemýšleli jste o tom, co byste chtěli na konci svého života?",
+  d11_b1:"Stop, pokud diskuse o konci života vyvolá akutní úzkost",d11_b2:"Pozastavte se, pokud zranitelnosti ohledně těla jsou odmítnuty",d11_b3:"Ustupte, pokud se opatrovnictví stává transakčním",
+  d11_r_eyebrow:"Úvodní rituál · 8 min",d11_r_name:"Dopis tělu",
+  d11_r_desc:"Před diskusí o zdraví každý tiše uzná tělo, ve kterém je — s vděčností, ne soudem.",
+  d11_rs1:"3 minuty ticha. Dokončete: \"Drahé tělo, děkuji ti za...\"",d11_rs2:"Nemusíte to psát — stačí si to myslet.",d11_rs3:"Podělte se o jednu věc, za kterou jste vděční.",d11_rs4:"Posluchač odpoví jen: \"Jsem rád/a, že jsi mi to řekl/a.\"",d11_rs5:"Začněte rande z toho místa přijetí.",
+  d11_r_why:"Začátek s vděčností přeorientuje oba směrem k péči, ne úzkosti.",
+  // NOVÉ RANDE 12 CZ
+  d12_title:"Politické a společenské hodnoty",d12_sub:"Čemu věříte ohledně světa",
+  d12_focus:"Politické a společenské hodnoty jsou hluboce osobní. Mnoho párů předpokládá soulad bez ověření. Toto rande je o pochopení světonázoru druhého, ne o souhlasu s ním.",
+  d12_s1:"Jak byly formovány vaše politické a společenské hodnoty?",d12_s2:"Pojmenujte společenskou otázku, na které vám nejvíce záleží",d12_s3:"Prozkoumejte, kde se vaše hodnoty rozcházejí",d12_s4:"Co byste chtěli učit děti o spravedlnosti a moci?",d12_s5:"Najděte jednu hodnotu, kterou úplně sdílíte",
+  d12_q1:"Jaká politická otázka je vám nejbližší — a co ji učinilo osobní?",d12_q2:"Je nějaká moje hodnota, kterou zásadně nesdílíte?",d12_q3:"Jak se cítíte, když se hádáme o politice?",d12_q4:"Je komunita nebo věc, o kterou byste si přáli, abych se více staral/a?",d12_q5:"Je něco, čemu věřím a co vás tiše znepokojuje?",
+  d12_b1:"Stop, pokud se rozhovor stane debatou",d12_b2:"Ustupte, pokud se někdo začíná upravovat, aby se vyhnul konfliktu",d12_b3:"Pozastavte se, pokud se ztotožňují názory s charakterem",
+  d12_r_eyebrow:"Úvodní rituál · 5 min",d12_r_name:"Titulek zpráv",
+  d12_r_desc:"Před diskusí o hodnotách každý sdílí jednu zprávu z minulého týdne, která v něm něco vyvolala.",
+  d12_rs1:"Každý si vzpomene na jednu zprávu, která vyvolala silný pocit.",d12_rs2:"Sdílejte ji v jedné větě — jen titulek.",d12_rs3:"Řekněte: \"Cítil/a jsem [emoce], protože...\"",d12_rs4:"Posluchač reaguje jen na pocit: \"Chápu, proč byste se tak cítili.\"",d12_rs5:"Vyměňte role. Pak začněte rande.",
+  d12_r_why:"Vstup přes emoci odstraňuje defenzivní strukturu debaty.",
+  footer_credit:"Průvodce dvanácti základními rozhovory pro trvalý vztah",footer_sub:"Průvodce rozhovory, které udržují lásku naživu",
+  formDates:[
+    {num:"01",title:"Důvěra a závazek",sub:"Základ všeho ostatního",qs:["Kdy se cítíš nejbezpečněji?","Udělal/a jsem něco, co poškodilo důvěru?","Co znamená věrnost?","Co potřebuješ pro bezpečí?","Co se rozpadlo jako první?"]},
+    {num:"02",title:"Konflikt",sub:"Hádejte se chytřeji",qs:["Co dělám při hádce, co ubližuje?","O co žádáš při opakujících se hádkách?","Jak fungoval konflikt ve rodině?","Co by pomohlo cítit se vyslechnut/a?","Je nevyřešená hádka?"]},
+    {num:"03",title:"Sex a intimita",sub:"Touha a blízkost",qs:["Kdy se cítíš mi nejblíže?","Je něco, co jsi chtěl/a říct?","Jak se cítíš ohledně frekvence?","Při iniciativě — žádaný/á nebo pod tlakem?","Co by pomohlo blízkosti?"]},
+    {num:"04",title:"Práce a peníze",sub:"Hodnoty a bezpečí",qs:["Peníze v dětství?","Cítíš se finančně bezpečně?","Co znamená finanční svoboda?","Finanční rozhodnutí, které znepokojilo?","Cítíš se podporovaný/á v kariéře?"]},
+    {num:"05",title:"Rodina",sub:"Kořeny a role",qs:["Co z dětství přenést?","Jaký vzor se bojíte opakovat?","Jak se projevovala láska?","Jak vypadal konflikt?","Jakou kulturu chcete vytvořit?"]},
+    {num:"06",title:"Zábava",sub:"Radost a spontánnost",qs:["Co hravého jsme přestali dělat?","Ideální spontánní den?","Něco tajně chtěného?","Smějeme se dost?","Co znamená dobrodružství?"]},
+    {num:"07",title:"Růst a spiritualita",sub:"Smysl a účel",qs:["Co se stane po smrti?","Co dává životu smysl?","Podporuji to, kým se stáváš?","Část sebe, kterou ztrácíš?","Čeho bys litoval/a?"]},
+    {num:"08",title:"Sny a vize",sub:"Společná budoucnost",qs:["Sen od dětství?","Bez peněz a strachu?","Co znamená úspěch?","Co chceš, aby o nás říkali?","Sen, který se bojíš sdílet?"]},
+    {num:"09",title:"Duševní zdraví",sub:"Rozhovor po krizi",qs:["Vaše varovné signály?","Co potřebujete při obtížích?","Boj z minulosti?","Udělal/a jsem věci těžšími?","Nejužitečnější věc pro pohodu?"]},
+    {num:"10",title:"Identita",sub:"Kdo jste mimo vztah?",qs:["Verze sebe, kterou jste ztratili?","Kým se stáváte sami?","Co potřebujete pro svobodu?","Vzdali jste se ambice?","Rosteme kompatibilně?"]},
+    {num:"11",title:"Stárnutí a zdraví",sub:"Fyzická zranitelnost",qs:["Zdravotní problém, který tiše nesete?","Co potřebujete při nemoci?","Jste v míru se svým tělem?","Jak se cítíte ohledně stárnutí?","Co chcete na konci života?"]},
+    {num:"12",title:"Hodnoty",sub:"Čemu věříte",qs:["Nejdůležitější společenská otázka?","Moje hodnota, kterou nesdílíte?","Jak se cítíte při politické hádce?","Věc, o kterou si přejete, abych se více staral/a?","Něco, co vás tiše znepokojuje?"]}
+  ]
 }
 };
 
 let lang = localStorage.getItem('lang') || 'en';
+let currentView = 'guide';
+let formData = JSON.parse(localStorage.getItem('twelve-dates-form') || '{}');
+
+function switchView() {
+  currentView = currentView === 'guide' ? 'form' : 'guide';
+  document.body.className = 'view-' + currentView;
+  const btn = document.getElementById('mydate-tab');
+  btn.classList.toggle('active', currentView === 'form');
+  btn.textContent = currentView === 'form' ? (T[lang].nav_before_short || 'Guide') : (T[lang].mydate_tab || 'My Date');
+  window.scrollTo(0, 0);
+  if (currentView === 'form') { buildFormBlocks(); loadFormData(); }
+}
 
 function setLang(l) {
   lang = l;
@@ -678,20 +851,173 @@ function setLang(l) {
   document.documentElement.lang = l;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const v = T[l][el.getAttribute('data-i18n')];
-    if(v !== undefined) el.textContent = v;
+    if (v !== undefined) el.textContent = v;
   });
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const v = T[l][el.getAttribute('data-i18n-html')];
-    if(v !== undefined) el.innerHTML = v;
+    if (v !== undefined) el.innerHTML = v;
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const v = T[l][el.getAttribute('data-i18n-placeholder')];
+    if (v !== undefined) el.placeholder = v;
+  });
+  const btn = document.getElementById('mydate-tab');
+  btn.textContent = currentView === 'form' ? (T[l].nav_before_short || 'Guide') : (T[l].mydate_tab || 'My Date');
+  if (currentView === 'form') { buildFormBlocks(); loadFormData(); }
+}
+
+function buildFormBlocks() {
+  const container = document.getElementById('form-dates-container');
+  container.innerHTML = '';
+  const d = T[lang];
+  d.formDates.forEach((date, di) => {
+    const block = document.createElement('div');
+    block.className = `date-block fb${di+1}`;
+    const qRows = date.qs.map((q, qi) => `
+      <div class="question-row">
+        <div class="q-label">${q}</div>
+        <div class="answers-grid">
+          <div class="answer-group"><label>${d.label_p1}</label><textarea data-key="d${di+1}_q${qi+1}_p1" placeholder="..." oninput="autoSave()" rows="3"></textarea></div>
+          <div class="answer-group"><label>${d.label_p2}</label><textarea data-key="d${di+1}_q${qi+1}_p2" placeholder="..." oninput="autoSave()" rows="3"></textarea></div>
+        </div>
+      </div>`).join('');
+    const moodChips = d.moods.map((m,mi) => `<button class="mood-chip" data-key="d${di+1}_mood" data-val="${mi}" onclick="toggleMood(this)">${m}</button>`).join('');
+    const stars = [1,2,3,4,5].map(n => `<button class="star" data-key="d${di+1}_rating" data-val="${n}" onclick="setRating(this,${di+1})">${n}</button>`).join('');
+    block.innerHTML = `
+      <div class="date-block-header">
+        <div class="date-num-badge">${date.num}</div>
+        <div class="date-block-meta"><h3>${date.title}</h3><p>${date.sub}</p>
+          <div class="date-done-row"><span class="date-done-label">${d.label_done}</span><input type="date" class="date-done-input" data-key="d${di+1}_datedon" oninput="autoSave()"></div>
+        </div>
+      </div>
+      <div class="date-block-body">
+        ${qRows}
+        <div class="notes-row"><label>${d.label_notes}</label><textarea data-key="d${di+1}_notes" placeholder="${d.notes_placeholder}" oninput="autoSave()" rows="3"></textarea></div>
+        <div class="rating-row"><span class="rating-label">${d.label_rating}</span><div class="stars">${stars}</div></div>
+        <div class="mood-row">${moodChips}</div>
+      </div>`;
+    container.appendChild(block);
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold: 0.05});
+  container.querySelectorAll('.date-block').forEach(b => obs.observe(b));
+}
+
+function setRating(btn, di) {
+  const val = parseInt(btn.getAttribute('data-val'));
+  formData[`d${di}_rating`] = val;
+  document.querySelectorAll(`[data-key="d${di}_rating"]`).forEach(b => {
+    b.classList.toggle('active', parseInt(b.getAttribute('data-val')) <= val);
+  });
+  autoSave();
+}
+
+function toggleMood(btn) {
+  const key = btn.getAttribute('data-key');
+  const val = parseInt(btn.getAttribute('data-val'));
+  const current = formData[key] || [];
+  const idx = current.indexOf(val);
+  if (idx > -1) current.splice(idx, 1); else current.push(val);
+  formData[key] = current;
+  document.querySelectorAll(`[data-key="${key}"]`).forEach(b => {
+    b.classList.toggle('active', current.includes(parseInt(b.getAttribute('data-val'))));
+  });
+  autoSave();
+}
+
+function autoSave() {
+  document.querySelectorAll('textarea, input[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (key) formData[key] = el.value;
+  });
+  formData.partner1 = document.getElementById('partner1')?.value || '';
+  formData.partner2 = document.getElementById('partner2')?.value || '';
+  formData.startDate = document.getElementById('start-date')?.value || '';
+  localStorage.setItem('twelve-dates-form', JSON.stringify(formData));
+  const ind = document.getElementById('save-indicator');
+  if (ind) { ind.classList.add('saved'); setTimeout(() => ind.classList.remove('saved'), 1800); }
+  updateProgress(); checkCompletion();
+}
+
+function loadFormData() {
+  const p1 = document.getElementById('partner1');
+  const p2 = document.getElementById('partner2');
+  const sd = document.getElementById('start-date');
+  if (p1) p1.value = formData.partner1 || '';
+  if (p2) p2.value = formData.partner2 || '';
+  if (sd) sd.value = formData.startDate || '';
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (!key || formData[key] === undefined) return;
+    if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') el.value = formData[key];
+    if (el.classList.contains('star')) el.classList.toggle('active', parseInt(el.getAttribute('data-val')) <= formData[key]);
+    if (el.classList.contains('mood-chip')) {
+      const moods = formData[key] || [];
+      el.classList.toggle('active', moods.includes(parseInt(el.getAttribute('data-val'))));
+    }
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const fields = document.querySelectorAll('#form-dates-container textarea');
+  const filled = [...fields].filter(f => f.value.trim().length > 5).length;
+  const pct = fields.length ? Math.round((filled / fields.length) * 100) : 0;
+  const bar = document.getElementById('progress');
+  if (bar) bar.style.width = pct + '%';
+}
+
+function checkCompletion() {
+  const d = T[lang];
+  const allFilled = d.formDates.every((_, di) =>
+    d.formDates[di].qs.every((_, qi) => {
+      const v1 = formData[`d${di+1}_q${qi+1}_p1`] || '';
+      const v2 = formData[`d${di+1}_q${qi+1}_p2`] || '';
+      return v1.trim().length > 2 || v2.trim().length > 2;
+    })
+  );
+  const banner = document.getElementById('completion-banner');
+  if (banner) banner.classList.toggle('show', allFilled);
+}
+
+function exportAnswers() {
+  const d = T[lang];
+  const p1 = formData.partner1 || 'Partner 1';
+  const p2 = formData.partner2 || 'Partner 2';
+  let out = `TWELVE DATES — ANSWERS\n${'='.repeat(50)}\n${p1} & ${p2}`;
+  if (formData.startDate) out += ` · Started: ${formData.startDate}`;
+  out += `\nExported: ${new Date().toLocaleDateString()}\n`;
+  d.formDates.forEach((date, di) => {
+    out += `\n${'─'.repeat(50)}\nDATE ${date.num}: ${date.title.toUpperCase()}\n${date.sub}\n`;
+    const done = formData[`d${di+1}_datedon`];
+    if (done) out += `Completed: ${done}\n`;
+    const rating = formData[`d${di+1}_rating`];
+    if (rating) out += `Rating: ${'★'.repeat(rating)}${'☆'.repeat(5-rating)}\n`;
+    const moods = formData[`d${di+1}_mood`] || [];
+    if (moods.length) out += `Mood: ${moods.map(m => d.moods[m]).join(', ')}\n`;
+    out += '\n';
+    date.qs.forEach((q, qi) => {
+      out += `Q${qi+1}: ${q}\n`;
+      out += `  ${p1}: ${formData[`d${di+1}_q${qi+1}_p1`] || '—'}\n`;
+      out += `  ${p2}: ${formData[`d${di+1}_q${qi+1}_p2`] || '—'}\n\n`;
+    });
+    const notes = formData[`d${di+1}_notes`];
+    if (notes) out += `Notes: ${notes}\n`;
+  });
+  const blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `twelve-dates-${p1.toLowerCase().replace(/\s/g,'-')}.txt`;
+  a.click();
 }
 
 new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');} });
-}, {threshold:0.08}).observe && document.querySelectorAll('.date-section').forEach(el =>
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); }});
+}, {threshold: 0.08}).observe && document.querySelectorAll('.date-section').forEach(el =>
   new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); } });
-  }, {threshold:0.08}).observe(el)
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold: 0.08}).observe(el)
 );
 
 setLang(lang);
